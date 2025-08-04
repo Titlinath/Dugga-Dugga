@@ -3,653 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accessible Pujo Map - Navigate the Festive Spirit</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        /* CSS Variables and Reset */
-        :root {
-            --primary-color: #ad2d09;
-            --secondary-color: #ffb65b;
-            --accent-color: #ff985b;
-            --success-color: #5f1a03;
-            --warning-color: #d5663a;
-            --info-color: #ff8512;
-            --text-light: #ffffff;
-            --text-dark: #2c2c2c;
-            --bg-light: #f8f9fa;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
-            min-height: 100vh;
-            color: var(--text-dark);
-        }
-        /* Language Styles */
-        .bengali-text { font-family: 'Kalpurush', 'SolaimanLipi', 'Noto Sans Bengali', sans-serif; display: none; }
-        .english-text { display: inline; }
-        /* Accessibility Features */
-        .high-contrast { filter: contrast(150%) brightness(110%); }
-        .large-text { font-size: 1.2em !important; }
-        .xl-text { font-size: 1.4em !important; }
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--success-color) 100%);
-            color: var(--text-light);
-            padding: 1.5rem 2rem;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0;
-            width: 100px; height: 100px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="60" fill="rgba(255,255,255,0.1)">🪔</text></svg>');
-            opacity: 0.3;
-        }
-        .header-content { max-width: 1200px; margin: 0 auto; }
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .header p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
-        .header-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1rem;
-        }
-        .btn-primary { background: var(--secondary-color); color: var(--text-dark); }
-        .btn-secondary { background: transparent; color: var(--text-light); border: 2px solid var(--text-light); }
-        .btn-emergency {
-            background: #dc3545;
-            color: var(--text-light);
-            animation: pulse 2s infinite;
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 2rem;
-            min-height: calc(100vh - 200px);
-        }
-        .main-content {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-        .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
-        /* Search Section */
-        .search-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            margin-bottom: 1.5rem;
-        }
-        .search-box { position: relative; margin-bottom: 1rem; }
-        .search-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        .search-input:focus { outline: none; border-color: var(--primary-color); }
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-        }
-        /* Route Planner */
-        .route-planner { display: flex; flex-direction: column; gap: 0.75rem; }
-        .route-input {
-            padding: 0.75rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-        /* Map Section */
-        .map-container {
-            position: relative;
-            height: 500px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            margin-bottom: 1.5rem;
-        }
-        #map { width: 100%; height: 100%; }
-        /* Filters */
-        .filters {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        .filter-group { margin-bottom: 1rem; }
-        .filter-title { font-weight: 600; margin-bottom: 0.75rem; color: var(--primary-color); }
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .filter-option:hover { background-color: #f8f9fa; }
-        .filter-checkbox { width: 18px; height: 18px; accent-color: var(--primary-color); }
-        /* Legend */
-        .legend {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-        }
-        .legend-icon { font-size: 1.2rem; width: 24px; text-align: center; }
-        /* Safety Section */
-        .safety-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        .emergency-numbers { margin-bottom: 1.5rem; }
-        .emergency-number {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-        }
-        .emergency-number .number { font-weight: 600; color: var(--primary-color); }
-        /* Accessibility Tools */
-        .accessibility-tools {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-        .tool-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-        .tool-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e9ecef;
-            background: white;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-        }
-        .tool-btn:hover, .tool-btn.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        /* Language Selector */
-        .language-selector { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-        .lang-btn {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--primary-color);
-            background: white;
-            color: var(--primary-color);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        .lang-btn.active { background: var(--primary-color); color: white; }
-        /* Crowd Heatmap Toggle */
-        .heatmap-toggle {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            margin-bottom: 1rem;
-        }
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px; width: 26px;
-            left: 4px; bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider { background-color: var(--primary-color); }
-        input:checked + .slider:before { transform: translateX(26px); }
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container { grid-template-columns: 1fr; padding: 1rem; gap: 1rem; }
-            .header { padding: 1rem; }
-            .header h1 { font-size: 1.8rem; }
-            .header-buttons { justify-content: center; }
-            .btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
-            .map-container { height: 400px; }
-        }
-        /* Popup Styles */
-        .mapboxgl-popup-content {
-            border-radius: 10px;
-            padding: 1rem;
-            max-width: 250px;
-        }
-        .popup-title { font-weight: 600; color: var(--primary-color); margin-bottom: 0.5rem; }
-        .popup-services { display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0.5rem 0; }
-        .service-tag {
-            background: var(--secondary-color);
-            color: var(--text-dark);
-            padding: 0.2rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-        }
-        .popup-contact { font-size: 0.85rem; color: #666; margin-top: 0.5rem; }
-    </style>
+    <title>Accessible Pujo Map - অ্যাক্সেসযোগ্য পুজো ম্যাপ</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" onclick="setLanguage('bn')">বাংলা</button>
+    </div>
+
+    <!-- Accessibility Tools -->
+    <div class="accessibility-tools">
+        <button class="access-btn" onclick="adjustFontSize('increase')" aria-label="Increase font size">
+            <i class="fas fa-plus"></i>
+        </button>
+        <button class="access-btn" onclick="adjustFontSize('decrease')" aria-label="Decrease font size">
+            <i class="fas fa-minus"></i>
+        </button>
+        <button class="access-btn" onclick="toggleHighContrast()" aria-label="Toggle high contrast">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button class="access-btn" onclick="speakText()" aria-label="Read aloud">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+
     <!-- Header Section -->
-    <header class="header">
-        <div class="header-content">
-            <h1>
-                <span class="english-text">Navigate the Festive Spirit — Your Smart Pujo Map</span>
-                <span class="bengali-text">উৎসবের আত্মায় পথ চলুন — আপনার স্মার্ট পুজো ম্যাপ</span>
-            </h1>
-            <p>
-                <span class="english-text">Real-time guidance for safer, smarter pandal hopping.</span>
-                <span class="bengali-text">নিরাপদ এবং স্মার্ট প্যান্ডেল ভ্রমণের জন্য রিয়েল-টাইম গাইডেন্স।</span>
-            </p>
-            <div class="header-buttons">
-                <button class="btn btn-primary" onclick="searchPandal()">
-                    <i class="fas fa-search"></i> 
-                    <span class="english-text">Search a Pandal</span>
-                    <span class="bengali-text">প্যান্ডেল খুঁজুন</span>
+    <header class="header-section">
+        <div class="container">
+            <h1 class="header-title" data-translate="title">Feel Safe, Celebrate Freely — We're With You This Pujo</h1>
+            <p class="header-subtitle" data-translate="subtitle">Real-time guidance for safer, smarter pandal hopping.</p>
+            <div class="action-buttons">
+                <button class="action-btn" onclick="searchPandal()">
+                    <i class="fas fa-search"></i>
+                    <span data-translate="search">Search a Pandal</span>
                 </button>
-                <button class="btn btn-secondary" onclick="locateMe()">
-                    <i class="fas fa-map-marker-alt"></i> 
-                    <span class="english-text">Locate Me</span>
-                    <span class="bengali-text">আমার অবস্থান</span>
+                <button class="action-btn" onclick="locateMe()">
+                    <i class="fas fa-location-dot"></i>
+                    <span data-translate="locate">Locate Me</span>
                 </button>
-                <button class="btn btn-emergency" onclick="showSOS()">
-                    <i class="fas fa-exclamation-triangle"></i> 
-                    <span class="english-text">SOS / Help Center</span>
-                    <span class="bengali-text">জরুরি সাহায্য কেন্দ্র</span>
+                <button class="action-btn" onclick="showSOS()">
+                    <i class="fas fa-phone"></i>
+                    <span data-translate="sos">SOS / Help Center</span>
                 </button>
             </div>
         </div>
     </header>
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Search Section -->
-            <div class="search-section">
-                <h3 style="margin-bottom: 1rem; color: var(--primary-color);">
-                    <i class="fas fa-route"></i> 
-                    <span class="english-text">Search & Route Planner</span>
-                    <span class="bengali-text">অনুসন্ধান ও রুট পরিকল্পনাকারী</span>
-                </h3>
-                <div class="search-box">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" id="searchInput">
+
+    <!-- Main Content -->
+    <main class="container my-4">
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search for a puja name or area..." data-translate-placeholder="search-placeholder">
                 </div>
-                <div class="route-planner">
-                    <input type="text" class="route-input" id="fromLocation">
-                    <input type="text" class="route-input" id="toLocation">
-                    <button class="btn btn-primary" onclick="planRoute()" style="margin-top: 0.5rem;">
-                        <i class="fas fa-directions"></i> 
-                        <span class="english-text">Plan Accessible Route</span>
-                        <span class="bengali-text">সুবিধাজনক রুট পরিকল্পনা</span>
+                <div class="col-md-4">
+                    <button class="btn btn-primary w-100" onclick="performSearch()">
+                        <i class="fas fa-search"></i> <span data-translate="search-btn">Search</span>
                     </button>
                 </div>
             </div>
-            <!-- Crowd Heatmap Toggle -->
-            <div class="heatmap-toggle">
-                <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <span>
-                        <i class="fas fa-thermometer-half"></i> 
-                        <span class="english-text">Live Crowd Heatmap</span>
-                        <span class="bengali-text">লাইভ ভিড়ের মানচিত্র</span>
-                    </span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="heatmapToggle" onchange="toggleHeatmap()">
-                        <span class="slider"></span>
-                    </label>
+        </section>
+
+        <!-- Route Planner -->
+        <section class="route-planner">
+            <h4 class="mb-3" data-translate="route-planner">Route Planner</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="route-input" id="fromLocation" placeholder="From: Your location" data-translate-placeholder="from-placeholder">
                 </div>
-                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #666;">
-                    <span style="color: #28a745;">
-                        🟢 <span class="english-text">Low</span><span class="bengali-text">কম</span>
-                    </span> | 
-                    <span style="color: #ffc107;">
-                        🟡 <span class="english-text">Moderate</span><span class="bengali-text">মাঝারি</span>
-                    </span> | 
-                    <span style="color: #dc3545;">
-                        🔴 <span class="english-text">Heavy</span><span class="bengali-text">বেশি</span>
-                    </span>
+                <div class="col-md-6">
+                    <input type="text" class="route-input" id="toLocation" placeholder="To: Selected pandal" data-translate-placeholder="to-placeholder">
                 </div>
             </div>
-            <!-- Interactive Map -->
-            <div class="map-container">
-                <div id="map"></div>
+            <button class="btn btn-success w-100 mt-3" onclick="planRoute()">
+                <i class="fas fa-route"></i> <span data-translate="plan-route">Plan Accessible Route</span>
+            </button>
+        </section>
+
+        <!-- Crowd Heatmap Toggle -->
+        <section class="heatmap-toggle">
+            <button class="heatmap-btn low" onclick="toggleHeatmap('low')">
+                <i class="fas fa-circle"></i> Low
+            </button>
+            <button class="heatmap-btn moderate" onclick="toggleHeatmap('moderate')">
+                <i class="fas fa-circle"></i> Moderate
+            </button>
+            <button class="heatmap-btn heavy" onclick="toggleHeatmap('heavy')">
+                <i class="fas fa-circle"></i> Heavy
+            </button>
+        </section>
+
+        <!-- Map Container -->
+        <section class="map-container">
+            <div id="map"></div>
+            <div class="loading-spinner" id="mapLoader" style="display: none;">
+                <div class="spinner"></div>
             </div>
-        </div>
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Language & Accessibility Tools -->
-            <div class="accessibility-tools">
-                <h4 style="margin-bottom: 1rem; color: var(--primary-color);">
-                    <i class="fas fa-universal-access"></i> 
-                    <span class="english-text">Accessibility</span>
-                    <span class="bengali-text">সুবিধা</span>
-                </h4>
-                <div class="language-selector">
-                    <button class="lang-btn active" onclick="setLanguage('en')">English</button>
-                    <button class="lang-btn" onclick="setLanguage('bn')">বাংলা</button>
-                </div>
-                <div class="tool-buttons">
-                    <button class="tool-btn" onclick="adjustTextSize('normal')">
-                        🅰 <span class="english-text">Normal</span><span class="bengali-text">সাধারণ</span>
-                    </button>
-                    <button class="tool-btn" onclick="adjustTextSize('large')">
-                        🅰 <span class="english-text">Large</span><span class="bengali-text">বড়</span>
-                    </button>
-                    <button class="tool-btn" onclick="adjustTextSize('xl')">
-                        🅰 <span class="english-text">XL</span><span class="bengali-text">খুব বড়</span>
-                    </button>
-                    <button class="tool-btn" onclick="toggleContrast()">
-                        🌓 <span class="english-text">Contrast</span><span class="bengali-text">বৈসাদৃশ্য</span>
-                    </button>
-                    <button class="tool-btn" onclick="enableVoiceNav()">
-                        🎧 <span class="english-text">Voice Nav</span><span class="bengali-text">কণ্ঠস্বর</span>
-                    </button>
-                </div>
-            </div>
-            <!-- Filters -->
-            <div class="filters">
-                <h4 style="margin-bottom: 1rem; color: var(--primary-color);">
-                    <i class="fas fa-filter"></i> 
-                    <span class="english-text">Map Filters</span>
-                    <span class="bengali-text">ম্যাপ ফিল্টার</span>
-                </h4>
-                <div class="filter-group">
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" id="accessibleOnly" onchange="applyFilters()">
-                        <span>
-                            <span class="english-text">Show only Accessible Pandals</span>
-                            <span class="bengali-text">শুধু সুবিধাজনক প্যান্ডেল দেখান</span>
-                        </span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" id="lowCrowdOnly" onchange="applyFilters()">
-                        <span>
-                            <span class="english-text">Show Low Crowd Areas</span>
-                            <span class="bengali-text">কম ভিড়ের এলাকা দেখান</span>
-                        </span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" id="volunteerDesks" onchange="applyFilters()">
-                        <span>
-                            <span class="english-text">Show Volunteer Help Desks</span>
-                            <span class="bengali-text">স্বেচ্ছাসেবক সাহায্য ডেস্ক</span>
-                        </span>
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" class="filter-checkbox" id="facilitiesNearby" onchange="applyFilters()">
-                        <span>
-                            <span class="english-text">Show Facilities near Me</span>
-                            <span class="bengali-text">আমার কাছের সুবিধা দেখান</span>
-                        </span>
-                    </label>
-                </div>
-            </div>
-            <!-- Legend -->
-            <div class="legend">
-                <h4 style="margin-bottom: 1rem; color: var(--primary-color);">
-                    <i class="fas fa-map-signs"></i> 
-                    <span class="english-text">Map Legend</span>
-                    <span class="bengali-text">ম্যাপ চিহ্ন</span>
-                </h4>
-                <div class="legend-item">
-                    <span class="legend-icon">🏛️</span>
-                    <span>
-                        <span class="english-text">Puja Pandal location</span>
-                        <span class="bengali-text">পুজো প্যান্ডেলের অবস্থান</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🚻</span>
-                    <span>
-                        <span class="english-text">Washrooms (Public/Accessible)</span>
-                        <span class="bengali-text">শৌচাগার (পাবলিক/সুবিধাজনক)</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🧑‍🦽</span>
-                    <span>
-                        <span class="english-text">Wheelchair-accessible path</span>
-                        <span class="bengali-text">হুইলচেয়ার সুবিধাজনক পথ</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🩺</span>
-                    <span>
-                        <span class="english-text">First Aid Booths</span>
-                        <span class="bengali-text">প্রাথমিক চিকিৎসা বুথ</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🚓</span>
-                    <span>
-                        <span class="english-text">Police Help / Security</span>
-                        <span class="bengali-text">পুলিশ সাহায্য / নিরাপত্তা</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🚨</span>
-                    <span>
-                        <span class="english-text">Emergency Safe Zone</span>
-                        <span class="bengali-text">জরুরি নিরাপদ এলাকা</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">👩‍🦰</span>
-                    <span>
-                        <span class="english-text">Women's Safety Zone</span>
-                        <span class="bengali-text">মহিলাদের নিরাপত্তা এলাকা</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">👪</span>
-                    <span>
-                        <span class="english-text">Family Waiting Zone</span>
-                        <span class="bengali-text">পারিবারিক অপেক্ষার এলাকা</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🎢</span>
-                    <span>
-                        <span class="english-text">Fairground / Crowd-prone</span>
-                        <span class="bengali-text">মেলার মাঠ / ভিড়প্রবণ</span>
-                    </span>
-                </div>
-                <div class="legend-item">
-                    <span class="legend-icon">🛍️</span>
-                    <span>
-                        <span class="english-text">Food & Stalls</span>
-                        <span class="bengali-text">খাবার ও দোকান</span>
-                    </span>
-                </div>
-            </div>
-            <!-- Safety Section -->
-            <div class="safety-section">
-                <h4 style="margin-bottom: 1rem; color: var(--primary-color);">
-                    <i class="fas fa-shield-alt"></i> 
-                    <span class="english-text">Safety & Emergency</span>
-                    <span class="bengali-text">নিরাপত্তা ও জরুরি</span>
-                </h4>
-                <div class="emergency-numbers">
-                    <div class="emergency-number">
-                        <span>
-                            <span class="english-text">Police Emergency</span>
-                            <span class="bengali-text">পুলিশ জরুরি</span>
-                        </span>
-                        <span class="number">100</span>
+        </section>
+
+        <!-- Filter Panel -->
+        <section class="filter-panel">
+            <h4 class="filter-title" data-translate="filters">Map Filters</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="accessiblePandals" checked onchange="applyFilters()">
+                        <label for="accessiblePandals" data-translate="accessible-pandals">Show only Accessible Pandals</label>
                     </div>
-                    <div class="emergency-number">
-                        <span>
-                            <span class="english-text">Medical Emergency</span>
-                            <span class="bengali-text">চিকিৎসা জরুরি</span>
-                        </span>
-                        <span class="number">108</span>
-                    </div>
-                    <div class="emergency-number"></div>
-                        <span>
-                            <span class="english-text">Women's Helpline</span>
-                            <span class="bengali-text">মহিলা হেল্পলাইন</span>
-                        </span>
-                        <span class="number">1091</span>
-                    </div>
-                    <div class="emergency-number">
-                        <span>
-                            <span class="english-text">Lost & Found</span>
-                            <span class="bengali-text">হারানো-পাওয়া</span>
-                        </span>
-                        <span class="number">1073</span>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="lowCrowd" onchange="applyFilters()">
+                        <label for="lowCrowd" data-translate="low-crowd">Show Low Crowd Areas</label>
                     </div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <button class="btn btn-primary" onclick="reportIssue()" style="width: 100%;">
-                        <i class="fas fa-exclamation-circle"></i> 
-                        <span class="english-text">Report an Issue</span>
-                        <span class="bengali-text">সমস্যা রিপোর্ট করুন</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="volunteerSignup()" style="width: 100%;">
-                        <i class="fas fa-hands-helping"></i> 
-                        <span class="english-text">Volunteer Signup</span>
-                        <span class="bengali-text">স্বেচ্ছাসেবক নিবন্ধন</span>
+                <div class="col-md-6">
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="volunteerDesks" checked onchange="applyFilters()">
+                        <label for="volunteerDesks" data-translate="volunteer-desks">Show Volunteer Help Desks</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="facilitiesNearMe" onchange="applyFilters()">
+                        <label for="facilitiesNearMe" data-translate="facilities-near-me">Show Facilities near Me</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transportation Panel -->
+        <section class="transport-panel">
+            <h4 class="mb-3" data-translate="transportation">Transportation Options</h4>
+            <div class="transport-tabs">
+                <button class="transport-tab active" onclick="showTransport('metro')">
+                    <i class="fas fa-subway"></i> Metro
+                </button>
+                <button class="transport-tab" onclick="showTransport('train')">
+                    <i class="fas fa-train"></i> Train
+                </button>
+                <button class="transport-tab" onclick="showTransport('bus')">
+                    <i class="fas fa-bus"></i> Bus
+                </button>
+            </div>
+            
+            <div id="metroTimetable" class="timetable">
+                <h5 data-translate="metro-schedule">Metro Schedule</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-translate="line">Line</th>
+                            <th data-translate="station">Nearest Station</th>
+                            <th data-translate="frequency">Frequency</th>
+                            <th data-translate="last-train">Last Train</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Blue Line</td>
+                            <td>Esplanade</td>
+                            <td>5-7 min</td>
+                            <td>10:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Blue Line</td>
+                            <td>Mahatma Gandhi Road</td>
+                            <td>5-7 min</td>
+                            <td>10:30 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Green Line</td>
+                            <td>Garia Bazar</td>
+                            <td>10-15 min</td>
+                            <td>9:45 PM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="trainTimetable" class="timetable" style="display: none;">
+                <h5 data-translate="train-schedule">Train Schedule</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-translate="train">Train</th>
+                            <th data-translate="from">From</th>
+                            <th data-translate="to">To</th>
+                            <th data-translate="departure">Departure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12864</td>
+                            <td>Howrah</td>
+                            <td>Digha</td>
+                            <td>06:45 AM</td>
+                        </tr>
+                        <tr>
+                            <td>12860</td>
+                            <td>Sealdah</td>
+                            <td>Diamond Harbour</td>
+                            <td>07:20 AM</td>
+                        </tr>
+                        <tr>
+                            <td>13124</td>
+                            <td>Sealdah</td>
+                            <td>Lalgola</td>
+                            <td>08:15 AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="busTimetable" class="timetable" style="display: none;">
+                <h5 data-translate="bus-schedule">Bus Routes</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-translate="route">Route</th>
+                            <th data-translate="stops">Major Stops</th>
+                            <th data-translate="fare">Fare</th>
+                            <th data-translate="service">Service</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AC12</td>
+                            <td>Esplanade - Garia</td>
+                            <td>₹25</td>
+                            <td>AC Bus</td>
+                        </tr>
+                        <tr>
+                            <td>79B</td>
+                            <td>Howrah - New Town</td>
+                            <td>₹15</td>
+                            <td>Non-AC</td>
+                        </tr>
+                        <tr>
+                            <td>S6C</td>
+                            <td>Esplanade - Airport</td>
+                            <td>₹30</td>
+                            <td>AC Bus</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Facility Highlights -->
+        <section class="row">
+            <div class="col-md-8">
+                <h3 class="mb-3" data-translate="nearby-facilities">Nearby Facilities</h3>
+                <div id="facilityCards">
+                    <!-- Facility cards will be dynamically inserted here -->
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Safety Sidebar -->
+                <div class="safety-sidebar">
+                    <h4 class="mb-3" data-translate="emergency">Emergency Numbers</h4>
+                    <a href="tel:100" class="emergency-number">
+                        <i class="fas fa-phone"></i> Police - 100
+                    </a>
+                    <a href="tel:102" class="emergency-number">
+                        <i class="fas fa-ambulance"></i> Ambulance - 102
+                    </a>
+                    <a href="tel:108" class="emergency-number">
+                        <i class="fas fa-heartbeat"></i> Emergency - 108
+                    </a>
+                    <a href="tel:1091" class="emergency-number">
+                        <i class="fas fa-female"></i> Women Helpline - 1091
+                    </a>
+                    
+                    <hr class="my-3">
+                    
+                    <h5 class="mb-2" data-translate="quick-links">Quick Links</h5>
+                    <a href="#" class="btn btn-sm btn-outline-primary mb-2 w-100" onclick="showLostFound()">
+                        <i class="fas fa-search"></i> <span data-translate="lost-found">Lost & Found</span>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-outline-success mb-2 w-100" onclick="volunteerSignup()">
+                        <i class="fas fa-hands-helping"></i> <span data-translate="volunteer">Volunteer Signup</span>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-outline-warning w-100" onclick="reportIssue()">
+                        <i class="fas fa-exclamation-triangle"></i> <span data-translate="report">Report an Issue</span>
+                    </a>
+                </div>
+                
+                <!-- Saved Routes -->
+                <div class="saved-routes">
+                    <h5 class="mb-3" data-translate="saved-routes">Saved Routes</h5>
+                    <div id="savedRoutesList">
+                        <div class="saved-route-item" onclick="loadSavedRoute(1)">
+                            <strong>South Kolkata Tour</strong>
+                            <br><small>3 Pandals • 2 hours</small>
+                        </div>
+                        <div class="saved-route-item" onclick="loadSavedRoute(2)">
+                            <strong>North Kolkata Heritage</strong>
+                            <br><small>4 Pandals • 3 hours</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-secondary w-100 mt-2" onclick="saveCurrentRoute()">
+                        <i class="fas fa-bookmark"></i> <span data-translate="save-route">Save Current Route</span>
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
-    <script>
-        // State
-        let map;
-        let userLocation = null;
-        let markers = [];
-        let currentLanguage = 'en';
-        let heatmapVisible = false;
-        // Translations
-        const translations = {
-            en: {
-                searchPlaceholder: "Type to find a puja name or area...",
-                fromPlaceholder: "From: Your location",
-                toPlaceholder: "To: Selected pandal",
-                youAreHere: "You are here!",
-                routePlanMessage: "Planning accessible route from \"{from}\" to \"{to}\"."
-            },
-            bn: {
-                searchPlaceholder: "পুজোর নাম বা এলাকা লিখুন...",
-                fromPlaceholder: "হতে: আপনার অবস্থান",
-                toPlaceholder: "প্রতি: নির্বাচিত প্যান্ডেল",
-                youAreHere: "আপনি এখানে!",
-                routePlanMessage: "\"{from}\" থেকে \"{to}\" পর্যন্ত সুবিধাজনক রুট পরিকল্পনা করা হচ্ছে।"
-            }
-        };
-        // Language Switch
-        function setLanguage(lang) {
-            currentLanguage = lang;
-            document.querySelectorAll('.english-text').forEach(el => el.style.display = lang === 'en' ? 'inline' : 'none');
-            document.querySelectorAll('.bengali-text').forEach(el => el.style.display = lang === 'bn' ? 'inline' : 'none');
-            document.getElementById('searchInput').placeholder = translations[lang].searchPlaceholder;
-            document.getElementById('fromLocation').placeholder = translations[lang].fromPlaceholder;
-            document.getElementById('toLocation').placeholder = translations[lang].toPlaceholder;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.lang-btn' + (lang === 'en' ? '.active' : ':not(.active)')).classList.add('active');
-        }
-        // Accessibility
-        function adjustTextSize(size) {
-            document.body.classList.remove('large-text', 'xl-text');
-            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
-            if (size === 'large') {
-                document.body.classList.add('large-text');
-                document.querySelectorAll('.tool-btn')[1].classList.add('active');
-            } else if (size === 'xl') {
-                document.body.classList.add('xl-text');
-                document.querySelectorAll('.tool-btn')[2].classList.add('active');
-            } else {
-                document.querySelectorAll('.tool-btn')[0].classList.add('active');
-            }
-        }
-        function toggleContrast() {
-            document.body.classList.toggle('high-contrast');
-            document.querySelectorAll('.tool-btn')[3].classList.toggle('active');
-        }
-        function enableVoiceNav() {
-            alert('Voice navigation feature coming soon!');
-            document.querySelectorAll('.tool-btn')[4].classList.add('active');
-        }
-        // Dummy map and filter functions
-        function searchPandal() { alert('Search feature coming soon!'); }
-        function locateMe() { alert('Locating your position...'); }
-        function showSOS() { alert('SOS / Help Center feature coming soon!'); }
-        function planRoute() {
-            const from = document.getElementById('fromLocation').value || translations[currentLanguage].fromPlaceholder;
-            const to = document.getElementById('toLocation').value || translations[currentLanguage].toPlaceholder;
-            alert(translations[currentLanguage].routePlanMessage.replace('{from}', from).replace('{to}', to));
-        }
-        function toggleHeatmap() {
-            heatmapVisible = !heatmapVisible;
-            alert('Heatmap ' + (heatmapVisible ? 'enabled' : 'disabled') + '!');
-        }
-        function applyFilters() { alert('Filters applied!'); }
-        function reportIssue() { alert('Report Issue feature coming soon!'); }
-        function volunteerSignup() { alert('Volunteer Signup feature coming soon!'); }
-        // Initial language
-        window.onload = function() { setLanguage(currentLanguage); };
-    </script>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="script.js"></script>
 </body>
 </html>
