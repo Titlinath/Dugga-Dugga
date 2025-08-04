@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PujoSathi (পুজো-সাথী) - Your Festival Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #ad2d09;
+            --warm-orange: #ffb65b;
+            --light-orange: #ff985b;
+            --accent-green: #5f1a03;
+            --terracotta: #d5663a;
+            --bright-orange: #ff8512;
+            --text-dark: #2c2c2c;
+            --text-light: #ffffff;
+            --shadow: rgba(173, 45, 9, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--warm-orange) 0%, var(--light-orange) 50%, var(--terracotta) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .bengali-text {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-red), var(--accent-green));
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo .english {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: -0.5px;
+        }
+
+        .logo .bengali {
+            font-size: 1rem;
+            color: var(--warm-orange);
+            font-weight: 500;
+            margin-top: -4px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .lang-toggle .bengali-text {
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        /* Homepage */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .subtitle .bengali-text {
+            display: block;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .alert-banner {
+            background: linear-gradient(135deg, var(--primary-red), var(--terracotta));
+            color: var(--text-light);
+            padding: 1.2rem 2rem;
+            border-radius: 15px;
+            margin: 2rem auto;
+            max-width: 900px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 8px 32px var(--shadow);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 8px 32px var(--shadow); }
+            50% { box-shadow: 0 12px 40px rgba(173, 45, 9, 0.25); }
+        }
+
+        .emergency-card {
+            background: linear-gradient(135deg, var(--primary-red), var(--accent-green));
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 400px;
+            box-shadow: 0 12px 40px var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .emergency-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(173, 45, 9, 0.3);
+        }
+
+        .emergency-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .emergency-card .phone {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border-color: var(--bright-orange);
+        }
+
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .feature-card h3 {
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Forms and Content Pages */
+        .page-header {
+            text-align: center;
+            padding: 2rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--bright-orange);
+            box-shadow: 0 0 15px rgba(255, 133, 18, 0.2);
+            background: white;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary-red), var(--terracotta));
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(173, 45, 9, 0.3);
+        }
+
+        .btn-emergency {
+            background: linear-gradient(45deg, var(--primary-red), var(--accent-green));
+            font-size: 1.2rem;
+            padding: 1.2rem 2.5rem;
+        }
+
+        .helpline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .helpline-card {
+            background: linear-gradient(135deg, var(--bright-orange), var(--warm-orange));
+            color: var(--text-light);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 133, 18, 0.3);
+        }
+
+        .helpline-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 133, 18, 0.4);
+        }
+
+        .map-container {
+            height: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin: 2rem 0;
+            border: 2px dashed var(--warm-orange);
+            backdrop-filter: blur(10px);
+        }
+
+        .reports-list {
+            max-height: 500px;
+            overflow-y: auto;
+            background: rgba(240, 240, 240, 0.9);
+            border-radius: 15px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .report-item {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--bright-orange);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-item h4 {
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .report-item .status {
+            background: var(--bright-orange);
+            color: var(--text-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .safety-tips {
+            background: linear-gradient(135deg, var(--terracotta), var(--bright-orange));
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .safety-tips h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .safety-tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .safety-tips li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-weight: 400;
+        }
+
+        .safety-tips li:before {
+            content: "✓ ";
+            color: var(--warm-orange);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .crowd-indicator {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .crowd-level {
+            padding: 1rem;
+            border-radius: 15px;
+            color: var(--text-light);
+            font-weight: 600;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .crowd-light { background: linear-gradient(135deg, #4CAF50, #45a049); }
+        .crowd-medium { background: linear-gradient(135deg, var(--bright-orange), var(--warm-orange)); }
+        .crowd-heavy { background: linear-gradient(135deg, var(--primary-red), var(--accent-green)); }
+
+        .footer {
+            background: linear-gradient(90deg, var(--primary-red), var(--accent-green));
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer .bengali-text {
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Language Toggle Styles */
+        .language-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .language-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .helpline-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .crowd-indicator {
+                flex-direction: column;
+            }
+        }
+
+        /* Professional improvements */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--warm-orange), transparent);
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <span class="english">PujoSathi</span>
+                    <span class="bengali bengali-text">পুজো-সাথী</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="Dugga.html" onclick="showPage('home')" class="nav-link">Home</a></li>
+                    <li><a href="LostFound.html" onclick="showPage('lost-found')" class="nav-link">Lost & Found</a></li>
+                    <li><a href="Map.html" onclick="showPage('map')" class="nav-link">Map</a></li>
+                    <li><a href="#" onclick="showPage('safety')" class="nav-link">Safety</a></li>
+                    <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+                </ul>
+                <button class="lang-toggle" onclick="toggleLanguage()">
+                    English | <span class="bengali-text">বাংলা</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Homepage -->
+    <div id="home" class="main-content active">
+        <div class="container">
+            <div class="hero">
+                <h1>Welcome to PujoSathi</h1>
+                <div class="subtitle">
+                    Your Trusted Festival Companion
+                    <span class="bengali-text">আপনার বিশ্বস্ত উৎসব সঙ্গী</span>
+                </div>
+                <p>Experience Durga Puja with safety and confidence. Our comprehensive platform connects you with essential services, real-time information, and emergency support throughout the festival celebrations.</p>
+            </div>
+
+            <div class="language-info">
+                <p><strong>Multi-language Support:</strong> This portal supports both English and Bengali (বাংলা) languages.</p>
+                <p class="bengali-text"><strong>বহুভাষিক সহায়তা:</strong> এই পোর্টালটি ইংরেজি এবং বাংলা উভয় ভাষায় উপলব্ধ।</p>
+            </div>
+
+            <div class="alert-banner">
+                🚨 Live Updates: Crowd monitoring active • Emergency: 100 • Women's Helpline: 1091 • Medical: 102
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                <div class="stat-card">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Emergency Support</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Pandals Mapped</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">15min</span>
+                    <span class="stat-label">Update Frequency</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Accessible Design</span>
+                </div>
+            </div>
+
+            <div class="emergency-card" onclick="callEmergency()">
+                <h3>🚨 Emergency Helpline</h3>
+                <div class="phone">100</div>
+                <p>Tap for immediate assistance</p>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="features-grid">
+                <div class="feature-card" onclick="showPage('lost-found')">
+                    <div class="icon">🔍</div>
+                    <h3>Lost & Found Portal</h3>
+                    <p>Report missing persons or belongings with our centralized tracking system. Help reunite families during the celebrations.</p>
+                </div>
+
+                <div class="feature-card" onclick="showPage('safety')">
+                    <div class="icon">🛡️</div>
+                    <h3>Women's Safety Hub</h3>
+                    <p>Comprehensive safety resources, emergency contacts, and real-time support for secure festival participation.</p>
+                </div>
+
+                <div class="feature-card" onclick="showPage('map')">
+                    <div class="icon">♿</div>
+                    <h3>Accessible Pujo Map</h3>
+                    <p>Find wheelchair-accessible pandals, facilities, and services designed for inclusive celebration experiences.</p>
+                </div>
+
+                <div class="feature-card" onclick="showPage('crowd')">
+                    <div class="icon">📊</div>
+                    <h3>Live Crowd Analytics</h3>
+                    <p>Real-time crowd density monitoring and intelligent route suggestions to optimize your festival journey.</p>
+                </div>
+
+                <div class="feature-card" onclick="showPage('contact')">
+                    <div class="icon">📞</div>
+                    <h3>Support Center</h3>
+                    <p>Complete directory of emergency services, volunteer opportunities, and comprehensive assistance resources.</p>
+                </div>
+
+                <div class="feature-card" onclick="showAnnouncements()">
+                    <div class="icon">📢</div>
+                    <h3>Live Announcements</h3>
+                    <p>Official updates from authorities, organizers, and community leaders for informed participation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lost & Found Portal -->
+    <div id="lost-found" class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h2>Lost & Found Portal</h2>
+                <p>Reuniting families and recovering belongings during Durga Puja celebrations</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <div class="content-card">
+                    <h3 style="color: var(--primary-red); margin-bottom: 1rem; font-weight: 600;">Report Lost Person/Item</h3>
+                    <form id="lostForm">
+                        <div class="form-group">
+                            <label>Type:</label>
+                            <select name="type" required>
+                                <option value="">Select Type</option>
+                                <option value="person">Person</option>
+                                <option value="item">Item</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Name/Description:</label>
+                            <input type="text" name="name" required placeholder="Enter name or item description">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Seen Location:</label>
+                            <input type="text" name="location" required placeholder="Pandal name or area">
+                        </div>
+                        <div class="form-group">
+                            <label>Time Last Seen:</label>
+                            <input type="datetime-local" name="time" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number:</label>
+                            <input type="tel" name="contact" required placeholder="Your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>Additional Details:</label>
+                            <textarea name="details" rows="3" placeholder="Physical description, clothing, etc."></textarea>
+                        </div>
+                        <button type="submit" class="btn">Submit Report</button>
+                    </form>
+                </div>
+
+                <div class="content-card">
+                    <h3 style="color: var(--bright-orange); margin-bottom: 1rem; font-weight: 600;">Report Found Person/Item</h3>
+                    <form id="foundForm">
+                        <div class="form-group">
+                            <label>Type:</label>
+                            <select name="type" required>
+                                <option value="">Select Type</option>
+                                <option value="person">Person</option>
+                                <option value="item">Item</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <input type="text" name="description" required placeholder="Describe what you found">
+                        </div>
+                        <div class="form-group">
+                            <label>Found Location:</label>
+                            <input type="text" name="location" required placeholder="Where you found them/it">
+                        </div>
+                        <div class="form-group">
+                            <label>Time Found:</label>
+                            <input type="datetime-local" name="time" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Contact:</label>
+                            <input type="tel" name="contact" required placeholder="Your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Location:</label>
+                            <input type="text" name="currentLocation" required placeholder="Where are you keeping it/them?">
+                        </div>
+                        <button type="submit" class="btn" style="background: linear-gradient(45deg, var(--bright-orange), var(--warm-orange));">Submit Found Report</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 style="color: var(--primary-red); margin-bottom: 1rem; font-weight: 600;">Recent Reports</h3>
+                <div class="reports-list" id="reportsList">
+                    <div class="report-item">
+                        <h4>Lost Person: Ravi Kumar (Age 8)</h4>
+                        <p><strong>Last Seen:</strong> Bagbazar Sarbojanin, 2:30 PM</p>
+                        <p><strong>Description:</strong> Blue shirt, black shorts, wearing school bag</p>
+                        <p><strong>Contact:</strong> 9876543210</p>
+                        <span class="status" style="background: #ffcc00;">Pending</span>
+                    </div>  
+                    <div class="report-item">
+                        <h4>Found Item: Brown Leather Wallet</h4>
+                        <p><strong>Found Location:</strong> Near College Square, 3:00 PM</p>
+                        <p><strong>Description:</strong> Contains ID card, cash, and cards</p>
+                        <p><strong>Contact:</strong> 9876543210</p>
+                        <span class="status" style="background: #28a745;">Resolved</span>
+                    </div>
+                    <div class="report-item">
+                        <h4>Lost Item: Black Backpack</h4>
+                        <p><strong>Last Seen:</strong> Near College Square, 2:00 PM</p>
+                        <p><strong>Description:</strong> Black backpack with red straps</p>
+                        <p><strong>Contact:</strong> 9876543210</p>
+                        <span class="status" style="background: #ffcc00;">Pending</span>
+                    </div>  
+                    <div class="report-item">
+                        <h4>Found Person: Elderly woman</h4>
+                        <p><strong>Found Location:</strong> Near College Square, 3:00 PM</p>
+                        <p><strong>Description:</strong> Wearing a red sari, appears disoriented</p>
+                        <p><strong>Contact:</strong> 9876543210</p>
+                        <span class="status" style="background: #28a745;">Resolved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

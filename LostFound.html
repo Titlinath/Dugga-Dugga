@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - Durga Puja Emergency Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #ad2d09;
+            --warm-orange: #ffb65b;
+            --light-orange: #ff985b;
+            --accent-green: #5f1a03;
+            --terracotta: #d5663a;
+            --bright-orange: #ff8512;
+            --text-dark: #2c2c2c;
+            --text-light: #ffffff;
+            --shadow: rgba(173, 45, 9, 0.15);
+            --success-green: #22c55e;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--warm-orange) 0%, var(--light-orange) 50%, var(--terracotta) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .bengali-text {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-red), var(--accent-green));
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo .english {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: -0.5px;
+        }
+
+        .logo .bengali {
+            font-size: 1rem;
+            color: var(--warm-orange);
+            font-weight: 500;
+            margin-top: -4px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .bengali-title {
+            font-size: 2rem;
+            color: var(--warm-orange);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .description {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            max-width: 800px;
+            margin: 0 auto 1rem;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .hero .bengali-description {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary-red), var(--terracotta));
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(173, 45, 9, 0.3);
+        }
+
+        .btn-lost {
+            background: linear-gradient(45deg, var(--danger-red), var(--primary-red));
+        }
+
+        .btn-found {
+            background: linear-gradient(45deg, var(--success-green), #16a34a);
+        }
+
+        .btn-emergency {
+            background: linear-gradient(45deg, var(--primary-red), var(--accent-green));
+            font-size: 1.1rem;
+            padding: 1.2rem 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 15px var(--shadow); }
+            50% { box-shadow: 0 8px 25px rgba(173, 45, 9, 0.4); }
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .stat-bengali {
+            color: var(--terracotta);
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Tab System */
+        .tab-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: var(--primary-red);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Styles */
+        .form-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group .bengali-label {
+            font-size: 0.85rem;
+            color: var(--terracotta);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--bright-orange);
+            box-shadow: 0 0 15px rgba(255, 133, 18, 0.2);
+            background: white;
+        }
+
+        .file-upload {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--warm-orange);
+            border-radius: 10px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 181, 91, 0.1);
+        }
+
+        .file-upload:hover {
+            border-color: var(--bright-orange);
+            background: rgba(255, 181, 91, 0.2);
+        }
+
+        .file-upload input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Live Dashboard */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--warm-orange);
+            background: transparent;
+            color: var(--primary-red);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--warm-orange);
+            color: white;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .report-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--bright-orange);
+            transition: all 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-card.lost {
+            border-left-color: var(--danger-red);
+        }
+
+        .report-card.found {
+            border-left-color: var(--success-green);
+        }
+
+        .report-card.resolved {
+            border-left-color: var(--terracotta);
+            opacity: 0.8;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .report-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .report-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-lost {
+            background: var(--danger-red);
+            color: white;
+        }
+
+        .status-found {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .status-resolved {
+            background: var(--terracotta);
+            color: white;
+        }
+
+        .report-details {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .report-details strong {
+            color: var(--primary-red);
+        }
+
+        .report-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 8px;
+        }
+
+        /* Emergency Contacts Widget */
+        .emergency-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--primary-red), var(--accent-green));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px var(--shadow);
+            z-index: 999;
+            max-width: 280px;
+            backdrop-filter: blur(10px);
+        }
+
+        .emergency-widget h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .emergency-contact {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-contact:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .widget-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--danger-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px var(--shadow);
+            z-index: 1000;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Guidelines Section */
+        .guidelines-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .guideline-card {
+            background: linear-gradient(135deg, var(--warm-orange), var(--light-orange));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .guideline-card h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .guideline-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .guideline-card li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .guideline-card li:before {
+            content: "✓ ";
+            color: var(--text-light);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Testimonial Section */
+        .testimonial-section {
+            margin: 3rem 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--success-green);
+        }
+
+        .testimonial-story {
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-red);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .form-section {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .emergency-widget {
+                display: none;
+            }
+
+            .widget-toggle {
+                display: block;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <span class="english">PujoSathi</span>
+                    <span class="bengali bengali-text">পুজো-সাথী</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="Dugga.html">Home</a></li>
+                    <li><a href="LostFound.html" class="active">Lost & Found</a></li>
+                    <li><a href="#safety">Safety</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="lang-toggle" onclick="toggleLanguage()">
+                    English | <span class="bengali-text">বাংলা</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Lost Something During Pujo?</h1>
+            <div class="bengali-title bengali-text">পুজোর সময় কিছু হারিয়েছেন?</div>
+            
+            <p class="description">
+                Don't panic! Our community-powered platform helps reunite families and recover belongings during Durga Puja celebrations. 
+                Every report matters, every share helps, and together we ensure no one is left behind.
+            </p>
+            
+            <p class="bengali-description bengali-text">
+                ঘাবড়াবেন না! আমাদের কমিউনিটি-চালিত প্ল্যাটফর্ম দুর্গাপূজার উৎসবে পরিবারের পুনর্মিলন এবং হারিয়ে যাওয়া জিনিসপত্র উদ্ধারে সাহায্য করে।
+            </p>
+
+            <div class="hero-buttons">
+                <button class="btn btn-lost" onclick="showTab('lost')">
+                    🔍 Report Lost
+                    <span class="bengali-text" style="font-size: 0.9rem;">হারিয়েছে রিপোর্ট</span>
+                </button>
+                <button class="btn btn-found" onclick="showTab('found')">
+                    ✅ Report Found  
+                    <span class="bengali-text" style="font-size: 0.9rem;">পেয়েছে রিপোর্ট</span>
+                </button>
+                <button class="btn btn-emergency" onclick="showEmergencyContacts()">
+                    🚨 Emergency Help
+                    <span class="bengali-text" style="font-size: 0.9rem;">জরুরি সাহায্য</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <span class="stat-number" id="totalReports">127</span>
+                <div class="stat-label">Total Reports Today</div>
+                <div class="stat-bengali bengali-text">আজকের মোট রিপোর্ট</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="successfulReunions">43</span>
+                <div class="stat-label">Successful Reunions</div>
+                <div class="stat-bengali bengali-text">সফল পুনর্মিলন</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="activeVolunteers">89</span>
+                <div class="stat-label">Active Volunteers</div>
+                <div class="stat-bengali bengali-text">সক্রিয় স্বেচ্ছাসেবক</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">< 30min</span>
+                <div class="stat-label">Average Response Time</div>
+                <div class="stat-bengali bengali-text">গড় সাড়া দেওয়ার সময়</div>
+            </div>
+        </section>
+
+        <!-- Tab Container -->
+        <section class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('lost')">
+                    🔍 Report Lost | <span class="bengali-text">হারিয়েছে</span>
+                </button>
+                <button class="tab-button" onclick="showTab('found')">
+                    ✅ Report Found | <span class="bengali-text">পেয়েছে</span>
+                </button>
+                <button class="tab-button" onclick="showTab('dashboard')">
+                    📊 Live Dashboard | <span class="bengali-text">লাইভ ড্যাশবোর্ড</span>
+                </button>
+            </div>
+
+            <!-- Lost Report Tab -->
+            <div class="tab-content active" id="lost-tab">
+                <h3 style="color: var(--danger-red); margin-bottom: 1rem; font-size: 1.5rem;">🔍 Report Lost Person or Item</h3>
+                <p class="bengali-text" style="color: var(--terracotta); font-size: 1.2rem; margin-bottom: 2rem;">হারিয়ে যাওয়া ব্যক্তি বা জিনিস রিপোর্ট করুন</p>
+                
+                <div class="message" id="lost-message"></div>
+                
+                <form id="lostForm">
+                    <div class="form-section">
+                        <div>
+                            <div class="form-group">
+                                <label>What did you lose? | <span class="bengali-label bengali-text">কী হারিয়েছেন?</span></label>
+                                <select name="type" required>
+                                    <option value="">Select Type | ধরন নির্বাচন করুন</option>
+                                    <option value="person">Person | ব্যক্তি</option>
+                                    <option value="child">Child | শিশু</option>
+                                    <option value="elderly">Elderly Person | বয়স্ক ব্যক্তি</option>
+                                    <option value="phone">Mobile Phone | মোবাইল ফোন</option>
+                                    <option value="wallet">Wallet/Purse | মানিব্যাগ/পার্স</option>
+                                    <option value="jewelry">Jewelry | গয়না</option>
+                                    <option value="bag">Bag/Backpack | ব্যাগ/ব্যাকপ্যাক</option>
+                                    <option value="documents">Documents | কাগজপত্র</option>
+                                    <option value="other">Other Item | অন্যান্য জিনিস</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Name/Description | <span class="bengali-label bengali-text">নাম/বর্ণনা</span></label>
+                                <input type="text" name="name" required placeholder="Full name or detailed description | সম্পূর্ণ নাম বা বিস্তারিত বর্ণনা">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Last Seen Location | <span class="bengali-label bengali-text">শেষ দেখা গেছে যেখানে</span></label>
+                                <input type="text" name="location" required placeholder="Pandal name, street, landmark | প্যান্ডেল নাম, রাস্তা, ল্যান্ডমার্ক">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Date & Time | <span class="bengali-label bengali-text">তারিখ ও সময়</span></label>
+                                <input type="datetime-local" name="datetime" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <label>Your Contact Number | <span class="bengali-label bengali-text">আপনার যোগাযোগ নম্বর</span></label>
+                                <input type="tel" name="contact" required placeholder="Active mobile number | সক্রিয় মোবাইল নম্বর">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Age (if person) | <span class="bengali-label bengali-text">বয়স (ব্যক্তি হলে)</span></label>
+                                <input type="number" name="age" placeholder="Age in years | বছর বয়স">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender (if person) | <span class="bengali-label bengali-text">লিঙ্গ (ব্যক্তি হলে)</span></label>
+                                <select name="gender">
+                                    <option value="">Select Gender | লিঙ্গ নির্বাচন করুন</option>
+                                    <option value="male">Male | পুরুষ</option>
+                                    <option value="female">Female | মহিলা</option>
+                                    <option value="other">Other | অন্যান্য</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Physical Description | <span class="bengali-label bengali-text">শারীরিক বর্ণনা</span></label>
+                                <textarea name="description" rows="4" placeholder="Height, build, clothing, etc. | উচ্চতা, গঠন, পোশাক ইত্যাদি"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Upload Photo (optional) | <span class="bengali-label bengali-text">ছবি আপলোড করুন (ঐচ্ছিক)</span></label>
+                                <div class="file-upload">
+                                    <input type="file" name="photo" accept="image/*">
+                                    <span>Click to upload | আপলোড করতে ক্লিক করুন</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-lost">Submit Report | রিপোর্ট জমা করুন</button>
+                </form>
