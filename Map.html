@@ -24,8 +24,8 @@
 <body>
     <!-- Language Selector -->
     <div class="language-selector">
-        <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn" onclick="setLanguage('bn')">বাংলা</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="bn">বাংলা</button>
     </div>
 
     <!-- Accessibility Tools -->
@@ -125,25 +125,26 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="filter-checkbox">
-                        <input type="checkbox" id="accessiblePandals" checked onchange="applyFilters()">
+                        <input type="checkbox" id="accessiblePandals" checked>
                         <label for="accessiblePandals" data-translate="accessible-pandals">Show only Accessible Pandals</label>
                     </div>
                     <div class="filter-checkbox">
-                        <input type="checkbox" id="lowCrowd" onchange="applyFilters()">
+                        <input type="checkbox" id="lowCrowd">
                         <label for="lowCrowd" data-translate="low-crowd">Show Low Crowd Areas</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="filter-checkbox">
-                        <input type="checkbox" id="volunteerDesks" checked onchange="applyFilters()">
+                        <input type="checkbox" id="volunteerDesks" checked>
                         <label for="volunteerDesks" data-translate="volunteer-desks">Show Volunteer Help Desks</label>
                     </div>
                     <div class="filter-checkbox">
-                        <input type="checkbox" id="facilitiesNearMe" onchange="applyFilters()">
+                        <input type="checkbox" id="facilitiesNearMe">
                         <label for="facilitiesNearMe" data-translate="facilities-near-me">Show Facilities near Me</label>
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary mt-3" onclick="applyFilters()">Apply Filters</button>
         </section>
 
         <!-- Transportation Panel -->

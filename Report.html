@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Incident - Durga Pujo Safety</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ad2d09;
+            --secondary-color: #ffb65b;
+            --accent-color: #ff985b;
+            --accent-2: #5fa03a;
+            --accent-3: #d5663a;
+            --accent-4: #ff8512;
+            --text-color: #333;
+            --light-bg: #fff8f0;
+            --card-bg: #ffffff;
+            --emergency-red: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .bengali {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Header Section */
+        .hero-section {
+            background: linear-gradient(rgba(173, 45, 9, 0.85), rgba(213, 102, 58, 0.85)), url('https://images.unsplash.com/photo-1601231927372-54e7a3d0a1f3?ixlib=rb-4.0.3') no-repeat center center/cover;
+            color: white;
+            padding: 100px 20px 80px;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .alert-box {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--emergency-red);
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 600px;
+            margin: 20px auto 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .alert-box i {
+            font-size: 2rem;
+            color: var(--emergency-red);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+            display: inline-block;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(173, 45, 9, 0.15);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent-3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(173, 45, 9, 0.3);
+        }
+        
+        /* Emergency Section */
+        .emergency-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .emergency-btn {
+            background: var(--emergency-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .emergency-btn i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .emergency-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.6);
+        }
+        
+        .police-locations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .location-card {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .location-card h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        /* Safety Tips Section */
+        .tips-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .tip-card {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tip-icon {
+            font-size: 2.5rem;
+            color: var(--accent-2);
+            margin-bottom: 15px;
+        }
+        
+        .tip-card h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        /* Chat Section */
+        .chat-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .faq-list {
+            margin-top: 25px;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .faq-answer {
+            padding-top: 10px;
+            color: #555;
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 25px 0 35px;
+        }
+        
+        .footer-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .form-section, .emergency-section, .tips-section, .chat-section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .emergency-btn {
+                width: 100px;
+                height: 100px;
+                font-size: 1.1rem;
+            }
+            
+            .emergency-btn i {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="bn">বাংলা</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title" data-translate="report-title">Report an Incident</h1>
+        <p class="hero-subtitle" data-translate="report-subtitle">
+            Your safety is our priority. If you witnessed or experienced anything troubling, report here immediately.
+        </p>
+        
+        <div class="alert-box">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong data-translate="alert-title">Immediate Danger Alert</strong>
+                <p data-translate="alert-text">In case of immediate danger, call 100 or use the emergency red button below.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Incident Report Form -->
+        <section class="form-section">
+            <h2 class="section-title" data-translate="form-title">Incident Report Form</h2>
+            
+            <div class="form-group">
+                <label class="form-label" data-translate="incident-type">Type of Incident:</label>
+                <select class="form-control">
+                    <option value="" data-translate="select-option">Select an option</option>
+                    <option value="theft" data-translate="theft">Theft</option>
+                    <option value="harassment" data-translate="harassment">Harassment</option>
+                    <option value="lost-person" data-translate="lost-person">Lost Person</option>
+                    <option value="emergency" data-translate="emergency">Emergency</option>
+                    <option value="others" data-translate="others">Others</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" data-translate="incident-time">Time & Date of Incident:</label>
+                <input type="datetime-local" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" data-translate="incident-location">Location:</label>
+                <input type="text" class="form-control" placeholder="Enter location or select on map" data-translate-placeholder="location-placeholder">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" data-translate="incident-description">Description:</label>
+                <textarea class="form-control" placeholder="Please describe what happened" data-translate-placeholder="description-placeholder"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" data-translate="upload-proof">Upload Proof (Optional):</label>
+                <input type="file" class="form-control">
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="anonymous">
+                <label for="anonymous" data-translate="anonymous-label">Submit anonymously (your identity will not be shared)</label>
+            </div>
+            
+            <button class="submit-btn" data-translate="submit-btn">Submit Report</button>
+        </section>
+        
+        <!-- Emergency Help Section -->
+        <section class="emergency-section">
+            <h2 class="section-title" data-translate="emergency-title">Emergency Help</h2>
+            <button class="emergency-btn">
+                <i class="fas fa-phone-alt"></i>
+                <span data-translate="call-100">CALL 100</span>
+            </button>
+            <p data-translate="emergency-text">For immediate police assistance, press the red button</p>
+            
+            <h3 class="section-title" style="margin-top: 40px;" data-translate="police-booths">Nearby Police Booths</h3>
+            <div class="police-locations">
+                <div class="location-card">
+                    <h4 data-translate="booth1">Esplanade Police Booth</h4>
+                    <p data-translate="booth1-address">Opp. Metro Station Gate 3, Esplanade</p>
+                    <p data-translate="booth1-distance">0.5 km away</p>
+                </div>
+                <div class="location-card">
+                    <h4 data-translate="booth2">Park Street Police Booth</h4>
+                    <p data-translate="booth2-address">Near Park Hotel, Park Street</p>
+                    <p data-translate="booth2-distance">0.8 km away</p>
+                </div>
+                <div class="location-card">
+                    <h4 data-translate="booth3">Sovabazar Police Booth</h4>
+                    <p data-translate="booth3-address">Near Sovabazar Rajbari</p>
+                    <p data-translate="booth3-distance">1.2 km away</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Safety Tips Section -->
+        <section class="tips-section">
+            <h2 class="section-title" data-translate="safety-tips">Safety Suggestions</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h4 data-translate="tip1-title">Stay Calm</h4>
+                    <p data-translate="tip1-text">Take deep breaths and try to remain calm. Panic can cloud your judgment.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 data-translate="tip2-title">Seek Help</h4>
+                    <p data-translate="tip2-text">Approach police, volunteers, or nearby families for assistance.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h4 data-translate="tip3-title">Collect Evidence</h4>
+                    <p data-translate="tip3-text">If safe, take photos or videos of the incident or people involved.</p>
+                </div>
+            </div>
+            <div class="encouragement" style="margin-top: 30px; text-align: center;">
+                <p style="font-size: 1.2rem; font-weight: 600; color: var(--accent-2);" data-translate="encouragement">
+                    Remember, you're not alone. We're here to support you.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Chat Support Section -->
+        <section class="chat-section">
+            <h2 class="section-title" data-translate="chat-support">Chat Support & FAQs</h2>
+            <p data-translate="chat-description">Our virtual assistant can help guide you through the reporting process.</p>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question" data-translate="faq1-q">Where can I go if I feel unsafe?<i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer" data-translate="faq1-a">Look for police booths, women's safety booths (pink tents), or volunteer help desks. They are located near all major pandals.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" data-translate="faq2-q">How do I report anonymously?<i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer" data-translate="faq2-a">Check the "Submit anonymously" option on the report form. We won't collect any personal information.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" data-translate="faq3-q">What information should I provide?<i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer" data-translate="faq3-a">Provide as much detail as possible: time, location, description of people involved, and any evidence you have.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" data-translate="faq4-q">How long does it take to respond?<i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer" data-translate="faq4-a">Emergency reports are prioritized and responded to within 15 minutes. Non-emergency reports may take up to 24 hours.</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#" data-translate="privacy-link">Privacy Policy</a>
+            <a href="https://www.kolkatapolice.gov.in" target="_blank" data-translate="police-link">Kolkata Police Website</a>
+            <a href="mailto:report@durgapujosafety.in" data-translate="email-link">report@durgapujosafety.in</a>
+        </div>
+        
+        <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        
+        <p class="copyright" data-translate="copyright">© 2023 Durga Pujo Safety Initiative. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Translation data
+        const translations = {
+            en: {
+                'report-title': 'Report an Incident',
+                'report-subtitle': 'Your safety is our priority. If you witnessed or experienced anything troubling, report here immediately.',
+                'alert-title': 'Immediate Danger Alert',
+                'alert-text': 'In case of immediate danger, call 100 or use the emergency red button below.',
+                'form-title': 'Incident Report Form',
+                'incident-type': 'Type of Incident:',
+                'select-option': 'Select an option',
+                'theft': 'Theft',
+                'harassment': 'Harassment',
+                'lost-person': 'Lost Person',
+                'emergency': 'Emergency',
+                'others': 'Others',
+                'incident-time': 'Time & Date of Incident:',
+                'incident-location': 'Location:',
+                'location-placeholder': 'Enter location or select on map',
+                'incident-description': 'Description:',
+                'description-placeholder': 'Please describe what happened',
+                'upload-proof': 'Upload Proof (Optional):',
+                'anonymous-label': 'Submit anonymously (your identity will not be shared)',
+                'submit-btn': 'Submit Report',
+                'emergency-title': 'Emergency Help',
+                'call-100': 'CALL 100',
+                'emergency-text': 'For immediate police assistance, press the red button',
+                'police-booths': 'Nearby Police Booths',
+                'booth1': 'Esplanade Police Booth',
+                'booth1-address': 'Opp. Metro Station Gate 3, Esplanade',
+                'booth1-distance': '0.5 km away',
+                'booth2': 'Park Street Police Booth',
+                'booth2-address': 'Near Park Hotel, Park Street',
+                'booth2-distance': '0.8 km away',
+                'booth3': 'Sovabazar Police Booth',
+                'booth3-address': 'Near Sovabazar Rajbari',
+                'booth3-distance': '1.2 km away',
+                'safety-tips': 'Safety Suggestions',
+                'tip1-title': 'Stay Calm',
+                'tip1-text': 'Take deep breaths and try to remain calm. Panic can cloud your judgment.',
+                'tip2-title': 'Seek Help',
+                'tip2-text': 'Approach police, volunteers, or nearby families for assistance.',
+                'tip3-title': 'Collect Evidence',
+                'tip3-text': 'If safe, take photos or videos of the incident or people involved.',
+                'encouragement': 'Remember, you\'re not alone. We\'re here to support you.',
+                'chat-support': 'Chat Support & FAQs',
+                'chat-description': 'Our virtual assistant can help guide you through the reporting process.',
+                'faq1-q': 'Where can I go if I feel unsafe?',
+                'faq1-a': 'Look for police booths, women\'s safety booths (pink tents), or volunteer help desks. They are located near all major pandals.',
+                'faq2-q': 'How do I report anonymously?',
+                'faq2-a': 'Check the "Submit anonymously" option on the report form. We won\'t collect any personal information.',
+                'faq3-q': 'What information should I provide?',
+                'faq3-a': 'Provide as much detail as possible: time, location, description of people involved, and any evidence you have.',
+                'faq4-q': 'How long does it take to respond?',
+                'faq4-a': 'Emergency reports are prioritized and responded to within 15 minutes. Non-emergency reports may take up to 24 hours.',
+                'privacy-link': 'Privacy Policy',
+                'police-link': 'Kolkata Police Website',
+                'email-link': 'report@durgapujosafety.in',
+                'copyright': '© 2023 Durga Pujo Safety Initiative. All rights reserved.'
+            },
+            bn: {
+                'report-title': 'ঘটনা রিপোর্ট করুন',
+                'report-subtitle': 'আপনার নিরাপত্তা আমাদের অগ্রাধিকার। আপনি যদি কোনও সমস্যাজনক ঘটনা প্রত্যক্ষ করেন বা অভিজ্ঞতা অর্জন করেন তবে অবিলম্বে এখানে রিপোর্ট করুন।',
+                'alert-title': 'তাত্ক্ষণিক বিপদ সতর্কতা',
+                'alert-text': 'তাত্ক্ষণিক বিপদের ক্ষেত্রে, 100 নম্বরে কল করুন বা নীচের জরুরী লাল বোতামটি ব্যবহার করুন।',
+                'form-title': 'ঘটনা রিপোর্ট ফর্ম',
+                'incident-type': 'ঘটনার ধরণ:',
+                'select-option': 'একটি বিকল্প নির্বাচন করুন',
+                'theft': 'চুরি',
+                'harassment': 'হয়রানি',
+                'lost-person': 'হারানো ব্যক্তি',
+                'emergency': 'জরুরি অবস্থা',
+                'others': 'অন্যান্য',
+                'incident-time': 'ঘটনার সময় এবং তারিখ:',
+                'incident-location': 'অবস্থান:',
+                'location-placeholder': 'অবস্থান লিখুন বা মানচিত্রে নির্বাচন করুন',
+                'incident-description': 'বিবরণ:',
+                'description-placeholder': 'দয়া করে বর্ণনা করুন কী ঘটেছে',
+                'upload-proof': 'প্রমাণ আপলোড করুন (ঐচ্ছিক):',
+                'anonymous-label': 'বেনামে জমা দিন (আপনার পরিচয় শেয়ার করা হবে না)',
+                'submit-btn': 'রিপোর্ট জমা দিন',
+                'emergency-title': 'জরুরি সাহায্য',
+                'call-100': '100 কল করুন',
+                'emergency-text': 'তাত্ক্ষণিক পুলিশ সহায়তার জন্য লাল বোতাম টিপুন',
+                'police-booths': 'কাছাকাছি পুলিশ বুথ',
+                'booth1': 'এসপ্ল্যানেড পুলিশ বুথ',
+                'booth1-address': 'মেট্রো স্টেশন গেট ৩ এর বিপরীতে, এসপ্ল্যানেড',
+                'booth1-distance': '0.5 কিমি দূরে',
+                'booth2': 'পার্ক স্ট্রিট পুলিশ বুথ',
+                'booth2-address': 'পার্ক হোটেলের কাছে, পার্ক স্ট্রিট',
+                'booth2-distance': '0.8 কিমি দূরে',
+                'booth3': 'শোভাবাজার পুলিশ বুথ',
+                'booth3-address': 'শোভাবাজার রাজবাড়ির কাছে',
+                'booth3-distance': '1.2 কিমি দূরে',
+                'safety-tips': 'নিরাপত্তা পরামর্শ',
+                'tip1-title': 'শান্ত থাকুন',
+                'tip1-text': 'গভীর শ্বাস নিন এবং শান্ত থাকার চেষ্টা করুন। আতঙ্ক আপনার বিচারশক্তিকে মেঘাচ্ছন্ন করতে পারে।',
+                'tip2-title': 'সাহায্য চাইুন',
+                'tip2-text': 'সাহায্যের জন্য পুলিশ, স্বেচ্ছাসেবক বা কাছাকাছি পরিবারের কাছে যান।',
+                'tip3-title': 'প্রমাণ সংগ্রহ করুন',
+                'tip3-text': 'নিরাপদ হলে, ঘটনা বা জড়িত ব্যক্তিদের ছবি বা ভিডিও তুলুন।',
+                'encouragement': 'মনে রাখবেন, আপনি একা নন। আমরা আপনাকে সমর্থন করতে এখানে আছি।',
+                'chat-support': 'চ্যাট সহায়তা এবং FAQs',
+                'chat-description': 'আমাদের ভার্চুয়াল সহকারী রিপোর্টিং প্রক্রিয়ার মাধ্যমে আপনাকে গাইড করতে সাহায্য করতে পারে।',
+                'faq1-q': 'যদি আমি অনিরাপদ বোধ করি তবে আমি কোথায় যেতে পারি?',
+                'faq1-a': 'পুলিশ বুথ, মহিলা নিরাপত্তা বুথ (গোলাপী তাঁবু), বা স্বেচ্ছাসেবক হেল্প ডেস্ক সন্ধান করুন। এগুলি সমস্ত প্রধান প্যান্ডেলের কাছে অবস্থিত।',
+                'faq2-q': 'আমি কিভাবে বেনামে রিপোর্ট করব?',
+                'faq2-a': 'রিপোর্ট ফর্মে "বেনামে জমা দিন" বিকল্পটি চেক করুন। আমরা কোনও ব্যক্তিগত তথ্য সংগ্রহ করব না।',
+                'faq3-q': 'আমার কী তথ্য প্রদান করা উচিত?',
+                'faq3-a': 'যতটা সম্ভব বিস্তারিত তথ্য প্রদান করুন: সময়, অবস্থান, জড়িত ব্যক্তিদের বর্ণনা এবং আপনার কাছে থাকা কোনও প্রমাণ।',
+                'faq4-q': 'প্রতিক্রিয়া জানতে কতক্ষণ সময় লাগে?',
+                'faq4-a': 'জরুরি রিপোর্টগুলিকে অগ্রাধিকার দেওয়া হয় এবং 15 মিনিটের মধ্যে সাড়া দেওয়া হয়। জরুরী নয় এমন রিপোর্টে 24 ঘন্টা পর্যন্ত সময় লাগতে পারে।',
+                'privacy-link': 'গোপনীয়তা নীতি',
+                'police-link': 'কলকাতা পুলিশ ওয়েবসাইট',
+                'email-link': 'report@durgapujosafety.in',
+                'copyright': '© 2023 দুর্গা পুজো নিরাপত্তা উদ্যোগ। সর্বস্বত্ব সংরক্ষিত।'
+            }
+        };
+
+        // Set default language
+        let currentLanguage = 'en';
+        
+        // Language switching function
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update UI elements
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                element.textContent = translations[lang][key];
+            });
+            
+            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                element.placeholder = translations[lang][key];
+            });
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Set up event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language buttons
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    setLanguage(this.getAttribute('data-lang'));
+                });
+            });
+            
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Form submission
+            document.querySelector('.submit-btn').addEventListener('click', function() {
+                alert(translations[currentLanguage]['submit-alert'] || 'Report submitted successfully!');
+                // In a real application, this would submit the form
+                // and redirect to Kolkata Police portal
+            });
+            
+            // Emergency button
+            document.querySelector('.emergency-btn').addEventListener('click', function() {
+                alert(translations[currentLanguage]['emergency-alert'] || 'Calling emergency services...');
+            });
+        });
+    </script>
+</body>
+</html>

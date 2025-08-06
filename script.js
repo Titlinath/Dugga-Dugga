@@ -115,7 +115,13 @@ function initMap() {
                 .addTo(map)
                 .bindPopup('Your Location')
                 .openPopup();
+            map.setView([userLocation.lat, userLocation.lng], 16);
+        }, error => {
+            console.error('Geolocation error:', error);
+            showNotification('Unable to get your location. Please enable location services.');
         });
+    } else {
+        showNotification('Geolocation is not supported by your browser.');
     }
 }
 
@@ -166,6 +172,10 @@ function addSampleMarkers() {
             lng: 88.3740
         }
     ];
+    
+    // Clear existing markers
+    markers.forEach(({ marker }) => marker.remove());
+    markers = [];
     
     sampleData.forEach(data => {
         const icon = getMarkerIcon(data.type, data.accessible);
@@ -239,8 +249,10 @@ function setLanguage(lang) {
     currentLanguage = lang;
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+        }
     });
-    event.target.classList.add('active');
     
     // Update all translatable elements
     document.querySelectorAll('[data-translate]').forEach(element => {
@@ -256,6 +268,11 @@ function setLanguage(lang) {
             element.placeholder = translations[lang][key];
         }
     });
+    
+    // Update dynamic content (e.g., facility cards)
+    updateFacilityCards();
+    
+    showNotification(`Language changed to ${lang === 'en' ? 'English' : 'বাংলা'}`);
 }
 
 // Font size adjustment
@@ -266,6 +283,7 @@ function adjustFontSize(action) {
         currentFontSize -= 2;
     }
     document.body.style.fontSize = currentFontSize + 'px';
+    showNotification(`Font size ${action === 'increase' ? 'increased' : 'decreased'}`);
 }
 
 // High contrast mode
@@ -275,3 +293,259 @@ function toggleHighContrast() {
     
     if (highContrastMode) {
         document.body.style.backgroundColor = '#000';
+        document.body.style.color = '#fff';
+        document.querySelectorAll('.facility-card, .filter-panel, .search-section, .route-planner, .transport-panel').forEach(el => {
+            el.style.backgroundColor = '#000';
+            el.style.color = '#fff';
+            el.style.borderColor = '#fff';
+        });
+    } else {
+        document.body.style.backgroundColor = '';
+        document.body.style.color = '';
+        document.querySelectorAll('.facility-card, .filter-panel, .search-section, .route-planner, .transport-panel').forEach(el => {
+            el.style.backgroundColor = '';
+            el.style.color = '';
+            el.style.borderColor = '';
+        });
+    }
+    showNotification(`High contrast mode ${highContrastMode ? 'enabled' : 'disabled'}`);
+}
+
+// Text to speech
+function speakText() {
+    if ('speechSynthesis' in window) {
+        const text = document.body.innerText;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = currentLanguage === 'bn' ? 'bn-BD' : 'en-US';
+        speechSynthesis.speak(utterance);
+        showNotification('Reading content aloud...');
+    } else {
+        showNotification('Text-to-speech is not supported in your browser.');
+    }
+}
+
+// Search functions
+function searchPandal() {
+    document.getElementById('searchInput').focus();
+}
+
+function performSearch() {
+    const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (searchTerm) {
+        showNotification(`Searching for "${searchTerm}"...`);
+        const foundMarker = markers.find(({ data }) => data.name.toLowerCase().includes(searchTerm));
+        if (foundMarker) {
+            map.setView([foundMarker.data.lat, foundMarker.data.lng], 15);
+            foundMarker.marker.openPopup();
+        } else {
+            showNotification('No matching pandal or facility found.');
+        }
+    } else {
+        showNotification('Please enter a search term.');
+    }
+}
+
+function locateMe() {
+    if (userLocation) {
+        map.setView([userLocation.lat, userLocation.lng], 16);
+        showNotification('Located your position!');
+    } else {
+        showNotification('Please enable location services.');
+    }
+}
+
+function showSOS() {
+    showNotification('Emergency services have been notified!');
+    // In a real app, this would trigger actual SOS calls
+}
+
+// Route planning
+function planRoute() {
+    const from = document.getElementById('fromLocation').value.trim();
+    const to = document.getElementById('toLocation').value.trim();
+    
+    if (from && to) {
+        showNotification('Planning accessible route...');
+        // Simulate route planning
+        setTimeout(() => {
+            showNotification('Route planned! Accessible path highlighted on map.');
+        }, 2000);
+    } else {
+        showNotification('Please enter both locations.');
+    }
+}
+
+// Heatmap toggle
+function toggleHeatmap(type) {
+    document.querySelectorAll('.heatmap-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    showNotification(`Showing ${type} crowd areas`);
+    // In a real app, this would update the heatmap layer
+}
+
+// Filter functions
+function applyFilters() {
+    const showAccessible = document.getElementById('accessiblePandals').checked;
+    const showLowCrowd = document.getElementById('lowCrowd').checked;
+    const showVolunteer = document.getElementById('volunteerDesks').checked;
+    const showNearMe = document.getElementById('facilitiesNearMe').checked;
+    
+    markers.forEach(({ marker, data }) => {
+        let shouldShow = true;
+        
+        if (showAccessible && data.type === 'pandal' && !data.accessible) {
+            shouldShow = false;
+        }
+        
+        if (showLowCrowd && data.crowd && data.crowd !== 'low') {
+            shouldShow = false;
+        }
+        
+        if (showVolunteer && data.type !== 'volunteer') {
+            shouldShow = false;
+        }
+        
+        if (showNearMe && userLocation) {
+            const distance = getDistance(userLocation.lat, userLocation.lng, data.lat, data.lng);
+            if (distance > 1) { // Show only within 1km
+                shouldShow = false;
+            }
+        }
+        
+        if (shouldShow) {
+            marker.addTo(map);
+        } else {
+            marker.remove();
+        }
+    });
+    
+    showNotification('Filters applied!');
+}
+
+// Calculate distance between two points (in km)
+function getDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI/180);
+}
+
+// Transportation functions
+function showTransport(type) {
+    document.querySelectorAll('.transport-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    document.getElementById('metroTimetable').style.display = 'none';
+    document.getElementById('trainTimetable').style.display = 'none';
+    document.getElementById('busTimetable').style.display = 'none';
+    
+    document.getElementById(type + 'Timetable').style.display = 'block';
+}
+
+// Safety functions
+function showLostFound() {
+    showNotification('Lost & Found section would open here.');
+}
+
+function volunteerSignup() {
+    showNotification('Volunteer signup form would open here.');
+}
+
+function reportIssue() {
+    showNotification('Issue reporting form would open here.');
+}
+
+// Saved routes
+function saveCurrentRoute() {
+    showNotification('Current route saved!');
+}
+
+function loadSavedRoute(id) {
+    showNotification(`Loading saved route ${id}...`);
+}
+
+// Notification system
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideUp 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Update facility cards
+function updateFacilityCards() {
+    const sampleFacilities = [
+        {
+            name: 'Sovabazar Sarbojanin',
+            type: 'pandal',
+            icon: '🏛️',
+            distance: '0.5 km',
+            services: ['Wheelchair Accessible', 'First Aid', 'Toilet']
+        },
+        {
+            name: 'Ahiritola Public Toilet',
+            type: 'toilet',
+            icon: '🚻',
+            distance: '0.3 km',
+            accessible: true
+        },
+        {
+            name: 'Volunteer Help Desk',
+            type: 'volunteer',
+            icon: '👩‍🦰',
+            distance: '0.2 km'
+        }
+    ];
+    
+    const facilityCardsContainer = document.getElementById('facilityCards');
+    facilityCardsContainer.innerHTML = '';
+    
+    sampleFacilities.forEach(facility => {
+        const card = document.createElement('div');
+        card.className = 'facility-card';
+        card.innerHTML = `
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <div class="facility-icon">${facility.icon}</div>
+                </div>
+                <div class="col">
+                    <h5 class="facility-title">${facility.name}</h5>
+                    <p class="mb-1">${facility.distance} away</p>
+                    ${facility.services ? '<small class="text-muted">' + facility.services.join(', ') + '</small>' : ''}
+                </div>
+            </div>
+        `;
+        facilityCardsContainer.appendChild(card);
+    });
+}
+
+// Initialize application
+document.addEventListener('DOMContentLoaded', () => {
+    initMap();
+    updateFacilityCards();
+    setLanguage('en'); // Set default language
+    
+    // Add event listeners for language buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+    });
+});

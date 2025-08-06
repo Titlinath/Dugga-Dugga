@@ -115,6 +115,11 @@ body {
     cursor: pointer;
 }
 
+.filter-checkbox input[type="checkbox"]:checked + label {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
 /* Search Section */
 .search-section {
     background: white;
