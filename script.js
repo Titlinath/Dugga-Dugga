@@ -1,551 +1,207 @@
-// Global variables
-let map;
-let currentLanguage = 'en';
-let currentFontSize = 16;
-let highContrastMode = false;
-let userLocation = null;
-let markers = [];
-let heatLayer = null;
-
-// Translation data
+// =======================
+// Language translations
+// =======================
 const translations = {
-    en: {
-        'title': 'Feel Safe, Celebrate Freely — We\'re With You This Pujo',
-        'subtitle': 'Real-time guidance for safer, smarter pandal hopping.',
-        'search': 'Search a Pandal',
-        'locate': 'Locate Me',
-        'sos': 'SOS / Help Center',
-        'search-placeholder': 'Search for a puja name or area...',
-        'from-placeholder': 'From: Your location',
-        'to-placeholder': 'To: Selected pandal',
-        'route-planner': 'Route Planner',
-        'plan-route': 'Plan Accessible Route',
-        'filters': 'Map Filters',
-        'accessible-pandals': 'Show only Accessible Pandals',
-        'low-crowd': 'Show Low Crowd Areas',
-        'volunteer-desks': 'Show Volunteer Help Desks',
-        'facilities-near-me': 'Show Facilities near Me',
-        'transportation': 'Transportation Options',
-        'metro-schedule': 'Metro Schedule',
-        'train-schedule': 'Train Schedule',
-        'bus-schedule': 'Bus Routes',
-        'line': 'Line',
-        'station': 'Nearest Station',
-        'frequency': 'Frequency',
-        'last-train': 'Last Train',
-        'train': 'Train',
-        'from': 'From',
-        'to': 'To',
-        'departure': 'Departure',
-        'route': 'Route',
-        'stops': 'Major Stops',
-        'fare': 'Fare',
-        'service': 'Service',
-        'nearby-facilities': 'Nearby Facilities',
-        'emergency': 'Emergency Numbers',
-        'quick-links': 'Quick Links',
-        'lost-found': 'Lost & Found',
-        'volunteer': 'Volunteer Signup',
-        'report': 'Report an Issue',
-        'saved-routes': 'Saved Routes',
-        'save-route': 'Save Current Route'
-    },
-    bn: {
-        'title': 'নিরাপদ থাকুন, স্বাধীনভাবে উদযাপন করুন — আমরা এই পুজোতে আপনার পাশে আছি',
-        'subtitle': 'নিরাপদ ও বুদ্ধিমান পণ্ডল হপিংয়ের জন্য রিয়েল-টাইম গাইডেন্স।',
-        'search': 'একটি পণ্ডল অনুসন্ধান করুন',
-        'locate': 'আমাকে খুঁজুন',
-        'sos': 'SOS / সাহায্য কেন্দ্র',
-        'search-placeholder': 'একটি পুজোর নাম বা এলাকা অনুসন্ধান করুন...',
-        'from-placeholder': 'থেকে: আপনার অবস্থান',
-        'to-placeholder': 'পর্যন্ত: নির্বাচিত পণ্ডল',
-        'route-planner': 'রুট প্ল্যানার',
-        'plan-route': 'অ্যাক্সেসযোগ্য রুট পরিকল্পনা করুন',
-        'filters': 'ম্যাপ ফিল্টার',
-        'accessible-pandals': 'শুধুমাত্র অ্যাক্সেসযোগ্য পণ্ডল দেখান',
-        'low-crowd': 'কম ভিড়ের এলাকা দেখান',
-        'volunteer-desks': 'স্বেচ্ছাসেবক সাহায্য ডেস্ক দেখান',
-        'facilities-near-me': 'আমার কাছাকাছি সুবিধা দেখান',
-        'transportation': 'পরিবহন অপশন',
-        'metro-schedule': 'মেট্রো সময়সূচী',
-        'train-schedule': 'ট্রেন সময়সূচী',
-        'bus-schedule': 'বাস রুট',
-        'line': 'লাইন',
-        'station': 'সবচেয়ে কাছাকাছি স্টেশন',
-        'frequency': 'ফ্রিকোয়েন্সি',
-        'last-train': 'শেষ ট্রেন',
-        'train': 'ট্রেন',
-        'from': 'থেকে',
-        'to': 'পর্যন্ত',
-        'departure': 'ছেড়ে যাওয়া',
-        'route': 'রুট',
-        'stops': 'প্রধান স্টপ',
-        'fare': 'ভাড়া',
-        'service': 'পরিষেবা',
-        'nearby-facilities': 'কাছাকাছি সুবিধা',
-        'emergency': 'জরুরি নম্বর',
-        'quick-links': 'দ্রুত লিঙ্ক',
-        'lost-found': 'হারানো ও পাওয়া',
-        'volunteer': 'স্বেচ্ছাসেবক সাইনআপ',
-        'report': 'একটি সমস্যা রিপোর্ট করুন',
-        'saved-routes': 'সংরক্ষিত রুট',
-        'save-route': 'বর্তমান রুট সংরক্ষণ করুন'
-    }
+  bn: {
+    title: 'উৎসববন্ধু',
+    subtitle: 'পুজোর পথে, আপনার বন্ধু!',
+    'nav-home': 'হোম',
+    'nav-guide': 'পুজো ট্যুর গাইড',
+    'nav-contact': 'যোগাযোগ',
+    'hero-title': 'দুর্গাপুজো হোক নিরাপদ, সহজ ও স্মরণীয়!',
+    'hero-description': 'লাইভ ভিড় আপডেট, নিরাপদ পথ, পরিবেশ-বান্ধব প্যান্ডেল এবং আরও অনেক কিছু – সব এক প্ল্যাটফর্মে।',
+    'cta-explore': 'এখনই দেখুন',
+    'emergency-title': 'জরুরী সহায়তা',
+    'emergency-desc': 'কাছাকাছি হাসপাতাল এবং থানা সহ এক-ট্যাপ সাহায্য।',
+    'guide-title': 'পুজো ট্যুর গাইড',
+    'guide-desc': 'আপনার পুজো ভ্রমণকে আরও রঙিন ও স্মরণীয় করে তুলুন – সেরা প্যান্ডেল ও উৎসবের পথে আপনাকে নিয়ে যাবে আমাদের গাইড!',
+    'volunteer-title': 'স্বেচ্ছাসেবক হোন',
+    'volunteer-desc': 'পূজার দিনগুলিতে সাহায্য করার জন্য স্বেচ্ছাসেবক হিসাবে যোগ দিন।',
+    'contact-title': 'যোগাযোগ',
+    'contact-desc': 'সহজে হারানো জিনিস বা নিখোঁজ ব্যক্তিদের রিপোর্ট করুন বা খুঁজে বের করুন।',
+    'cta-view': 'দেখুন',
+    'footer-text': '© 2025 PujaSathi | মা আসেন ভক্তির সাগরে, আনন্দে ভরে প্রতিটি অন্তর |',
+    'privacy': 'গোপনীয়তা নীতি',
+    'terms': 'সেবার শর্তাবলী'
+  },
+  en: {
+    title: 'FestivalFriend',
+    subtitle: 'Your companion on the path of celebration!',
+    'nav-home': 'Home',
+    'nav-guide': 'Puja Tour Guide',
+    'nav-contact': 'Contact',
+    'hero-title': 'Make Durga Puja Safe, Easy & Memorable!',
+    'hero-description': 'Live crowd updates, safe routes, eco-friendly pandals and much more – all on one platform.',
+    'cta-explore': 'Explore Now',
+    'emergency-title': 'Emergency Help',
+    'emergency-desc': 'One-tap assistance with nearby hospitals and police stations.',
+    'guide-title': 'Puja Tour Guide',
+    'guide-desc': 'Make your puja journey more colorful and memorable – our guide will take you to the best pandals and festival routes!',
+    'volunteer-title': 'Become a Volunteer',
+    'volunteer-desc': 'Join as a volunteer to help during the puja days.',
+    'contact-title': 'Contact',
+    'contact-desc': 'Easily report or find lost items or missing persons.',
+    'cta-view': 'View',
+    'footer-text': '© 2025 PujaSathi | Ma comes to the ocean of devotion, filling every heart with joy |',
+    'privacy': 'Privacy Policy',
+    'terms': 'Terms of Service'
+  },
+  hi: {
+    title: 'उत्सवबंधु',
+    subtitle: 'उत्सव के पथ पर, आपका साथी!',
+    'nav-home': 'होम',
+    'nav-guide': 'पूजा टूर गाइड',
+    'nav-contact': 'संपर्क',
+    'hero-title': 'दुर्गा पूजा हो सुरक्षित, आसान और यादगार!',
+    'hero-description': 'लाइव भीड़ अपडेट, सुरक्षित रास्ते, पर्यावरण-अनुकूल पंडाल और बहुत कुछ – सब एक प्लेटफॉर्म पर।',
+    'cta-explore': 'अभी देखें',
+    'emergency-title': 'आपातकालीन सहायता',
+    'emergency-desc': 'नजदीकी अस्पताल और थाने के साथ एक-टैप सहायता।',
+    'guide-title': 'पूजा टूर गाइड',
+    'guide-desc': 'अपनी पूजा यात्रा को और भी रंगीन और यादगार बनाएं – बेहतरीन पंडाल और उत्सव के रास्ते पर हमारा गाइड आपको ले जाएगा!',
+    'volunteer-title': 'स्वयंसेवक बनें',
+    'volunteer-desc': 'पूजा के दिनों में मदद करने के लिए स्वयंसेवक के रूप में जुड़ें।',
+    'contact-title': 'संपर्क',
+    'contact-desc': 'आसानी से खोई हुई चीजों या लापता व्यक्तियों की रिपोर्ट करें या खोजें।',
+    'cta-view': 'देखें',
+    'footer-text': '© 2025 PujaSathi | मां आती हैं भक्ति के सागर में, खुशी से भर देती हैं हर दिल |',
+    'privacy': 'गोपनীয়ता नीति',
+    'terms': 'सेवा की शर्तें'
+  }
 };
 
-// Initialize map
-function initMap() {
-    map = L.map('map').setView([22.5726, 88.3639], 13);
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-    
-    // Add sample markers
-    addSampleMarkers();
-    
-    // Get user location
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-            userLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            L.marker([userLocation.lat, userLocation.lng])
-                .addTo(map)
-                .bindPopup('Your Location')
-                .openPopup();
-            map.setView([userLocation.lat, userLocation.lng], 16);
-        }, error => {
-            console.error('Geolocation error:', error);
-            showNotification('Unable to get your location. Please enable location services.');
-        });
-    } else {
-        showNotification('Geolocation is not supported by your browser.');
-    }
-}
-
-// Add sample markers
-function addSampleMarkers() {
-    const sampleData = [
-        {
-            type: 'pandal',
-            name: 'Sovabazar Sarbojanin',
-            lat: 22.5904,
-            lng: 88.3730,
-            accessible: true,
-            crowd: 'moderate',
-            services: ['Toilet', 'Wheelchair Ramp', 'First Aid']
-        },
-        {
-            type: 'pandal',
-            name: 'Ahiritola Sarbojanin',
-            lat: 22.5800,
-            lng: 88.3700,
-            accessible: true,
-            crowd: 'heavy',
-            services: ['Toilet', 'Security']
-        },
-        {
-            type: 'toilet',
-            name: 'Public Toilet',
-            lat: 22.5850,
-            lng: 88.3750,
-            accessible: true
-        },
-        {
-            type: 'firstaid',
-            name: 'First Aid Booth',
-            lat: 22.5880,
-            lng: 88.3720
-        },
-        {
-            type: 'security',
-            name: 'Police Help Booth',
-            lat: 22.5820,
-            lng: 88.3780
-        },
-        {
-            type: 'volunteer',
-            name: 'Volunteer Desk',
-            lat: 22.5870,
-            lng: 88.3740
-        }
-    ];
-    
-    // Clear existing markers
-    markers.forEach(({ marker }) => marker.remove());
-    markers = [];
-    
-    sampleData.forEach(data => {
-        const icon = getMarkerIcon(data.type, data.accessible);
-        const marker = L.marker([data.lat, data.lng], { icon })
-            .addTo(map)
-            .bindPopup(createPopupContent(data));
-        
-        markers.push({ marker, data });
-    });
-}
-
-// Get marker icon
-function getMarkerIcon(type, accessible = false) {
-    const icons = {
-        pandal: '🏛️',
-        toilet: '🚻',
-        firstaid: '🩺',
-        security: '🚓',
-        volunteer: '👩‍🦰',
-        emergency: '🚨',
-        family: '👪',
-        fairground: '🎢',
-        food: '🛍️'
-    };
-    
-    const className = 'custom-marker';
-    const html = `<div class="${className}">${icons[type] || '📍'}</div>`;
-    
-    return L.divIcon({
-        html: html,
-        className: 'custom-div-icon',
-        iconSize: [40, 40],
-        iconAnchor: [20, 20]
-    });
-}
-
-// Create popup content
-function createPopupContent(data) {
-    let services = '';
-    if (data.services) {
-        services = '<div><strong>Services:</strong> ' + data.services.join(', ') + '</div>';
-    }
-    
-    let crowdInfo = '';
-    if (data.crowd) {
-        const crowdText = {
-            low: 'Low Crowd',
-            moderate: 'Moderate Crowd',
-            heavy: 'Heavy Crowd'
-        };
-        crowdInfo = '<div><i class="fas fa-users"></i> ' + crowdText[data.crowd] + '</div>';
-    }
-    
-    let accessibleInfo = '';
-    if (data.accessible) {
-        accessibleInfo = '<div><i class="fas fa-wheelchair"></i> Wheelchair Accessible</div>';
-    }
-    
-    return `
-        <div class="popup-content">
-            <div class="popup-title">${data.name}</div>
-            ${services}
-            ${crowdInfo}
-            ${accessibleInfo}
-        </div>
-    `;
-}
-
+// =======================
 // Language switching
-function setLanguage(lang) {
-    currentLanguage = lang;
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) {
-            btn.classList.add('active');
-        }
-    });
-    
-    // Update all translatable elements
-    document.querySelectorAll('[data-translate]').forEach(element => {
-        const key = element.getAttribute('data-translate');
-        if (translations[lang][key]) {
-            element.textContent = translations[lang][key];
-        }
-    });
-    
-    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
-        const key = element.getAttribute('data-translate-placeholder');
-        if (translations[lang][key]) {
-            element.placeholder = translations[lang][key];
-        }
-    });
-    
-    // Update dynamic content (e.g., facility cards)
-    updateFacilityCards();
-    
-    showNotification(`Language changed to ${lang === 'en' ? 'English' : 'বাংলা'}`);
-}
+// =======================
+let currentLang = 'bn';
 
-// Font size adjustment
-function adjustFontSize(action) {
-    if (action === 'increase' && currentFontSize < 24) {
-        currentFontSize += 2;
-    } else if (action === 'decrease' && currentFontSize > 12) {
-        currentFontSize -= 2;
-    }
-    document.body.style.fontSize = currentFontSize + 'px';
-    showNotification(`Font size ${action === 'increase' ? 'increased' : 'decreased'}`);
-}
+function updateLanguage(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
 
-// High contrast mode
-function toggleHighContrast() {
-    highContrastMode = !highContrastMode;
-    document.body.classList.toggle('high-contrast');
-    
-    if (highContrastMode) {
-        document.body.style.backgroundColor = '#000';
-        document.body.style.color = '#fff';
-        document.querySelectorAll('.facility-card, .filter-panel, .search-section, .route-planner, .transport-panel').forEach(el => {
-            el.style.backgroundColor = '#000';
-            el.style.color = '#fff';
-            el.style.borderColor = '#fff';
+  // Update body class for font changes (do not wipe other classes)
+  document.body.classList.remove('english', 'hindi');
+  if (lang === 'en') document.body.classList.add('english');
+  if (lang === 'hi') document.body.classList.add('hindi');
+
+  // Update all translatable elements
+  document.querySelectorAll('[data-key]').forEach(element => {
+    const key = element.getAttribute('data-key');
+    if (translations[lang] && translations[lang][key]) {
+      if (element.hasAttribute("placeholder")) {
+        element.setAttribute("placeholder", translations[lang][key]);
+      } else {
+        let replaced = false;
+        element.childNodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+            node.nodeValue = translations[lang][key];
+            replaced = true;
+          }
         });
-    } else {
-        document.body.style.backgroundColor = '';
-        document.body.style.color = '';
-        document.querySelectorAll('.facility-card, .filter-panel, .search-section, .route-planner, .transport-panel').forEach(el => {
-            el.style.backgroundColor = '';
-            el.style.color = '';
-            el.style.borderColor = '';
-        });
-    }
-    showNotification(`High contrast mode ${highContrastMode ? 'enabled' : 'disabled'}`);
-}
-
-// Text to speech
-function speakText() {
-    if ('speechSynthesis' in window) {
-        const text = document.body.innerText;
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = currentLanguage === 'bn' ? 'bn-BD' : 'en-US';
-        speechSynthesis.speak(utterance);
-        showNotification('Reading content aloud...');
-    } else {
-        showNotification('Text-to-speech is not supported in your browser.');
-    }
-}
-
-// Search functions
-function searchPandal() {
-    document.getElementById('searchInput').focus();
-}
-
-function performSearch() {
-    const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
-    if (searchTerm) {
-        showNotification(`Searching for "${searchTerm}"...`);
-        const foundMarker = markers.find(({ data }) => data.name.toLowerCase().includes(searchTerm));
-        if (foundMarker) {
-            map.setView([foundMarker.data.lat, foundMarker.data.lng], 15);
-            foundMarker.marker.openPopup();
-        } else {
-            showNotification('No matching pandal or facility found.');
+        if (!replaced) {
+          element.textContent = translations[lang][key];
         }
-    } else {
-        showNotification('Please enter a search term.');
+      }
     }
+  });
+
+  // Highlight active button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+
+  // Save user preference
+  localStorage.setItem('preferred-language', lang);
 }
 
-function locateMe() {
-    if (userLocation) {
-        map.setView([userLocation.lat, userLocation.lng], 16);
-        showNotification('Located your position!');
-    } else {
-        showNotification('Please enable location services.');
-    }
-}
+// =======================
+// On page ready
+// =======================
+document.addEventListener('DOMContentLoaded', function () {
+  // Load saved language preference
+  const savedLang = localStorage.getItem('preferred-language');
+  if (savedLang && translations[savedLang]) {
+    updateLanguage(savedLang);
+  } else {
+    updateLanguage(currentLang); // default
+  }
 
-function showSOS() {
-    showNotification('Emergency services have been notified!');
-    // In a real app, this would trigger actual SOS calls
-}
-
-// Route planning
-function planRoute() {
-    const from = document.getElementById('fromLocation').value.trim();
-    const to = document.getElementById('toLocation').value.trim();
-    
-    if (from && to) {
-        showNotification('Planning accessible route...');
-        // Simulate route planning
-        setTimeout(() => {
-            showNotification('Route planned! Accessible path highlighted on map.');
-        }, 2000);
-    } else {
-        showNotification('Please enter both locations.');
-    }
-}
-
-// Heatmap toggle
-function toggleHeatmap(type) {
-    document.querySelectorAll('.heatmap-btn').forEach(btn => {
-        btn.classList.remove('active');
+  // Bind language buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang');
+      updateLanguage(lang);
     });
-    event.target.classList.add('active');
-    showNotification(`Showing ${type} crowd areas`);
-    // In a real app, this would update the heatmap layer
-}
+  });
 
-// Filter functions
-function applyFilters() {
-    const showAccessible = document.getElementById('accessiblePandals').checked;
-    const showLowCrowd = document.getElementById('lowCrowd').checked;
-    const showVolunteer = document.getElementById('volunteerDesks').checked;
-    const showNearMe = document.getElementById('facilitiesNearMe').checked;
-    
-    markers.forEach(({ marker, data }) => {
-        let shouldShow = true;
-        
-        if (showAccessible && data.type === 'pandal' && !data.accessible) {
-            shouldShow = false;
-        }
-        
-        if (showLowCrowd && data.crowd && data.crowd !== 'low') {
-            shouldShow = false;
-        }
-        
-        if (showVolunteer && data.type !== 'volunteer') {
-            shouldShow = false;
-        }
-        
-        if (showNearMe && userLocation) {
-            const distance = getDistance(userLocation.lat, userLocation.lng, data.lat, data.lng);
-            if (distance > 1) { // Show only within 1km
-                shouldShow = false;
-            }
-        }
-        
-        if (shouldShow) {
-            marker.addTo(map);
-        } else {
-            marker.remove();
-        }
-    });
-    
-    showNotification('Filters applied!');
-}
-
-// Calculate distance between two points (in km)
-function getDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
-}
-
-function deg2rad(deg) {
-    return deg * (Math.PI/180);
-}
-
-// Transportation functions
-function showTransport(type) {
-    document.querySelectorAll('.transport-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    event.target.classList.add('active');
-    
-    document.getElementById('metroTimetable').style.display = 'none';
-    document.getElementById('trainTimetable').style.display = 'none';
-    document.getElementById('busTimetable').style.display = 'none';
-    
-    document.getElementById(type + 'Timetable').style.display = 'block';
-}
-
-// Safety functions
-function showLostFound() {
-    showNotification('Lost & Found section would open here.');
-}
-
-function volunteerSignup() {
-    showNotification('Volunteer signup form would open here.');
-}
-
-function reportIssue() {
-    showNotification('Issue reporting form would open here.');
-}
-
-// Saved routes
-function saveCurrentRoute() {
-    showNotification('Current route saved!');
-}
-
-function loadSavedRoute(id) {
-    showNotification(`Loading saved route ${id}...`);
-}
-
-// Notification system
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
+  // Smooth fade-in animation on load
+  const fadeElements = document.querySelectorAll('.fade-in');
+  fadeElements.forEach((element, index) => {
     setTimeout(() => {
-        notification.style.animation = 'slideUp 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
+      element.style.animationDelay = `${index * 0.1}s`;
+      element.style.animation = 'fadeInUp 0.6s ease forwards';
+    }, index * 100);
+  });
 
-// Update facility cards
-function updateFacilityCards() {
-    const sampleFacilities = [
-        {
-            name: 'Sovabazar Sarbojanin',
-            type: 'pandal',
-            icon: '🏛️',
-            distance: '0.5 km',
-            services: ['Wheelchair Accessible', 'First Aid', 'Toilet']
-        },
-        {
-            name: 'Ahiritola Public Toilet',
-            type: 'toilet',
-            icon: '🚻',
-            distance: '0.3 km',
-            accessible: true
-        },
-        {
-            name: 'Volunteer Help Desk',
-            type: 'volunteer',
-            icon: '👩‍🦰',
-            distance: '0.2 km'
-        }
-    ];
-    
-    const facilityCardsContainer = document.getElementById('facilityCards');
-    facilityCardsContainer.innerHTML = '';
-    
-    sampleFacilities.forEach(facility => {
-        const card = document.createElement('div');
-        card.className = 'facility-card';
-        card.innerHTML = `
-            <div class="row align-items-center">
-                <div class="col-auto">
-                    <div class="facility-icon">${facility.icon}</div>
-                </div>
-                <div class="col">
-                    <h5 class="facility-title">${facility.name}</h5>
-                    <p class="mb-1">${facility.distance} away</p>
-                    ${facility.services ? '<small class="text-muted">' + facility.services.join(', ') + '</small>' : ''}
-                </div>
-            </div>
-        `;
-        facilityCardsContainer.appendChild(card);
+  // Hover effects for feature boxes
+  document.querySelectorAll('.feature-box').forEach(box => {
+    box.addEventListener('mouseenter', function () {
+      this.style.transform = 'translateY(-15px) scale(1.02)';
     });
-}
+    box.addEventListener('mouseleave', function () {
+      this.style.transform = 'translateY(0) scale(1)';
+    });
+  });
 
-// Initialize application
-document.addEventListener('DOMContentLoaded', () => {
-    initMap();
-    updateFacilityCards();
-    setLanguage('en'); // Set default language
-    
-    // Add event listeners for language buttons
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+  // Smooth scrolling for nav links
+  document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
+  });
+
+  // Ripple effect on buttons
+  document.querySelectorAll('.cta-button').forEach(button => {
+    button.addEventListener('click', function (e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        left: ${x}px;
+        top: ${y}px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+      `;
+
+      this.style.position = 'relative';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+
+  // Intersection observer for scroll animations
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  fadeElements.forEach(element => observer.observe(element));
 });
