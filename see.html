@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এখনই দেখুন</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #F8FAFC;
+            --header-bg: #E47A24;
+            --text-color: #374151;
+            --card-bg: #FFFFFF;
+            --card-shadow: rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: rgba(0, 0, 0, 0.1);
+            --card-border-color: #E5E7EB;
+            --btn-bg: #E47A24;
+            --btn-hover-bg: #BF2020;
+            --back-btn-bg: #634b5a;
+            --back-btn-hover-bg: #f32020;
+            --lang-active-bg: linear-gradient(135deg, #E65A20, #E48A49);
+            --lang-text-color: #DDD;
+            --lang-switcher-bg: #78482A;
+            --transition-speed: 0.3s;
+
+            /* New palette */
+            --pineapple: #74685E;
+            --apricot: #E47A24;
+            --dark-mango: #C8702A;
+            --blood-orange: #BF2020;
+            --candy-apple: #951421;
+            --background-light: #FEFCF8;
+            --background-medium: #F7F3EE;
+            --text-dark: #2C2824;
+            --text-light: #FFFFFF;
+            --shadow-light: rgba(116, 104, 94, 0.1);
+            --shadow-medium: rgba(116, 104, 94, 0.2);
+            --shadow-heavy: rgba(116, 104, 94, 0.3);
+            --gradient-warm: linear-gradient(135deg, var(--apricot), var(--dark-mango));
+            --gradient-professional: linear-gradient(135deg, var(--pineapple), var(--apricot));
+            --gradient-accent: linear-gradient(135deg, var(--blood-orange), var(--candy-apple));
+            --gradient-cool: linear-gradient(135deg, #78482A, #BF2020);
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .main-content-wrapper {
+            flex-grow: 1;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2.5rem;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            background: var(--lang-switcher-bg);
+            border-radius: 30px;
+            padding: 5px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .lang-btn {
+            border: none;
+            background: transparent;
+            color: var(--lang-text-color);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            white-space: nowrap;
+        }
+        .lang-btn.active {
+            background: var(--lang-active-bg);
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(247, 84, 2, 0.981);
+        }
+
+        /* Cards */
+        .option-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid var(--card-border-color);
+            box-shadow: 0 4px 12px var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--card-hover-shadow);
+        }
+        .option-card h2 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #951421;
+        }
+        .option-card p {
+            font-size: 1rem;
+            color: #6B7280;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: var(--btn-bg);
+            transition: all var(--transition-speed) ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: var(--btn-hover-bg);
+            transform: translateY(-1px);
+        }
+
+        /* Footer (Updated) */
+        footer {
+            text-align: center;
+            padding: 50px 30px;
+            background: var(--gradient-cool);
+            color: var(--text-light);
+            font-size: 1.1em;
+            border-radius: 25px 25px 0 0;
+            margin: 60px 20px 0;
+            box-shadow: 0 -10px 30px var(--shadow-light);
+        }
+        footer a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        footer a:hover {
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+            }
+            nav {
+                flex-direction: column;
+                gap: 10px;
+                margin: 0 10px;
+                padding: 15px;
+            }
+            .features {
+                grid-template-columns: 1fr;
+                padding: 40px 20px;
+                gap: 25px;
+            }
+            .hero {
+                margin: 20px 10px 40px;
+                padding: 80px 20px;
+            }
+            footer {
+                margin: 40px 10px 0;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans">
+
+    <header class="text-white text-center py-6 px-4 shadow-md text-3xl font-bold tracking-wide relative">
+        <a href="index.html" class="back-button">
+            <span>←</span>
+            <span data-key="backBtn">Go Back</span>
+        </a>
+        <span data-key="header">📍 Live Updates - Check Now</span>
+        <div class="language-switcher">
+            <button class="lang-btn active" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="bn">বাংলা</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+        </div>
+    </header>
+
+    <div class="main-content-wrapper">
+        <main class="p-10">
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="option-card flex flex-col justify-between">
+                    <div>
+                        <h2 class="mb-2" data-key="card1Title">🗺 Pandal Map</h2>
+                        <p class="mb-6" data-key="card1Desc">Find nearby pandals instantly with just one click.</p>
+                    </div>
+                    <a href="pandelmap.html" class="btn self-start" data-key="card1Btn">View Map</a>
+                </div>
+
+                <div class="option-card flex flex-col justify-between">
+                    <div>
+                        <h2 class="mb-2" data-key="card2Title">🚇 Route Guide</h2>
+                        <p class="mb-6" data-key="card2Desc">Which metro to take to reach your destination pandal? Find out easily.</p>
+                    </div>
+                    <a href="metro.html" class="btn self-start" data-key="card2Btn">View Route Plan</a>
+                </div>
+
+                <div class="option-card flex flex-col justify-between">
+                    <div>
+                        <h2 class="mb-2" data-key="card3Title">🎟 Pass / Booking Info</h2>
+                        <p class="mb-6" data-key="card3Desc">Details of passes or bookings required for pandal visits.</p>
+                    </div>
+                    <a href="bookingpass.html" class="btn self-start" data-key="card3Btn">Get Booking / Pass</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Updated Footer -->
+    <footer>
+        <span data-key="footerText">© 2025 PujaSathi | মা আসেন ভক্তির সাগরে, আনন্দে ভরে প্রতিটি অন্তর |</span>
+        <div>
+            <a href="#" data-key="privacy">Privacy Policy</a> |
+            <a href="#" data-key="terms">Terms of Service</a>
+        </div>
+    </footer>
+    
+    <script>
+    const translations = {
+        bn: {
+            header: "📍 এখনই দেখুন - লাইভ আপডেট",
+            backBtn: "ফিরে যান",
+            card1Title: "🗺 প্যান্ডেল ম্যাপ",
+            card1Desc: "আপনার নিকটবর্তী প্যান্ডেল কোথায় রয়েছে? একটি ক্লিকেই জেনে নিন।",
+            card1Btn: "ম্যাপ দেখুন",
+            card2Title: "🚇 রুট নির্দেশিকা",
+            card2Desc: "আপনার গন্তব্য প্যান্ডেলে পৌঁছাতে কোন মেট্রো নেবেন? সহজ রুট জেনে নিন।",
+            card2Btn: "রুট প্ল্যান দেখুন",
+            card3Title: "🎟 পাস / বুকিং তথ্য",
+            card3Desc: "প্যান্ডেল ভিজিট করার জন্য প্রয়োজনীয় পাস বা বুকিং ডিটেইলস।",
+            card3Btn: "বুকিং বা পাস সংগ্রহ করুন",
+            footerText: "© 2025 PujaSathi | মা আসেন ভক্তির সাগরে, আনন্দে ভরে প্রতিটি অন্তর।"
+        },
+        hi: {
+            header: "📍 अभी देखें - लाइव अपडेट",
+            backBtn: "वापस जाएं",
+            card1Title: "🗺 पंडाल मैप",
+            card1Desc: "आपके नजदीकी पंडाल कहां है? एक क्लिक में जानें।",
+            card1Btn: "मैप देखें",
+            card2Title: "🚇 रूट निर्देश",
+            card2Desc: "अपने गंतव्य पंडाल तक पहुँचने के लिए कौन सा मेट्रो लें? आसान रूट जानें।",
+            card2Btn: "रूट प्लान देखें",
+            card3Title: "🎟 पास / बुकिंग जानकारी",
+            card3Desc: "पंडाल विजिट करने के लिए आवश्यक पास या बुकिंग डिटेल्स।",
+            card3Btn: "बुकिंग या पास प्राप्त करें",
+            footerText: "© 2025 PujaSathi | माँ आती है भक्ति के सागर में, हर दिल खुशी से भर जाता है।"
+        },
+        en: {
+            header: "📍 Live Updates - Check Now",
+            backBtn: "Go Back",
+            card1Title: "🗺 Pandal Map",
+            card1Desc: "Find nearby pandals instantly with just one click.",
+            card1Btn: "View Map",
+            card2Title: "🚇 Route Guide",
+            card2Desc: "Which metro to take to reach your destination pandal? Find out easily.",
+            card2Btn: "View Route Plan",
+            card3Title: "🎟 Pass / Booking Info",
+            card3Desc: "Details of passes or bookings required for pandal visits.",
+            card3Btn: "Get Booking / Pass",
+            footerText: "© 2025 PujaSathi | Mother arrives in a sea of devotion, filling every heart with joy."
+        }
+    };
+
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            document.querySelectorAll(".lang-btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            const lang = this.getAttribute("data-lang");
+
+            document.querySelectorAll("[data-key]").forEach(el => {
+                const key = el.getAttribute("data-key");
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+        });
+    });
+
+    // This line MUST be after the event listeners are set up.
+    document.querySelector('.lang-btn[data-lang="bn"]').click();
+</script>
+    </body>
+</html>
+

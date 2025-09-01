@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pineapple: #74685E;
+      --apricot: #E47A24;
+      --dark-mango: #C8702A;
+      --blood-orange: #BF2020;
+      --candy-apple: #951421;
+      --background-light: #FEFCF8;
+      --background-medium: #F7F3EE;
+      --text-dark: #2C2824;
+      --text-light: #FFFFFF;
+      --shadow-light: rgba(116, 104, 94, 0.1);
+      --shadow-medium: rgba(116, 104, 94, 0.2);
+      --gradient-warm: linear-gradient(135deg, var(--apricot), var(--dark-mango));
+      --gradient-cool: linear-gradient(135deg, var(--pineapple), var(--candy-apple));
+
+      --button-gradient: linear-gradient(135deg, #ac6625, #F74D28);
+      --font-family: 'Noto Sans Bengali', 'Lato', sans-serif;
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: var(--font-family);
+    }
+
+    body {
+      background: var(--background-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header-section {
+      background: var(--gradient-warm);
+      padding: 15px 20px;
+      color: var(--text-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .back-button {
+      background-image: var(--button-gradient);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .back-button:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
+
+    .live-updates { font-size: 1.2rem; font-weight: 600; }
+
+    .language-selector-container {
+      display: flex;
+      background-color: #5D5451;
+      border-radius: 50px;
+      padding: 5px;
+    }
+    .language-selector-container .lang-btn {
+      background: transparent;
+      border: none;
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      white-space: nowrap;
+    }
+    .language-selector-container .lang-btn.active {
+      background: var(--button-gradient);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Main Content */
+    .main-content { flex-grow: 1; display: flex; justify-content: center; padding: 40px 20px; }
+    .container {
+      width: 100%; max-width: 550px;
+      background: #fff;
+      padding: 50px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      animation: fadeIn 0.8s ease-out;
+    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+    .header { text-align: center; margin-bottom: 35px; }
+    .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    .header p { color: #7f8c8d; font-size: 1rem; }
+
+    form { display: grid; gap: 20px; }
+    label { font-weight: 700; margin-bottom: 8px; display: block; }
+    input, textarea, select {
+      width: 100%; padding: 15px 20px; border: 1px solid #ecf0f1; border-radius: 10px;
+      font-size: 1rem; background: #FDFDFD;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--candy-apple);
+      box-shadow: 0 0 0 3px rgba(149,20,33,0.2);
+      outline: none;
+    }
+    textarea { resize: vertical; min-height: 120px; }
+
+    .submit-btn {
+      background-image: var(--button-gradient);
+      color: #fff;
+      padding: 16px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 15px rgba(255,123,0,0.25);
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,123,0,0.35); }
+    .form-footer { margin-top: 20px; text-align: center; font-size: 0.8rem; color: #7f8c8d; }
+
+    /* New Footer */
+    .footer-section {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--gradient-cool);
+      color: var(--text-light);
+      font-size: 1rem;
+      border-radius: 25px 25px 0 0;
+      margin: 50px 15px 0;
+      box-shadow: 0 -10px 30px var(--shadow-light);
+    }
+    .footer-section a {
+      color: var(--text-light);
+      margin: 0 8px;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
+    .footer-section a:hover { opacity: 0.8; text-decoration: underline; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-section { flex-direction: column; gap: 10px; }
+      .language-selector-container .lang-btn { flex-grow: 1; }
+      .container { padding: 30px 20px; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 20px 15px; }
+      .header h1 { font-size: 1.5rem; }
+      input, textarea, select, .submit-btn { padding: 12px 15px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header-section">
+    <a href="index.html" class="back-button"><span>←</span> <span data-key="go-back">ফিরে যাও</span></a>
+    <div class="live-updates"><span data-key="live-updates">লাইভ আপডেট - এখন দেখুন</span></div>
+    <div class="language-selector-container">
+      <button class="lang-btn active" data-lang="bn">বাংলা</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="hi">हिन्दी</button>
+    </div>
+  </header>
+
+  <!-- Main Form -->
+  <div class="main-content">
+    <div class="container">
+      <div class="header">
+        <h1 data-key="form-title">স্বেচ্ছাসেবক নিবন্ধন ফর্ম</h1>
+        <p data-key="form-subtitle">আমাদের সঙ্গে যোগ দিন, সমাজসেবায় অবদান রাখুন।</p>
+      </div>
+      <form>
+        <div>
+          <label data-key="name-label" for="name">নাম</label>
+          <input type="text" id="name" data-key-placeholder="name-placeholder" placeholder="আপনার নাম লিখুন">
+        </div>
+        <div>
+          <label data-key="email-label" for="email">ইমেইল</label>
+          <input type="email" id="email" data-key-placeholder="email-placeholder" placeholder="আপনার ইমেইল লিখুন">
+        </div>
+        <div>
+          <label data-key="phone-label" for="phone">মোবাইল নম্বর</label>
+          <input type="tel" id="phone" data-key-placeholder="phone-placeholder" placeholder="আপনার ফোন নম্বর লিখুন">
+        </div>
+        <div>
+          <label data-key="interest-label" for="interest">কোন ক্ষেত্রে কাজ করতে চান?</label>
+          <select id="interest">
+            <option value="" disabled selected data-key="option-default">একটি ক্ষেত্র নির্বাচন করুন</option>
+            <option value="education" data-key="option-education">শিক্ষা</option>
+            <option value="health" data-key="option-health">স্বাস্থ্য</option>
+            <option value="environment" data-key="option-environment">পরিবেশ</option>
+            <option value="other" data-key="option-other">অন্যান্য</option>
+          </select>
+        </div>
+        <div>
+          <label data-key="message-label" for="message">বার্তা</label>
+          <textarea id="message" data-key-placeholder="message-placeholder" placeholder="সংক্ষেপে লিখুন কেন যোগ দিতে চান..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" data-key="submit-btn">জমা দিন</button>
+      </form>
+      <div class="form-footer"><p data-key="form-footer-text">© 2025 স্বেচ্ছাসেবক নেটওয়ার্ক</p></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <p>© 2025 Pujasathi | <span data-key="pujasathi-tagline">যা আয়োজন কলিং সামনে, আনন্দে ভরে প্রতিটি অন্তর</span> |
+      <a href="#" data-key="privacy-policy">Privacy Policy</a> |
+      <a href="#" data-key="terms-service">Terms of Service</a>
+    </p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const translations = {
+      bn: {
+        'go-back':'ফিরে যাও','live-updates':'লাইভ আপডেট - এখন দেখুন',
+        'form-title':'স্বেচ্ছাসেবক নিবন্ধন ফর্ম','form-subtitle':'আমাদের সঙ্গে যোগ দিন, সমাজসেবায় অবদান রাখুন।',
+        'name-label':'নাম','email-label':'ইমেইল','phone-label':'মোবাইল নম্বর',
+        'interest-label':'কোন ক্ষেত্রে কাজ করতে চান?','option-default':'একটি ক্ষেত্র নির্বাচন করুন',
+        'option-education':'শিক্ষা','option-health':'স্বাস্থ্য','option-environment':'পরিবেশ','option-other':'অন্যান্য',
+        'message-label':'বার্তা','submit-btn':'জমা দিন','form-footer-text':'© 2025 স্বেচ্ছাসেবক নেটওয়ার্ক',
+        'name-placeholder':'আপনার নাম লিখুন','email-placeholder':'আপনার ইমেইল লিখুন','phone-placeholder':'আপনার ফোন নম্বর লিখুন',
+        'message-placeholder':'সংক্ষেপে লিখুন কেন যোগ দিতে চান...','pujasathi-tagline':'যা আয়োজন কলিং সামনে, আনন্দে ভরে প্রতিটি অন্তর',
+        'privacy-policy':'গোপনীয়তা নীতি','terms-service':'পরিষেবার শর্তাবলী'
+      },
+      en: {
+        'go-back':'Go Back','live-updates':'Live Updates - Check Now',
+        'form-title':'Volunteer Registration Form','form-subtitle':'Join us and contribute to social service.',
+        'name-label':'Name','email-label':'Email','phone-label':'Phone Number',
+        'interest-label':'Area of Interest','option-default':'Select an area',
+        'option-education':'Education','option-health':'Health','option-environment':'Environment','option-other':'Other',
+        'message-label':'Message','submit-btn':'Submit','form-footer-text':'© 2025 Volunteer Network',
+        'name-placeholder':'Enter your name','email-placeholder':'Enter your email','phone-placeholder':'Enter your phone number',
+        'message-placeholder':'Briefly explain why you want to join...','pujasathi-tagline':'Organizing calls, joy fills every heart',
+        'privacy-policy':'Privacy Policy','terms-service':'Terms of Service'
+      },
+      hi: {
+        'go-back':'वापस जाएं','live-updates':'लाइव अपडेट - अभी देखें',
+        'form-title':'स्वयंसेवक पंजीकरण फॉर्म','form-subtitle':'हमसे जुड़ें और समाज सेवा में योगदान दें।',
+        'name-label':'नाम','email-label':'ईमेल','phone-label':'मोबाइल नंबर',
+        'interest-label':'किस क्षेत्र में काम करना चाहते हैं?','option-default':'एक क्षेत्र का चयन करें',
+        'option-education':'शिक्षा','option-health':'स्वास्थ्य','option-environment':'पर्यावरण','option-other':'अन्य',
+        'message-label':'संदेश','submit-btn':'जमा करें','form-footer-text':'© 2025 स्वयंसेवक नेटवर्क',
+        'name-placeholder':'अपना नाम दर्ज करें','email-placeholder':'अपना ईमेल दर्ज करें','phone-placeholder':'अपना फ़ोन नंबर दर्ज करें',
+        'message-placeholder':'संक्षेप में लिखें कि आप क्यों जुड़ना चाहते हैं...','pujasathi-tagline':'आयोजन पुकारता है, हर दिल में खुशी भरता है',
+        'privacy-policy':'गोपनीयता नीति','terms-service':'सेवा की शर्तें'
+      }
+    };
+
+    document.querySelectorAll('.language-selector-container .lang-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelector('.language-selector-container .lang-btn.active').classList.remove('active');
+        btn.classList.add('active');
+        const lang=btn.dataset.lang;
+        document.querySelectorAll('[data-key]').forEach(el=>{
+          const key=el.getAttribute('data-key');
+          if(translations[lang][key]) el.textContent=translations[lang][key];
+        });
+        document.querySelectorAll('[data-key-placeholder]').forEach(el=>{
+          const key=el.getAttribute('data-key-placeholder');
+          if(translations[lang][key]) el.setAttribute('placeholder',translations[lang][key]);
+        });
+      });
+    });
+    document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.lang-btn[data-lang="bn"]').click();});
+  </script>
+</body>
+</html>

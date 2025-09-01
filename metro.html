@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Metro Route • Kolkata</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="metro.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-left">
+      <a href="see.html" class="back-button">
+        <span>←</span>
+        <span data-i18n="backBtn">Go Back</span>
+      </a>
+    </div>
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <h1 data-i18n="title">মেট্রো রুট নির্দেশিকা</h1>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="lang-switch" role="tablist" aria-label="Language">
+      <button class="lang-btn" data-lang="en" aria-selected="false">English</button>
+      <button class="lang-btn" data-lang="hi" aria-selected="false">हिन्दी</button>
+      <button class="lang-btn active" data-lang="bn" aria-selected="true">বাংলা</button>
+      <span class="pill"></span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Route Finder -->
+    <section class="card route-card">
+      <h2 class="card-title" data-i18n="routeFinder">রুট খুঁজুন</h2>
+      <p class="card-sub" data-i18n="routeFinderNote">আপনার বর্তমান স্টেশন ও গন্তব্য স্টেশন বাছুন।</p>
+
+      <form id="routeForm" class="route-form" autocomplete="off">
+        <div class="field">
+          <label for="fromStation" data-i18n="from">বর্তমান স্টেশন</label>
+          <select id="fromStation" required></select>
+        </div>
+        <div class="field">
+          <label for="toStation" data-i18n="to">গন্তব্য স্টেশন</label>
+          <select id="toStation" required></select>
+        </div>
+
+        <button type="submit" class="btn primary" id="findBtn" data-i18n="findRoute">রুট দেখুন</button>
+      </form>
+
+      <!-- Answer label -->
+      <div id="answerLabel" class="answer-label" aria-live="polite"></div>
+
+      <!-- Visualization -->
+      <div id="viz" class="viz" aria-label="Route visualization"></div>
+
+      <!-- Distance + Summary -->
+      <div id="summary" class="summary"></div>
+    </section>
+
+    <!-- Timetables -->
+    <section class="card timetable-card">
+      <div class="tabs">
+        <button class="tab active" data-line="blue" aria-selected="true" data-i18n="blueLine">নীল লাইন (Blue)</button>
+        <button class="tab" data-line="green" aria-selected="false" data-i18n="greenLine">সবুজ লাইন (Green)</button>
+      </div>
+
+      <div class="table-meta" data-i18n="timetableNote">* সময়সূচি/তালিকা নমুনা — পরে পূর্ণ ডেটা যুক্ত হবে।</div>
+
+      <div class="table-wrap">
+        <table id="timetable" class="metro-table" aria-describedby="timetable">
+          <thead>
+            <tr>
+              <th data-i18n="thNo">#</th>
+              <th data-i18n="thStation">স্টেশন</th>
+              <th data-i18n="thOpening">উদ্বোধন</th>
+              <th data-i18n="thConn">সংযোগ</th>
+              <th data-i18n="thLayout">লেআউট</th>
+              <th data-i18n="thPlat">প্ল্যাটফর্ম</th>
+            </tr>
+          </thead>
+          <tbody id="timetableBody"></tbody>
+        </table>
+      </div>
+      <p class="coming-soon" data-i18n="moreLines">অন্যান্য লাইন শীঘ্রই যুক্ত হবে।</p>
+    </section>
+
+    <!-- Google Maps (live directions) -->
+    <section class="card map-card">
+      <h2 class="card-title" data-i18n="mapTitle">গুগল ম্যাপে ট্রানজিট রুট</h2>
+      <p class="card-sub" data-i18n="mapNote">নীচের ম্যাপে নির্বাচিত স্টেশনগুলোর ট্রানজিট রুট দেখা যাবে।</p>
+
+      <div class="map-actions">
+        <a id="openMaps" class="btn ghost" target="_blank" rel="noopener" data-i18n="openInMaps">Google Maps-এ খুলুন</a>
+      </div>
+
+      <div class="map-frame">
+        <iframe id="gmap"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+          title="Kolkata Metro route map">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small data-i18n="footNote">দূরত্ব আনুমানিক (স্টেশন-টু-স্টেশন)। লাইভ সময়সূচি ও ট্রাফিকের জন্য Google Maps/Metro কর্তৃপক্ষের তথ্য দেখুন।</small>
+  </footer>
+
+  <script src="metro.js"></script>
+</body>
+</html>

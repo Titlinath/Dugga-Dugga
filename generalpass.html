@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PujaSathi – Passenger & Price</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --pineapple: #74685E;
+      --apricot: #E47A24;
+      --blood-orange: #BF2020;
+      --candy-apple: #951421;
+      --white: #ffffff;
+      --light-gray: #f8f9fa;
+      --text-dark: #2c3e50;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --shadow-hover: rgba(0, 0, 0, 0.15);
+    }
+    body {
+      background: var(--light-gray);
+      font-family: 'Noto Sans Bengali', sans-serif;
+    }
+    .lang-switch {
+      display: flex;
+      gap: 1rem;
+      background: transparent; /* Changed to transparent */
+      border-radius: 9999px;
+      padding: 0; /* Removed padding */
+      box-shadow: none; /* Removed shadow */
+      justify-content: center;
+      /* Removed margin-bottom */
+    }
+    .lang-btn {
+      background: #8B0C0C; /* Darker red for inactive buttons */
+      color: var(--white);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      transition: 0.3s;
+    }
+    .lang-btn.active {
+      background: linear-gradient(135deg, #FF7E5F, #FEB47B); /* Matching the new back button style */
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--pineapple);
+      box-shadow: 0 4px 10px var(--shadow);
+      border-radius: 1rem;
+      padding: 2rem;
+    }
+    .btn-main {
+      background: var(--apricot);
+      color: var(--white);
+      transition: 0.3s;
+    }
+    .btn-main:hover {
+      background: var(--blood-orange);
+    }
+    .btn-reset {
+      background: var(--pineapple);
+      color: var(--white);
+      transition: 0.3s;
+    }
+    .btn-reset:hover {
+      background: var(--candy-apple);
+    }
+    .btn-back {
+      /* Updated styling for the back button */
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient from Image 2 */
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .btn-back:hover {
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    }
+    footer {
+      background: var(--pineapple);
+      color: var(--white);
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 6px var(--shadow);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6 flex flex-col">
+
+  <header class="bg-red-600 text-white p-6 shadow-lg flex justify-between items-center mb-6">
+    <a href="bookingpass.html" class="btn-back" data-key="backBtn">Back</a>
+    <h1 class="text-xl font-bold"></h1> <div class="lang-switch">
+      <div class="lang-btn" data-lang="en">English</div>
+      <div class="lang-btn" data-lang="hi">हिन्दी</div>
+      <div class="lang-btn" data-lang="bn">বাংলা</div>
+    </div>
+  </header>
+
+  <div class="flex-grow">
+    <div class="max-w-xl mx-auto card space-y-6">
+      <h1 class="text-center text-3xl font-extrabold text-[color:var(--candy-apple)] drop-shadow-md" id="mainCardTitle">
+        </h1>
+      <div class="space-y-5">
+        <div class="flex justify-between items-center border-b pb-3 border-[color:var(--apricot)]">
+          <span class="text-[color:var(--text-dark)] font-medium" id="childLabel">👶 1 - 12 বছর (₹৫০)</span>
+          <input type="number" id="child" class="w-20 border-2 border-[color:var(--apricot)] rounded-lg text-center shadow-sm focus:ring-2 focus:ring-[color:var(--blood-orange)]" value="0" min="0">
+        </div>
+        <div class="flex justify-between items-center border-b pb-3 border-[color:var(--apricot)]">
+          <span class="text-[color:var(--text-dark)] font-medium" id="adultLabel">🧑 12 - 60 বছর (₹৫০)</span>
+          <input type="number" id="adult" class="w-20 border-2 border-[color:var(--apricot)] rounded-lg text-center shadow-sm focus:ring-2 focus:ring-[color:var(--blood-orange)]" value="0" min="0">
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-[color:var(--text-dark)] font-medium" id="seniorLabel">👵 60+ বছর (₹৭৫)</span>
+          <input type="number" id="senior" class="w-20 border-2 border-[color:var(--apricot)] rounded-lg text-center shadow-sm focus:ring-2 focus:ring-[color:var(--blood-orange)]" value="0" min="0">
+        </div>
+      </div>
+      <div class="bg-[color:var(--apricot)] text-center text-xl font-semibold py-4 rounded-lg shadow-inner text-white transition-all duration-200 ease-in-out" id="total">
+        মোট মূল্য: ₹০
+      </div>
+      <div class="flex justify-center gap-4 pt-2">
+        <button onclick="makePayment()" class="btn-main px-6 py-2 rounded-full font-semibold shadow-md" id="paymentBtn">💳 পেমেন্ট করুন</button>
+        <button onclick="resetForm()" class="btn-reset px-6 py-2 rounded-full font-semibold shadow-md" id="resetBtn">♻️ রিসেট করুন</button>
+      </div>
+    </div>
+    <div class="max-w-xl mx-auto card mt-8">
+      <h2 class="text-xl font-bold text-[color:var(--candy-apple)] mb-3 border-b-2 border-[color:var(--apricot)]" id="rulesTitle">📌 পাস ব্যবহারের নিয়মাবলী</h2>
+      <ul class="list-disc list-inside space-y-2 text-[color:var(--text-dark)] leading-relaxed" id="rulesList">
+        <li>একজন ব্যক্তির জন্য একটি পাস বৈধ।</li>
+        <li>অগ্রিম পেমেন্ট ফেরতযোগ্য নয়।</li>
+        <li>পাস শুধুমাত্র নির্ধারিত দিনের জন্য কার্যকর।</li>
+      </ul>
+    </div>
+  </div>
+  <footer id="footer">
+    © 2025 Kolkata Metro | Designed with ❤️
+  </footer>
+  <script>
+    const childInput = document.getElementById('child');
+    const adultInput = document.getElementById('adult');
+    const seniorInput = document.getElementById('senior');
+    const totalDisplay = document.getElementById('total');
+
+    const mainCardTitle = document.getElementById('mainCardTitle'); // Added for main card title
+    const childLabel = document.getElementById('childLabel');
+    const adultLabel = document.getElementById('adultLabel');
+    const seniorLabel = document.getElementById('seniorLabel');
+    const paymentBtn = document.getElementById('paymentBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const rulesTitle = document.getElementById('rulesTitle');
+    const rulesList = document.getElementById('rulesList');
+    const footer = document.getElementById('footer');
+    const backBtn = document.querySelector('.btn-back');
+    const headerTitle = document.querySelector('header h1'); // Added for header title
+
+    const langButtons = document.querySelectorAll('.lang-btn');
+
+    const translations = {
+      en: {
+        
+        mainCardTitle: "Passenger Count & Price",
+        child: "👶 1 - 12 years (₹50)",
+        adult: "🧑 12 - 60 years (₹50)",
+        senior: "👵 60+ years (₹75)",
+        total: "Total: ₹",
+        payment: "💳 Make Payment",
+        reset: "♻️ Reset",
+        rulesTitle: "📌 Pass Rules",
+        rules: [
+          "One pass is valid for one person.",
+          "Advance payment is non-refundable.",
+          "Pass is valid only for the specified day."
+        ],
+        back: "⬅Back",
+        footer: "© 2025 Kolkata Metro | Designed with ❤️"
+      },
+      hi: {
+        
+        mainCardTitle: "यात्री संख्या और मूल्य",
+        child: "👶 1 - 12 वर्ष (₹50)",
+        adult: "🧑 12 - 60 वर्ष (₹50)",
+        senior: "👵 60+ वर्ष (₹75)",
+        total: "कुल मूल्य: ₹",
+        payment: "💳 भुगतान करें",
+        reset: "♻️ रीसेट",
+        rulesTitle: "📌 पास नियम",
+        rules: [
+          "एक पास एक व्यक्ति के लिए मान्य है।",
+          "पूर्व भुगतान वापस नहीं किया जा सकता।",
+          "पास केवल निर्दिष्ट दिन के लिए मान्य है।"
+        ],
+        back: "⬅️ वापस",
+        footer: "© 2025 कोलकाता मेट्रो | ❤️ के साथ डिज़ाइन किया गया"
+      },
+      bn: {
+        
+        mainCardTitle: "যাত্রী সংখ্যা ও মূল্য",
+        child: "👶 1 - 12 বছর (₹৫০)",
+        adult: "🧑 12 - 60 বছর (₹৫০)",
+        senior: "👵 60+ বছর (₹৭৫)",
+        total: "মোট মূল্য: ₹",
+        payment: "💳 পেমেন্ট করুন",
+        reset: "♻️ রিসেট করুন",
+        rulesTitle: "📌 পাস ব্যবহারের নিয়মাবলী",
+        rules: [
+          "একজন ব্যক্তির জন্য একটি পাস বৈধ।",
+          "অগ্রিম পেমেন্ট ফেরতযোগ্য নয়।",
+          "পাস শুধুমাত্র নির্ধারিত দিনের জন্য কার্যকর।"
+        ],
+        back: "⬅ফিরে যান",
+        footer: "© 2025 কলকাতা মেট্রো | ❤️ দিয়ে ডিজাইন করা"
+      }
+    };
+
+    function setLanguage(lang) {
+      const t = translations[lang];
+
+      headerTitle.textContent = t.headerTitle; // Update header title
+      mainCardTitle.textContent = t.mainCardTitle; // Update main card title
+      childLabel.textContent = t.child;
+      adultLabel.textContent = t.adult;
+      seniorLabel.textContent = t.senior;
+      paymentBtn.textContent = t.payment;
+      resetBtn.textContent = t.reset;
+      rulesTitle.textContent = t.rulesTitle;
+
+      rulesList.innerHTML = '';
+      t.rules.forEach(rule => {
+        const li = document.createElement('li');
+        li.textContent = rule;
+        rulesList.appendChild(li);
+      });
+
+      backBtn.textContent = t.back;
+      footer.textContent = t.footer;
+
+      // Update active button
+      langButtons.forEach(b => b.classList.remove("active"));
+      document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add("active");
+
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const child = parseInt(childInput.value) || 0;
+      const adult = parseInt(adultInput.value) || 0;
+      const senior = parseInt(seniorInput.value) || 0;
+      const lang = document.querySelector('.lang-btn.active').getAttribute('data-lang');
+      const total = (child * 50) + (adult * 50) + (senior * 75);
+      totalDisplay.textContent = `${translations[lang].total}${total}`;
+    }
+
+    function resetForm() {
+      childInput.value = 0;
+      adultInput.value = 0;
+      seniorInput.value = 0;
+      updateTotal();
+    }
+
+    function makePayment() {
+      const lang = document.querySelector('.lang-btn.active').getAttribute('data-lang');
+      alert(lang === "en" ? "Payment system not active yet." :
+            lang === "hi" ? "भुगतान प्रणाली अभी सक्रिय नहीं है।" :
+            "পেমেন্ট সিস্টেম এখন সক্রিয় নয়।");
+    }
+
+    // Default language on load (set to Hindi as per image)
+    setLanguage("bn"); 
+
+    langButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        setLanguage(btn.getAttribute('data-lang'));
+      });
+    });
+
+    childInput.addEventListener('input', updateTotal);
+    adultInput.addEventListener('input', updateTotal);
+    seniorInput.addEventListener('input', updateTotal);
+    updateTotal();
+  </script>
+</body>
+</html>

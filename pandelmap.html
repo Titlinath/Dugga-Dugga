@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এখনই দেখুন - পুজো প্যান্ডেল ম্যাপ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pineapple: #74685E;
+            --apricot: #E47A24;
+            --blood-orange: #BF2020;
+            --candy-apple: #951421;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --text-dark: #2c3e50;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #e8ecf0 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--apricot);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--pineapple) 0%, var(--apricot) 100%);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="0%" r="50%"><stop offset="0%" stop-color="white" stop-opacity="0.1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><ellipse cx="50" cy="0" rx="50" ry="20" fill="url(%23a)"/></svg>') center/cover;
+            animation: headerPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes headerPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        header h1 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            animation: slideInDown 1s ease-out;
+            letter-spacing: 1px;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Language Switcher Styles */
+        .language-switcher {
+            display: flex;
+            gap: 5px;
+            background: linear-gradient(135deg, #5d2e1a, #8b3a1e);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(93, 46, 26, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.5s;
+        }
+
+        .lang-btn:hover::before {
+            left: 100%;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            color: var(--white);
+            background: rgba(139, 58, 30, 0.3);
+            box-shadow: 0 5px 15px rgba(93, 46, 26, 0.3);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            color: var(--white);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(228, 122, 36, 0.4);
+        }
+
+        .lang-btn.active:hover {
+            background: linear-gradient(135deg, var(--blood-orange), var(--candy-apple));
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(228, 122, 36, 0.5);
+        }
+
+        /* Main Container */
+        main {
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid rgba(228, 122, 36, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .search-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(228, 122, 36, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .search-section:hover::before {
+            left: 100%;
+        }
+
+        .search-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--pineapple);
+            margin-bottom: 20px;
+        }
+
+        .search-label i {
+            color: var(--apricot);
+            font-size: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(228, 122, 36, 0.2);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--light-gray);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--apricot);
+            box-shadow: 0 0 20px rgba(228, 122, 36, 0.2);
+            background: var(--white);
+        }
+
+        .search-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            color: var(--white);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(228, 122, 36, 0.3);
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(228, 122, 36, 0.4);
+            background: linear-gradient(135deg, var(--blood-orange), var(--candy-apple));
+        }
+
+        /* Stats Counter */
+        .stats-bar {
+            background: linear-gradient(135deg, var(--pineapple), var(--apricot));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(116, 104, 94, 0.3);
+        }
+
+        .stats-bar span {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1rem;
+        }
+
+        .stats-counter {
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        /* Quick Navigation Section */
+        .quick-nav-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid rgba(228, 122, 36, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .quick-nav-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(228, 122, 36, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .quick-nav-section:hover::before {
+            left: 100%;
+        }
+
+        .nav-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--pineapple);
+            margin-bottom: 30px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .nav-title i {
+            color: var(--apricot);
+            font-size: 2rem;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, var(--white), var(--light-gray));
+            border: 2px solid rgba(228, 122, 36, 0.2);
+            border-radius: 18px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .nav-btn:hover::before {
+            left: 0;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--apricot);
+            box-shadow: 0 15px 35px rgba(228, 122, 36, 0.3);
+            color: var(--white);
+        }
+
+        .nav-btn:hover .btn-icon,
+        .nav-btn:hover .btn-content,
+        .nav-btn:hover .btn-arrow {
+            color: var(--white);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-5px) scale(0.98);
+        }
+
+        .btn-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(228, 122, 36, 0.3);
+            transition: all 0.3s ease;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-btn:hover .btn-icon {
+            background: var(--white);
+            color: var(--apricot);
+            transform: scale(1.1);
+        }
+
+        .btn-content {
+            flex: 1;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .btn-title {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--pineapple);
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-subtitle {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0.7;
+            transition: color 0.3s ease;
+        }
+
+        .btn-arrow {
+            font-size: 1.2rem;
+            color: var(--apricot);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover .btn-arrow {
+            transform: translateX(5px);
+            color: var(--white);
+        }
+
+        .special-btn {
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            color: var(--white);
+            border-color: var(--blood-orange);
+        }
+
+        .special-btn .btn-title,
+        .special-btn .btn-subtitle,
+        .special-btn .btn-arrow {
+            color: var(--white);
+        }
+
+        .special-btn .btn-icon {
+            background: var(--white);
+            color: var(--apricot);
+        }
+
+        .special-btn:hover .btn-icon {
+            background: var(--candy-apple);
+            color: var(--white);
+        }
+
+        /* Grid Layout */
+        .pandel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Section Cards */
+        .pandel-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(228, 122, 36, 0.1);
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .pandel-section:nth-child(1) { animation-delay: 0.1s; }
+        .pandel-section:nth-child(2) { animation-delay: 0.2s; }
+        .pandel-section:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pandel-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(228, 122, 36, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .pandel-section:hover::before {
+            left: 100%;
+        }
+
+        .pandel-section:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+            border-color: var(--apricot);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(228, 122, 36, 0.2);
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(228, 122, 36, 0.3);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--pineapple);
+            flex: 1;
+        }
+
+        /* Pandel List */
+        .pandel-list {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .pandel-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .pandel-list::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: 3px;
+        }
+
+        .pandel-list::-webkit-scrollbar-thumb {
+            background: var(--apricot);
+            border-radius: 3px;
+        }
+
+        .pandel-item {
+            background: var(--light-gray);
+            margin: 12px 0;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--apricot);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pandel-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pandel-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(228, 122, 36, 0.15);
+            background: var(--white);
+            border-left-color: var(--blood-orange);
+        }
+
+        .pandel-item:hover::before {
+            opacity: 1;
+        }
+
+        .pandel-place {
+            font-weight: 600;
+            color: var(--candy-apple);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .pandel-name {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        /* Highlight styles for search results */
+        .highlight {
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            color: var(--white);
+            animation: highlightPulse 2s ease-in-out infinite;
+            box-shadow: 0 5px 15px rgba(228, 122, 36, 0.4);
+        }
+
+        @keyframes highlightPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .highlight .pandel-place,
+        .highlight .pandel-name {
+            color: var(--white);
+            opacity: 1;
+        }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-radius: 15px;
+            border: 2px solid #f87171;
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .no-results i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .pandel-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .pandel-section {
+                padding: 25px;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+            
+            main {
+                padding: 30px 15px;
+            }
+            
+            .search-section, .quick-nav-section {
+                padding: 25px;
+            }
+
+            .button-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                padding: 18px;
+                gap: 15px;
+            }
+
+            .btn-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .nav-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* সুন্দর গ্রেডিয়েন্ট */
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 50px; /* পিল শেপ */
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(135deg, #ff512f, #dd2476); /* hover এ অন্য গ্রেডিয়েন্ট */
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+            footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            font-size: 1.1em;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        footer a {
+            color: var(--background-light);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            color: var(--text-light);
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="p-8">
+        <button class="back-button" onclick="window.history.back()">
+            ← <span data-key="backBtn">Go Back</span>
+        </button>
+    </div>
+
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <h1><i class="fas fa-map-marked-alt"></i> এখনই দেখুন - পুজো প্যান্ডেল ম্যাপ</h1>
+    </header>
+
+    <main>
+        <div class="language-switcher" style="position: fixed; top: 10px; right: 20px; z-index: 1000;">
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+            <button class="lang-btn" data-lang="bn">বাংলা</button>
+        </div>
+
+        <div class="search-section">
+            <label for="placeSearch" class="search-label">
+                <i class="fas fa-search-location"></i>
+                জায়গা বা প্যান্ডেলের নাম লিখুন:
+            </label>
+            <input type="text" id="placeSearch" placeholder="যেমন: BELGACHIA, BAGBAZAR, SINGHI PARK..." class="search-input">
+            <button onclick="searchPandals()" class="search-btn">
+                <i class="fas fa-search"></i>
+                খুঁজুন
+            </button>
+        </div>
+
+        <div class="stats-bar" id="statsBar">
+            <span>মোট প্যান্ডেল: <span class="stats-counter" id="totalCount">0</span></span>
+            <span>উত্তর কলকাতা: <span class="stats-counter" id="northCount">0</span></span>
+            <span>দক্ষিণ কলকাতা: <span class="stats-counter" id="southCount">0</span></span>
+            <span>গ্রিন লাইন: <span class="stats-counter" id="greenCount">0</span></span>
+        </div>
+
+        <div class="quick-nav-section">
+            <h3 class="nav-title">
+                <i class="fas fa-compass"></i>
+                দ্রুত নেভিগেশন
+            </h3>
+            <div class="button-grid">
+                <button class="nav-btn" onclick="scrollToSection('northList')" data-section="north">
+                    <div class="btn-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">উত্তর কলকাতা</span>
+                        <span class="btn-subtitle">ঐতিহ্যবাহী পুজো</span>
+                    </div>
+                    <div class="btn-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </button>
+
+                <button class="nav-btn" onclick="scrollToSection('southList')" data-section="south">
+                    <div class="btn-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">দক্ষিণ কলকাতা</span>
+                        <span class="btn-subtitle">আধুনিক প্যান্ডেল</span>
+                    </div>
+                    <div class="btn-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </button>
+
+                <button class="nav-btn" onclick="scrollToSection('greenLineList')" data-section="green">
+                    <div class="btn-icon">
+                        <i class="fas fa-subway"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">গ্রিন লাইন মেট্রো</span>
+                        <span class="btn-subtitle">সহজ যাতায়াত</span>
+                    </div>
+                    <div class="btn-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </button>
+
+                <button class="nav-btn special-btn" onclick="showAllPandals()">
+                    <div class="btn-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">সব প্যান্ডেল দেখুন</span>
+                        <span class="btn-subtitle">সম্পূর্ণ তালিকা</span>
+                    </div>
+                    <div class="btn-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </button>
+
+                <button class="nav-btn" onclick="showPopularPandals()">
+                    <div class="btn-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">জনপ্রিয় প্যান্ডেল</span>
+                        <span class="btn-subtitle">বিশেষ সুপারিশ</span>
+                    </div>
+                    <div class="btn-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </button>
+
+                <button class="nav-btn" onclick="showNearbyPandals()">
+                    <div class="btn-icon">
+                        <i class="fas fa-location-arrow"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">কাছের প্যান্ডেল</span>
+                        <span class="btn-subtitle">আপনার এলাকায়</span>
+                    </div>
+                    <div class="btn-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="pandel-grid">
+            <div class="pandel-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h2 class="section-title" id="northHeading">🏙️ উত্তর কলকাতার পুজো</h2>
+                </div>
+                <ul id="northList" class="pandel-list"></ul>
+            </div>
+
+            <div class="pandel-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h2 class="section-title" id="southHeading">🌆 দক্ষিণ কলকাতার পুজো</h2>
+                </div>
+                <ul id="southList" class="pandel-list"></ul>
+            </div>
+
+            <div class="pandel-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-subway"></i>
+                    </div>
+                    <h2 class="section-title" id="greenLineHeading">🚇 গ্রিন লাইন মেট্রো (উত্তর)</h2>
+                </div>
+                <ul id="greenLineList" class="pandel-list"></ul>
+            </div>
+        </div>
+    </main>
+        <footer id="footerText" class="bg-red-800 text-white text-center py-4 mt-10">
+    © 2025 PujaSathi | ❤️ সহ কোলকাতায় ডিজাইন করা হয়েছে
+  </footer>
+    <script>
+        // Data for the pandals, including translations
+        const pandalData = [
+            // North Kolkata
+            { place: 'NOAPARA', name: 'NUAPADA-DA DADABHAI SANGHA', section: 'north', bn: { place: 'নোয়াপাড়া', name: 'নিয়াপাড়া-দা দাদাভাই সংঘ' }, hi: { place: 'नोआपारा', name: 'नुआपाड़ा-दा दादाभाई संघ' } },
+            { place: 'BELGACHIA', name: 'TALA PARK PRATTAY', section: 'north', bn: { place: 'বেলগাছিয়া', name: 'টালা পার্ক প্রত্যয়' }, hi: { place: 'बेलगाछिया', name: 'टाला पार्क प्रत्यय' } },
+            { place: 'BELGACHIA', name: 'TALA BAROWARI', section: 'north', bn: { place: 'বেলগাছিয়া', name: 'টালা বারোয়ারি' }, hi: { place: 'बेलगाछिया', name: 'टाला बारोयारी' } },
+            { place: 'BELGACHIA', name: 'BELGACHIA SADHARAN DURGOSAB', section: 'north', bn: { place: 'বেলগাছিয়া', name: 'বেলগাছিয়া সাধারণ দুর্গ উৎসব' }, hi: { place: 'बेलगाछिया', name: 'बेलगाछिया साधारण दुर्गा उत्सव' } },
+            { place: 'DUM DUM', name: 'DUM DUM SHIB TALA', section: 'north', bn: { place: 'দম দম', name: 'দম দম শিবতলা' }, hi: { place: 'दम दम', name: 'दम दम शिवतला' } },
+            { place: 'DUM DUM', name: 'DUM DUM PARK TARUN SANGHA', section: 'north', bn: { place: 'দম দম', name: 'দম দম পার্ক তরুণ সংঘ' }, hi: { place: 'दम दम', name: 'दम दम पार्क तरुण संघ' } },
+            { place: 'DUM DUM', name: 'DUM DUM PARK YUBAK BRINDA', section: 'north', bn: { place: 'দম দম', name: 'দম দম পার্ক যুবক বৃন্দ' }, hi: { place: 'दम दम', name: 'दम दम पार्क युवक बृन्दा' } },
+            { place: 'DUM DUM', name: 'DUM DUM PARK BHARAT CHAKRA', section: 'north', bn: { place: 'দম দম', name: 'দম দম পার্ক ভারত চক্র' }, hi: { place: 'दम दम', name: 'दम दम पार्क भारत चक्र' } },
+            { place: 'DUM DUM', name: 'DUM DUM PARK S. S', section: 'north', bn: { place: 'দম দম', name: 'দম দম পার্ক এস. এস' }, hi: { place: 'दम दम', name: 'दम दम पार्क एस. एस' } },
+            { place: 'DUM DUM', name: 'DUM DUM PARK B.S', section: 'north', bn: { place: 'দম দম', name: 'দম দম পার্ক বি.এস' }, hi: { place: 'दम दम', name: 'दम दम पार्क बी.एस' } },
+            { place: 'DUM DUM', name: 'DUM DUM PARK T.B.S', section: 'north', bn: { place: 'দম দম', name: 'দম দম পার্ক টি.বি.এস' }, hi: { place: 'दम दम', name: 'दम दम पार्क टी.बी.एस' } },
+            { place: 'DUM DUM', name: 'DUM DUM CANTONMENT', section: 'north', bn: { place: 'দম দম', name: 'দম দম ক্যান্টনমেন্ট' }, hi: { place: 'दम दम', name: 'दम दम कैंटोनमेंट' } },
+            { place: 'DUM DUM', name: 'DUM DUM VIVEKANANDA SANGHA', section: 'north', bn: { place: 'দম দম', name: 'দম দম বিবেকানন্দ সংঘ' }, hi: { place: 'दम दम', name: 'दम दम विवेकानंद संघ' } },
+            { place: 'GHUGUDANGA', name: 'GHUGUDANGA SHIB MANDIR', section: 'north', bn: { place: 'ঘুঘুদাঙ্গা', name: 'ঘুঘুদাঙ্গা শিব মন্দির' }, hi: { place: 'घुघुडांगा', name: 'घुघुडांगा शिव मंदिर' } },
+            { place: 'GHUGUDANGA', name: 'GHUGUDANGA M.S', section: 'north', bn: { place: 'ঘুঘুদাঙ্গা', name: 'ঘুঘুদাঙ্গা এম.এস' }, hi: { place: 'घुघुडांगा', name: 'घुघुडांगा एम.एस' } },
+            { place: 'GHUGUDANGA', name: 'GHUGUDANGA S.S', section: 'north', bn: { place: 'ঘুঘুদাঙ্গা', name: 'ঘুঘুদাঙ্গা এস.এস' }, hi: { place: 'घुघुडांगा', name: 'घुघुडांगा एस.एस' } },
+            { place: 'MANIKTALA', name: 'MANIKTALA CHATURANGA', section: 'north', bn: { place: 'মানিকতলা', name: 'মানিকতলা চতুরঙ্গ' }, hi: { place: 'माणिकतला', name: 'माणिकतला चतुरंगा' } },
+            { place: 'MANIKTALA', name: 'MANIKTALA PRADEEP SANGHA', section: 'north', bn: { place: 'মানিকতলা', name: 'মানিকতলা প্রদীপ সংঘ' }, hi: { place: 'माणिकतला', name: 'माणिकतला प्रदीप संघ' } },
+            { place: 'MANIKTALA', name: 'MANIKTALA MILAN SANGHA', section: 'north', bn: { place: 'মানিকতলা', name: 'মানিকতলা মিলন সংঘ' }, hi: { place: 'माणिकतला', name: 'माणिकतला मिलन संघ' } },
+            
+            // South Kolkata
+            { place: 'BEHALA', name: 'BEHALA CLUB', section: 'south', bn: { place: 'বেহালা', name: 'বেহালা ক্লাব' }, hi: { place: 'बेहाला', name: 'बेहाला क्लब' } },
+            { place: 'CHETLA', name: 'CHETLA AGRANI', section: 'south', bn: { place: 'চেতলা', name: 'চেতলা অগ্রণী' }, hi: { place: 'चेतला', name: 'चेतला अग्रनी' } },
+            { place: 'DESHAPRIYA PARK', name: 'DESHAPRIYA PARK DURAJOTSAV', section: 'south', bn: { place: 'দেশপ্রিয় পার্ক', name: 'দেশপ্রিয় পার্ক দূর্গোৎসব' }, hi: { place: 'देशप्रिया पार्क', name: 'देशप्रिया पार्क दुर्गा उत्सव' } },
+            { place: 'DESHAPRIYA PARK', name: 'SARBOJONIN DURGOTSAV', section: 'south', bn: { place: 'দেশপ্রিয় পার্ক', name: 'সার্বজনীন দূর্গোৎসব' }, hi: { place: 'देशप्रिया पार्क', name: 'सार्वजनिक दुर्गा उत्सव' } },
+            { place: 'DESHAPRIYA PARK', name: 'KOLKATA SHIKHAR', section: 'south', bn: { place: 'দেশপ্রিয় পার্ক', name: 'কলকাতা শিখর' }, hi: { place: 'देशप्रिया पार्क', name: 'कोलकाता शिखर' } },
+            { place: 'KALIGHAT', name: '66 PALLY', section: 'south', bn: { place: 'কালীঘাট', name: '৬৬ পল্লি' }, hi: { place: 'कालीघाट', name: '६६ पल्ली' } },
+            { place: 'KALIGHAT', name: 'BADAMTALA ASHAR SANGHA', section: 'south', bn: { place: 'কালীঘাট', name: 'বাদামতলা আষাঢ় সংঘ' }, hi: { place: 'कालीघाट', name: 'बदमतला आषाढ़ संघ' } },
+            { place: 'KALIGHAT', name: 'NEPAL BHATTACHARYA STREET', section: 'south', bn: { place: 'কালীঘাট', name: 'নেপাল ভট্টাচার্য স্ট্রিট' }, hi: { place: 'कालीघाट', name: 'नेपाल भट्टाचार्य स्ट्रीट' } },
+            { place: 'KALIGHAT', name: 'CHETLA AGRANI', section: 'south', bn: { place: 'কালীঘাট', name: 'চেতলা অগ্রণী' }, hi: { place: 'कालीघाट', name: 'चेतला अग्रनी' } },
+            { place: 'KASBA', name: 'KASBA BOSEPUKUR', section: 'south', bn: { place: 'কসবা', name: 'কসবা বোসপুকুর' }, hi: { place: 'कसबा', name: 'कसबा बोसपुकुर' } },
+            { place: 'KASBA', name: 'KASBA RAJDANGA', section: 'south', bn: { place: 'কসবা', name: 'কসবা রাজডাঙা' }, hi: { place: 'कसबा', name: 'कसबा राजडांगा' } },
+            { place: 'KASBA', name: 'KASBA SARBOJONIN DURGOTSAV', section: 'south', bn: { place: 'কসবা', name: 'কসবা সার্বজনীন দূর্গোৎসব' }, hi: { place: 'कसबा', name: 'कसबा सार्वजनिक दुर्गा उत्सव' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR BLOCK-A', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর ব্লক-এ' }, hi: { place: 'जादवपुर', name: 'जादवपुर ब्लॉक-ए' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR PRAGATI SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর প্রগতি সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर प्रगति संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR CHINTO SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর চিন্তো সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर चिन्तो संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR MILAN SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর মিলন সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर मिलन संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR PRADIP SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর প্রদীপ সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर प्रदीप संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR SANJOG SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর সংযোগ সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर संजोग संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR MILAN SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর মিলন সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर मिलन संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR SWADHIN SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর স্বাধীন সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर स्वाधीन संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR VIVEKANANDA SANGHA', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর বিবেকানন্দ সংঘ' }, hi: { place: 'जादवपुर', name: 'जादवपुर विवेकानंद संघ' } },
+            { place: 'JADAVPUR', name: 'JADAVPUR SHIB MANDIR', section: 'south', bn: { place: 'যাদবপুর', name: 'যাদবপুর শিব মন্দির' }, hi: { place: 'जादवपुर', name: 'जादवपुर शिव मंदिर' } },
+            { place: 'PULIN KHATAL', name: 'PULIN KHATAL SANGHA', section: 'south', bn: { place: 'পুলিন খাতাল', name: 'পুলিন খাতাল সংঘ' }, hi: { place: 'पुलिन खाटल', name: 'पुलिन खाटल संघ' } },
+            
+            // Green Line
+            { place: 'BAGUIATI', name: 'BAGUIATI PRAGATI SANGHA', section: 'green', bn: { place: 'বাগুয়াটি', name: 'বাগুয়াটি প্রগতি সংঘ' }, hi: { place: 'बागुइयाटी', name: 'बागुइयाटी प्रगति संघ' } },
+            { place: 'SALT LAKE', name: 'SALT LAKE F.D BLOCK', section: 'green', bn: { place: 'সল্ট লেক', name: 'সল্ট লেক এফ.ডি ব্লক' }, hi: { place: 'साल्ट लेक', name: 'साल्ट लेक एफ.डी ब्लॉक' } },
+            { place: 'SALT LAKE', name: 'SALT LAKE C.E BLOCK', section: 'green', bn: { place: 'সল্ট লেক', name: 'সল্ট লেক সি.ই ব্লক' }, hi: { place: 'साल्ट लेक', name: 'साल्ट लेक सी.ई ब्लॉक' } },
+            { place: 'SEALDAH', name: 'SANTOSH MITRA SQUARE', section: 'green', bn: { place: 'শিয়ালদহ', name: 'সন্তোষ মিত্র স্কোয়ার' }, hi: { place: 'श्यालदह', name: 'संतोष मित्र स्क्वायर' } },
+            { place: 'SEALDAH', name: 'SEALDAH RAILWAY ATHLETIC CLUB', section: 'green', bn: { place: 'শিয়ালদহ', name: 'শিয়ালদহ রেলওয়ে অ্যাথলেটিক ক্লাব' }, hi: { place: 'श्यालदह', name: 'श्यालदह रेलवे एथलेटिक क्लब' } },
+            { place: 'PHOOLBAGAN', name: 'BELIAGHATA 33 PALLY', section: 'green', bn: { place: 'ফুলবাগান', name: 'বেলেঘাটা ৩৩ পল্লি' }, hi: { place: 'फूलबगान', name: 'बेलेघाटा ३३ पल्ली' } },
+            { place: 'PHOOLBAGAN', name: 'BENGAL TIGER CLUB', section: 'green', bn: { place: 'ফুলবাগান', name: 'বেঙ্গল টাইগার ক্লাব' }, hi: { place: 'फूलबगान', name: 'बंगाल टाइगर क्लब' } },
+            { place: 'PHOOLBAGAN', name: 'PHOOLBAGAN KHELACHAKRA', section: 'green', bn: { place: 'ফুলবাগান', name: 'ফুলবাগান খেলাচক্র' }, hi: { place: 'फूलबगान', name: 'फूलबगान खेलाचक्र' } },
+        ];
+        
+        // Translation data
+        const translations = {
+            en: {
+                appTitle: 'Pujo Pandal Map',
+                goBack: 'Go Back',
+                searchLabel: 'Enter a place or pandal name:',
+                searchPlaceholder: 'e.g., BELGACHIA, BAGBAZAR, SINGHI PARK...',
+                searchBtn: 'Search',
+                totalPandals: 'Total Pandals',
+                northKolkata: 'North Kolkata',
+                southKolkata: 'South Kolkata',
+                greenLine: 'Green Line',
+                quickNav: 'Quick Navigation',
+                northBtnTitle: 'North Kolkata',
+                northBtnSubtitle: 'Traditional Pujas',
+                southBtnTitle: 'South Kolkata',
+                southBtnSubtitle: 'Modern Pandals',
+                greenBtnTitle: 'Green Line Metro',
+                greenBtnSubtitle: 'Easy Commute',
+                allPandalsBtnTitle: 'View All Pandals',
+                allPandalsBtnSubtitle: 'Complete List',
+                popularBtnTitle: 'Popular Pandals',
+                popularBtnSubtitle: 'Special Recommendations',
+                nearbyBtnTitle: 'Nearby Pandals',
+                nearbyBtnSubtitle: 'In Your Area',
+                nor: 'North Kolkata Pujas',
+                sou: 'South Kolkata Pujas',
+                metro: 'Green Line Metro (North)',
+                noResults: 'No pandals found matching your search. Try a different name.'
+                
+            },
+            bn: {
+                appTitle: 'এখনই দেখুন - পুজো প্যান্ডেল ম্যাপ',
+                goBack: 'ফিরে যান',
+                searchLabel: 'জায়গা বা প্যান্ডেলের নাম লিখুন:',
+                searchPlaceholder: 'যেমন: BELGACHIA, BAGBAZAR, SINGHI PARK...',
+                searchBtn: 'খুঁজুন',
+                totalPandals: 'মোট প্যান্ডেল',
+                northKolkata: 'উত্তর কলকাতা',
+                southKolkata: 'দক্ষিণ কলকাতা',
+                greenLine: 'গ্রিন লাইন',
+                quickNav: 'দ্রুত নেভিগেশন',
+                northBtnTitle: 'উত্তর কলকাতা',
+                northBtnSubtitle: 'ঐতিহ্যবাহী পুজো',
+                southBtnTitle: 'দক্ষিণ কলকাতা',
+                southBtnSubtitle: 'আধুনিক প্যান্ডেল',
+                greenBtnTitle: 'গ্রিন লাইন মেট্রো',
+                greenBtnSubtitle: 'সহজ যাতায়াত',
+                allPandalsBtnTitle: 'সব প্যান্ডেল দেখুন',
+                allPandalsBtnSubtitle: 'সম্পূর্ণ তালিকা',
+                popularBtnTitle: 'জনপ্রিয় প্যান্ডেল',
+                popularBtnSubtitle: 'বিশেষ সুপারিশ',
+                nearbyBtnTitle: 'কাছের প্যান্ডেল',
+                nearbyBtnSubtitle: 'আপনার এলাকায়',
+                nor: 'উত্তর কলকাতার পুজো',
+                sou: 'দক্ষিণ কলকাতার পুজো',
+                metro: 'গ্রিন লাইন মেট্রো (উত্তর)',
+                noResults: 'আপনার অনুসন্ধানের সাথে মেলে এমন কোনো প্যান্ডেল খুঁজে পাওয়া যায়নি। অন্য একটি নাম দিয়ে চেষ্টা করুন।'
+            },
+            hi: {
+                appTitle: 'अभी देखें - पूजा पंडाल मैप',
+                goBack: 'पीछे जाएं',
+                searchLabel: 'जगह या पंडाल का नाम दर्ज करें:',
+                searchPlaceholder: 'उदाहरण: BELGACHIA, BAGBAZAR, SINGHI PARK...',
+                searchBtn: 'खोजें',
+                totalPandals: 'कुल पंडाल',
+                northKolkata: 'उत्तर कोलकाता',
+                southKolkata: 'दक्षिण कोलकाता',
+                greenLine: 'ग्रीन लाइन',
+                quickNav: 'त्वरित नेविगेशन',
+                northBtnTitle: 'उत्तर कोलकाता',
+                northBtnSubtitle: 'पारंपरिक पूजा',
+                southBtnTitle: 'दक्षिण कोलकाता',
+                southBtnSubtitle: 'आधुनिक पंडाल',
+                greenBtnTitle: 'ग्रीन लाइन मेट्रो',
+                greenBtnSubtitle: 'आसान आवागमन',
+                allPandalsBtnTitle: 'सभी पंडाल देखें',
+                allPandalsBtnSubtitle: 'पूरी सूची',
+                popularBtnTitle: 'लोकप्रिय पंडाल',
+                popularBtnSubtitle: 'विशेष सिफारिशें',
+                nearbyBtnTitle: 'निकटतम पंडाल',
+                nearbyBtnSubtitle: 'आपके क्षेत्र में',
+                nor: 'उत्तर कोलकाता पूजा',
+                sou: 'दक्षिण कोलकाता पूजा',
+                metro: 'ग्रीन लाइन मेट्रो (उत्तर)',
+                noResults: 'आपकी खोज से मेल खाने वाले कोई पंडाल नहीं मिले। कोई और नाम आजमाएं।'
+            }
+        };
+        
+        let currentLang = 'bn';
+        
+        // Function to update the pandal lists based on the current data and language
+        function updatePandalLists(filteredPandals = pandalData, highlightQuery = null) {
+            let northList = document.getElementById('northList');
+            let southList = document.getElementById('southList');
+            let greenLineList = document.getElementById('greenLineList');
+            const pandelGrid = document.querySelector('.pandel-grid');
+
+            if (!northList || !southList || !greenLineList) {
+                // Recreate the HTML structure if it was removed by a no-results search
+                pandelGrid.innerHTML = `
+                    <div class="pandel-section">
+                        <div class="section-header">
+                            <div class="section-icon"><i class="fas fa-city"></i></div>
+                            <h2 class="section-title" id="northHeading"></h2>
+                        </div>
+                        <ul id="northList" class="pandel-list"></ul>
+                    </div>
+                    <div class="pandel-section">
+                        <div class="section-header">
+                            <div class="section-icon"><i class="fas fa-building"></i></div>
+                            <h2 class="section-title" id="southHeading"></h2>
+                        </div>
+                        <ul id="southList" class="pandel-list"></ul>
+                    </div>
+                    <div class="pandel-section">
+                        <div class="section-header">
+                            <div class="section-icon"><i class="fas fa-subway"></i></div>
+                            <h2 class="section-title" id="greenLineHeading"></h2>
+                        </div>
+                        <ul id="greenLineList" class="pandel-list"></ul>
+                    </div>
+                `;
+                northList = document.getElementById('northList');
+                southList = document.getElementById('southList');
+                greenLineList = document.getElementById('greenLineList');
+            }
+
+            // Clear existing lists
+            northList.innerHTML = '';
+            southList.innerHTML = '';
+            greenLineList.innerHTML = '';
+        
+            let northCount = 0;
+            let southCount = 0;
+            let greenCount = 0;
+        
+            if (filteredPandals.length === 0) {
+                const noResultsMessage = document.createElement('div');
+                noResultsMessage.classList.add('no-results');
+                noResultsMessage.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${translations[currentLang].noResults}`;
+                pandelGrid.innerHTML = '';
+                pandelGrid.appendChild(noResultsMessage);
+                updateStats({ north: 0, south: 0, green: 0, total: 0 });
+                return;
+            }
+        
+            // Group and render pandals
+            filteredPandals.forEach(pandal => {
+                const pandalItem = document.createElement('li');
+                pandalItem.classList.add('pandel-item', 'loading');
+        
+                // Check for highlight and add class
+                if (highlightQuery && (pandal.name.toLowerCase().includes(highlightQuery.toLowerCase()) || pandal.place.toLowerCase().includes(highlightQuery.toLowerCase()))) {
+                    pandalItem.classList.add('highlight');
+                }
+        
+                // Get translated place and name
+                const translatedPlace = pandal[currentLang]?.place || pandal.place;
+                const translatedName = pandal[currentLang]?.name || pandal.name;
+        
+                pandalItem.innerHTML = `
+                    <div class="pandel-place">${translatedPlace}</div>
+                    <div class="pandel-name">${translatedName}</div>
+                `;
+        
+                if (pandal.section === 'north') {
+                    northList.appendChild(pandalItem);
+                    northCount++;
+                } else if (pandal.section === 'south') {
+                    southList.appendChild(pandalItem);
+                    southCount++;
+                } else if (pandal.section === 'green') {
+                    greenLineList.appendChild(pandalItem);
+                    greenCount++;
+                }
+        
+                // Trigger loading animation
+                setTimeout(() => pandalItem.classList.remove('loading'), 100);
+            });
+        
+            updateStats({
+                north: northCount,
+                south: southCount,
+                green: greenCount,
+                total: filteredPandals.length
+            });
+        
+            // Re-enable smooth scroll for sections
+            document.querySelectorAll('.pandel-list').forEach(list => {
+                list.style.scrollBehavior = 'smooth';
+            });
+        }
+        
+        // Function to update the stats bar with animation
+        function updateStats({ north, south, green, total }) {
+            const t = translations[currentLang];
+            const statsBar = document.getElementById('statsBar');
+            statsBar.innerHTML = `
+                <span>${t.totalPandals}: <span class="stats-counter" id="totalCount">0</span></span>
+                <span>${t.northKolkata}: <span class="stats-counter" id="northCount">0</span></span>
+                <span>${t.southKolkata}: <span class="stats-counter" id="southCount">0</span></span>
+                <span>${t.greenLine}: <span class="stats-counter" id="greenCount">0</span></span>
+            `;
+            
+            animateCounter('totalCount', total);
+            animateCounter('northCount', north);
+            animateCounter('southCount', south);
+            animateCounter('greenCount', green);
+        }
+        
+        function animateCounter(id, targetValue) {
+            const element = document.getElementById(id);
+            const startValue = parseInt(element.textContent, 10);
+            const duration = 500;
+            const startTime = performance.now();
+        
+            function updateCount(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                const value = Math.floor(progress * (targetValue - startValue) + startValue);
+                element.textContent = value;
+        
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    element.textContent = targetValue;
+                }
+            }
+            requestAnimationFrame(updateCount);
+        }
+        
+        // Initial data load and stats update
+        function initializeApp() {
+            updatePandalLists(pandalData);
+            switchLanguage('bn'); // Set initial language to Bengali
+        }
+        
+        // Function to switch the entire UI's language
+        function switchLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+        
+            // Update static text elements
+            document.querySelector('header h1').innerHTML = `<i class="fas fa-map-marked-alt"></i> ${t.appTitle}`;
+            document.querySelector('[data-key="backBtn"]').textContent = t.goBack;
+            document.querySelector('.search-label').innerHTML = `<i class="fas fa-search-location"></i> ${t.searchLabel}`;
+            document.getElementById('placeSearch').placeholder = t.searchPlaceholder;
+            document.querySelector('.search-btn').innerHTML = `<i class="fas fa-search"></i> ${t.searchBtn}`;
+            document.querySelector('.nav-title').innerHTML = `<i class="fas fa-compass"></i> ${t.quickNav}`;
+        
+            // Update nav button titles and subtitles
+            document.querySelector('[data-section="north"] .btn-title').textContent = t.northBtnTitle;
+            document.querySelector('[data-section="north"] .btn-subtitle').textContent = t.northBtnSubtitle;
+            document.querySelector('[data-section="south"] .btn-title').textContent = t.southBtnTitle;
+            document.querySelector('[data-section="south"] .btn-subtitle').textContent = t.southBtnSubtitle;
+            document.querySelector('[data-section="green"] .btn-title').textContent = t.greenBtnTitle;
+            document.querySelector('[data-section="green"] .btn-subtitle').textContent = t.greenBtnSubtitle;
+            document.querySelector('.special-btn .btn-title').textContent = t.allPandalsBtnTitle;
+            document.querySelector('.special-btn .btn-subtitle').textContent = t.allPandalsBtnSubtitle;
+            document.querySelector('[onclick="showPopularPandals()"] .btn-title').textContent = t.popularBtnTitle;
+            document.querySelector('[onclick="showPopularPandals()"] .btn-subtitle').textContent = t.popularBtnSubtitle;
+            document.querySelector('[onclick="showNearbyPandals()"] .btn-title').textContent = t.nearbyBtnTitle;
+            document.querySelector('[onclick="showNearbyPandals()"] .btn-subtitle').textContent = t.nearbyBtnSubtitle;
+        
+            // Update section headers
+            document.getElementById('northHeading').innerHTML = `🏙️ ${t.nor}`;
+            document.getElementById('southHeading').innerHTML = `🌆 ${t.sou}`;
+            document.getElementById('greenLineHeading').innerHTML = `🚇 ${t.metro}`;
+        
+            // Update the pandal lists with the new language
+            const currentSearchQuery = document.getElementById('placeSearch').value;
+            if (currentSearchQuery) {
+                searchPandals();
+            } else {
+                updatePandalLists(pandalData);
+            }
+        
+            // Update active class on buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Event listeners for language buttons
+        document.querySelectorAll('.lang-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                switchLanguage(button.dataset.lang);
+            });
+        });
+        
+        // Function to handle pandal search
+        function searchPandals() {
+            const query = document.getElementById('placeSearch').value.toLowerCase();
+            const results = pandalData.filter(pandal =>
+                pandal.place.toLowerCase().includes(query) ||
+                pandal.name.toLowerCase().includes(query) ||
+                (pandal.bn && (pandal.bn.place.toLowerCase().includes(query) || pandal.bn.name.toLowerCase().includes(query))) ||
+                (pandal.hi && (pandal.hi.place.toLowerCase().includes(query) || pandal.hi.name.toLowerCase().includes(query)))
+            );
+            updatePandalLists(results, query);
+        }
+        
+        // Function to handle quick navigation scroll
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Functions for quick navigation buttons
+        function showAllPandals() {
+            updatePandalLists(pandalData);
+        }
+        
+        function showPopularPandals() {
+            const popular = ['SANTOSH MITRA SQUARE', '66 PALLY', 'CHETLA AGRANI', 'TALA PARK PRATTAY', 'DESHAPRIYA PARK DURAJOTSAV', 'BELGACHIA SADHARAN DURGOSAB'];
+            const popularPandals = pandalData.filter(pandal => popular.includes(pandal.name));
+            updatePandalLists(popularPandals);
+        }
+        
+        function showNearbyPandals() {
+            alert('This feature would use your location to find nearby pandals!');
+            showAllPandals();
+        }
+        
+        // Particles effect
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const numParticles = 30;
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.width = `${Math.random() * 5 + 2}px`;
+                particle.style.height = particle.style.width;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                container.appendChild(particle);
+            }
+        }
+        
+        // Attach event listeners and initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+            createParticles();
+            document.getElementById('placeSearch').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchPandals();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

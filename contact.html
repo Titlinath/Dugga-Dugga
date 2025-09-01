@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমাদের সাথে যোগাযোগ করুন</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+
+        /* CSS variables and global styles */
+        :root {
+            --pineapple: #74685E;
+            --apricot: #E47A24;
+            --blood-orange: #BF2020;
+            --candy-apple: #951421;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --text-dark: #2c3e50;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --button-gradient: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #e8ecf0 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--apricot);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--pineapple) 0%, var(--apricot) 100%);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* New Header wrapper for button and title */
+        .header-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 20px;
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="0%" r="50%"><stop offset="0%" stop-color="white" stop-opacity="0.1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><ellipse cx="50" cy="0" rx="50" ry="20" fill="url(%23a)"/></svg>') center/cover;
+            animation: headerPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes headerPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            animation: slideInDown 1s ease-out;
+            letter-spacing: 1px;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Styles for the Go Back button */
+        .back-button {
+            background-image: var(--button-gradient);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none; /* Removes the underline from the link */
+            white-space: nowrap; /* Prevents text from wrapping */
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Language Switcher Styles */
+        .language-switcher {
+            display: flex;
+            gap: 5px;
+            background: linear-gradient(135deg, #5d2e1a, #8b3a1e);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(93, 46, 26, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lang-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transition: left 0.5s;
+        }
+
+        .lang-btn:hover::before {
+            left: 100%;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            color: var(--white);
+            background: rgba(139, 58, 30, 0.3);
+            box-shadow: 0 5px 15px rgba(93, 46, 26, 0.3);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            color: var(--white);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(228, 122, 36, 0.4);
+        }
+
+        .lang-btn.active:hover {
+            background: linear-gradient(135deg, var(--blood-orange), var(--candy-apple));
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(228, 122, 36, 0.5);
+        }
+        
+        /* Main Container */
+        main {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Grid Layout */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .features-section {
+            margin: 60px 0;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(228, 122, 36, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(228, 122, 36, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+            border-color: var(--apricot);
+        }
+
+        .contact-card {
+            text-align: center;
+            background: linear-gradient(135deg, var(--white) 0%, #fef9f6 100%);
+        }
+
+        .contact-card .icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--white);
+            box-shadow: 0 10px 25px rgba(228, 122, 36, 0.3);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--pineapple);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .contact-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--apricot), var(--blood-orange));
+            border-radius: 2px;
+        }
+
+        .contact-info {
+            margin: 20px 0;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: var(--text-dark);
+        }
+
+        .contact-info strong {
+            color: var(--candy-apple);
+            font-weight: 600;
+        }
+
+        .phone-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(228, 122, 36, 0.3);
+        }
+
+        .phone-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(228, 122, 36, 0.4);
+            background: linear-gradient(135deg, var(--blood-orange), var(--candy-apple));
+        }
+
+        /* Features Card */
+        .feature-card {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f4f0 100%);
+        }
+
+        .feature-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pineapple);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .feature-card h3::before {
+            content: '✨';
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.5; transform: translateY(-50%) rotate(0deg); }
+            50% { opacity: 1; transform: translateY(-50%) rotate(180deg); }
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            background: var(--white);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--apricot);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .features-list li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(228, 122, 36, 0.15);
+            border-left-color: var(--blood-orange);
+        }
+
+        .features-list li::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(135deg, var(--apricot), var(--blood-orange));
+            border-radius: 0 5px 5px 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .features-list li:hover::before {
+            opacity: 1;
+        }
+
+        .features-list strong {
+            color: var(--candy-apple);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Emergency Section */
+        .emergency-section {
+            background: linear-gradient(135deg, var(--blood-orange), var(--candy-apple));
+            color: var(--white);
+            padding: 40px;
+            text-align: center;
+            border-radius: 25px;
+            margin: 50px 0;
+            box-shadow: 0 15px 35px rgba(191, 32, 32, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: emergencyPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes emergencyPulse {
+            0%, 100% { box-shadow: 0 15px 35px rgba(191, 32, 32, 0.3); }
+            50% { box-shadow: 0 20px 45px rgba(191, 32, 32, 0.5); }
+        }
+
+        .emergency-section::before {
+            content: '🚨';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            animation: emergencyBlink 1.5s ease-in-out infinite;
+        }
+
+        .emergency-section::after {
+            content: '🚨';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            animation: emergencyBlink 1.5s ease-in-out infinite 0.75s;
+        }
+
+        @keyframes emergencyBlink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.3; }
+        }
+
+        .emergency-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .emergency-section p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .emergency-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--white);
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .emergency-phone:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--pineapple) 0%, var(--apricot) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(135deg, var(--pineapple) 0%, var(--apricot) 100%);
+            clip-path: polygon(0 50%, 100% 100%, 0 100%);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            opacity: 0.9;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            padding-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            header {
+                padding: 40px 20px;
+            }
+            
+            main {
+                padding: 40px 15px;
+            }
+            
+            .feature-card h3::before {
+                display: none;
+            }
+
+            .back-button {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+            }
+
+            .header-wrapper {
+                flex-direction: column;
+                padding-top: 0;
+                gap: 15px;
+            }
+        }
+        
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="header-wrapper">
+            <a href="index.html" class="back-button" data-key="go-back">
+                <span>←</span>
+                <span>ফিরে যাও</span>
+            </a>
+            <h1 data-key="header-title">আমাদের সাথে যোগাযোগ করুন</h1>
+        </div>
+    </header>
+
+    <main>
+
+        <div class="language-switcher" style="position: fixed; top: 10px; right: 20px; z-index: 1000;">
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+            <button class="lang-btn" data-lang="bn">বাংলা</button>
+        </div>
+
+        <div class="contact-grid">
+            <div class="card contact-card">
+                <div class="icon"><i class="fas fa-user-tie"></i></div>
+                <h3 data-key="contact1-title">যোগাযোগের তথ্য</h3>
+                <div class="contact-info">
+                    <p><strong data-key="contact1-name">Debanjali Bhattacharya</strong></p>
+                    <p data-key="contact1-role">পেশাদার পরামর্শদাতা</p>
+                    <a href="tel:4780987654" class="phone-link">
+                        <i class="fas fa-phone"></i>
+                        4780987654
+                    </a>
+                </div>
+            </div>
+
+            <div class="card contact-card">
+                <div class="icon"><i class="fas fa-user-graduate"></i></div>
+                <h3 data-key="contact2-title">যোগাযোগের তথ্য</h3>
+                <div class="contact-info">
+                    <p><strong data-key="contact2-name">Titli Nath</strong></p>
+                    <p data-key="contact2-role">বিশেষজ্ঞ পরামর্শদাতা</p>
+                    <a href="tel:8749875909" class="phone-link">
+                        <i class="fas fa-phone"></i>
+                        8749875909
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <div class="card feature-card">
+                <h3 data-key="features-title">কেন আমাদের বেছে নেবেন?</h3>
+                <ul class="features-list">
+                    <li data-key="feature1"><strong>অভিজ্ঞ দল:</strong> আমাদের রয়েছে একদল অভিজ্ঞ...</li>
+                    <li data-key="feature2"><strong>গুণগত মান:</strong> আমরা আমাদের প্রতিটি কাজে...</li>
+                    <li data-key="feature3"><strong>দ্রুত সমাধান:</strong> আপনার যেকোনো সমস্যার...</li>
+                    <li data-key="feature4"><strong>২৪/৭ সহায়তা:</strong> যেকোনো জরুরি পরিস্থিতিতে...</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="emergency-section">
+            <h2 data-key="emergency-title">জরুরি পরিস্থিতিতে</h2>
+            <p data-key="emergency-desc">যদি কোনো জরুরি অবস্থার সৃষ্টি হয়, তাহলে অনুগ্রহ করে আমাদের জরুরি নম্বরে সরাসরি যোগাযোগ করুন।</p>
+            <a href="tel:9893567809" class="emergency-phone" data-key="emergency-phone">
+                <i class="fas fa-phone-volume"></i>
+                জরুরি নম্বর: 9893567809
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p data-key="footer-text">&copy; 2025 আমাদের ওয়েবসাইট | সর্বস্বত্ব সংরক্ষিত</p>
+            <p class="footer-quote" data-key="footer-quote">"পুজোর আলোয় কাটুক প্রতিটি দিন, মনের আকাশ ভরে উঠুক আনন্দে।"</p>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            bn: {
+                "go-back": "ফিরে যাও",
+                "page-title": "আমাদের সাথে যোগাযোগ করুন",
+                "header-title": "আমাদের সাথে যোগাযোগ করুন",
+                "contact1-title": "যোগাযোগের তথ্য",
+                "contact1-name": "Debanjali Bhattacharya",
+                "contact1-role": "পেশাদার পরামর্শদাতা",
+                "contact2-title": "যোগাযোগের তথ্য",
+                "contact2-name": "Titli Nath",
+                "contact2-role": "বিশেষজ্ঞ পরামর্শদাতা",
+                "features-title": "কেন আমাদের বেছে নেবেন?",
+                "feature1": "অভিজ্ঞ দল: আমাদের রয়েছে একদল অভিজ্ঞ এবং দক্ষ পেশাদার, যারা আপনাকে সর্বোত্তম পরিষেবা দিতে সর্বদা প্রস্তুত।",
+                "feature2": "গুণগত মান: আমরা আমাদের প্রতিটি কাজে সর্বোচ্চ মান নিশ্চিত করি। আপনার সন্তুষ্টিই আমাদের প্রধান লক্ষ্য।",
+                "feature3": "দ্রুত সমাধান: আপনার যেকোনো সমস্যার দ্রুত এবং কার্যকর সমাধান দিতে আমরা প্রতিশ্রুতিবদ্ধ।",
+                "feature4": "২৪/৭ সহায়তা: যেকোনো জরুরি পরিস্থিতিতে আমরা আপনার পাশে আছি, দিনে বা রাতে।",
+                "emergency-title": "জরুরি পরিস্থিতিতে",
+                "emergency-desc": "যদি কোনো জরুরি অবস্থার সৃষ্টি হয়, তাহলে অনুগ্রহ করে আমাদের জরুরি নম্বরে সরাসরি যোগাযোগ করুন।",
+                "emergency-phone": "জরুরি নম্বর: 9893567809",
+                "footer-text": "© 2025 আমাদের ওয়েবসাইট | সর্বস্বত্ব সংরক্ষিত",
+                "footer-quote": "\"পুজোর আলোয় কাটুক প্রতিটি দিন, মনের আকাশ ভরে উঠুক আনন্দে।\""
+            },
+            en: {
+                "go-back": "Go Back",
+                "page-title": "Contact Us",
+                "header-title": "Contact Us",
+                "contact1-title": "Contact Info",
+                "contact1-name": "Debanjali Bhattacharya",
+                "contact1-role": "Professional Consultant",
+                "contact2-title": "Contact Info",
+                "contact2-name": "Titli Nath",
+                "contact2-role": "Expert Advisor",
+                "features-title": "Why Choose Us?",
+                "feature1": "Experienced Team: We have a team of skilled professionals who are always ready to serve you.",
+                "feature2": "Quality Assurance: We ensure the highest standards in everything we do.",
+                "feature3": "Quick Solutions: We are committed to solving your problems quickly and effectively.",
+                "feature4": "24/7 Support: We are with you anytime, day or night.",
+                "emergency-title": "In Case of Emergency",
+                "emergency-desc": "If any emergency occurs, please call our hotline.",
+                "emergency-phone": "Emergency Number: 9893567809",
+                "footer-text": "© 2025 Our Website | All Rights Reserved",
+                "footer-quote": "\"May every day shine with light and joy.\""
+            },
+            hi: {
+                "go-back": "वापस जाएं",
+                "page-title": "संपर्क करें",
+                "header-title": "संपर्क करें",
+                "contact1-title": "संपर्क जानकारी",
+                "contact1-name": "Debanjali Bhattacharya",
+                "contact1-role": "पेशेवर सलाहकार",
+                "contact2-title": "संपर्क जानकारी",
+                "contact2-name": "Titli Nath",
+                "contact2-role": "विशेषज्ञ सलाहकार",
+                "features-title": "क्यों हमें चुनें?",
+                "feature1": "अनुभवी टीम: हमारे पास कुशल पेशेवरों की एक टीम है, जो हमेशा तैयार है।",
+                "feature2": "गुणवत्ता: हम हर कार्य में उच्च मानक सुनिश्चित करते हैं।",
+                "feature3": "त्वरित समाधान: हम आपकी समस्याओं का तेज और प्रभावी समाधान प्रदान करते हैं।",
+                "feature4": "24/7 सहायता: हम हमेशा आपके साथ हैं।",
+                "emergency-title": "आपात स्थिति में",
+                "emergency-desc": "यदि कोई आपात स्थिति उत्पन्न हो, तो कृपया हमारे हेल्पलाइन पर कॉल करें।",
+                "emergency-phone": "आपातकालीन नंबर: 9893567809",
+                "footer-text": "© 2025 हमारी वेबसाइट | सर्वाधिकार सुरक्षित",
+                "footer-quote": "\"त्योहार की रोशनी से हर दिन खुशियों से भर जाए।\""
+            }
+        };
+
+        function updateLanguage(lang) {
+            document.querySelectorAll("[data-key]").forEach(el => {
+                const key = el.getAttribute("data-key");
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            document.title = translations[lang]["page-title"];
+            localStorage.setItem("preferred-language", lang);
+
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.lang === lang);
+            });
+        }
+
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            if (!particles) return;
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 10 + 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            createParticles();
+            const saved = localStorage.getItem("preferred-language") || "bn";
+            updateLanguage(saved);
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => updateLanguage(btn.dataset.lang));
+            });
+
+            // Animate cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.8s cubic-bezier(0.175,0.885,0.32,1.275)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            if (header) {
+                header.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navigator.vibrate) navigator.vibrate(100);
+            });
+        });
+    </script>
+</body>
+</html>

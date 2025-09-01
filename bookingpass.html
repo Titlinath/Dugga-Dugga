@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PujaSathi – পাস / বুকিং তথ্য</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+        font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+        background: #fff8f0 url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0L100 50L50 100L0 50Z" fill="%23fcf1e6" fill-opacity="0.5"/></svg>') repeat;
+    }
+
+    .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .hover-glow:hover {
+        box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+    }
+
+    /* --- Language Switcher (Modern Rounded Style) --- */
+    .language-switcher {
+        display: flex;
+        gap: 5px;
+        background: #F3F4F6;
+        backdrop-filter: blur(10px);
+        padding: 8px;
+        border-radius: 25px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border: 1px solid #E5E7EB;
+    }
+
+    .lang-btn {
+        background: transparent;
+        color: #6B7280; 
+        padding: 8px 15px;
+        border: none;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lang-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(229, 231, 235, 0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    .lang-btn:hover::before {
+        left: 100%;
+    }
+
+    .lang-btn.active {
+        background: #951421; 
+        color: white;
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(149, 20, 33, 0.4);
+    }
+
+    .lang-btn:hover:not(.active) {
+        background-color: #E5E7EB;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .lang-btn.active:hover {
+        background: #951421;
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 8px 20px rgba(149, 20, 33, 0.5);
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #ff512f, #dd2476);
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 6px 14px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <header class="bg-red-600 text-white p-6 shadow-lg flex justify-between items-center">
+    <a href="এখনই দেখুন.html" class="back-button">
+      <span>←</span>
+      <span data-key="backBtn">Go Back</span>
+    </a>
+    
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+      <button class="lang-btn" data-lang="hi">हिन्दी</button>
+    </div>
+  </header>
+  
+  <main class="flex-grow flex justify-center items-center p-6">
+    <div class="max-w-6xl w-full glass rounded-2xl shadow-xl p-8">
+      <h2 id="mainHeading" class="text-2xl md:text-4xl font-bold text-center text-red-700 mb-6 flex items-center justify-center gap-3">
+        <i class="fas fa-ticket-alt"></i> পাস / বুকিং তথ্য
+      </h2>
+      <p id="mainPara" class="text-center text-gray-700 mb-10 text-lg">
+        প্যান্ডেল ভিজিট করার জন্য প্রয়োজনীয় তথ্য, পাস বা বুকিং ডিটেইলস এখানে পাবেন।
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-orange-100 rounded-xl p-6 border-l-4 border-green-500 shadow hover-glow">
+          <h3 id="card1Title" class="text-xl font-semibold text-red-700 mb-2">সাধারণ প্রবেশ</h3>
+          <p id="card1Text" class="text-gray-700 mb-4">সকলের জন্য উন্মুক্ত। ভিড়ের সময় বিনামূল্যে প্রবেশ পাস সংগ্রহ করুন।</p>
+          <a id="card1Btn" href="generalpass.html" class="inline-block bg-orange-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition">পাস সংগ্রহ করুন</a>
+        </div>
+
+        <div class="bg-orange-100 rounded-xl p-6 border-l-4 border-red-600 shadow hover-glow">
+          <h3 id="card2Title" class="text-xl font-semibold text-red-700 mb-2">বিশেষ পাস</h3>
+          <p id="card2Text" class="text-gray-700 mb-4">কিছু নির্দিষ্ট প্যান্ডেলে VIP প্রবেশাধিকার বুক করুন।</p>
+          <a id="card2Btn" href="vippass.html" class="inline-block bg-orange-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition">বুকিং করুন</a>
+        </div>
+
+        <div class="bg-orange-100 rounded-xl p-6 border-l-4 border-blue-500 shadow hover-glow">
+          <h3 id="card3Title" class="text-xl font-semibold text-red-700 mb-2">বিশেষ চাহিদা সম্পন্ন</h3>
+          <p id="card3Text" class="text-gray-700 mb-4">সহজ প্রবেশের জন্য বিশেষ পাস সংগ্রহ করুন।</p>
+          <a id="card3Btn" href="specialpass.html" class="inline-block bg-orange-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-600 transition">পাস সংগ্রহ করুন</a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-inner p-6">
+        <h3 id="rulesHeading" class="text-2xl font-semibold text-red-700 mb-4 flex items-center justify-center gap-2">
+          <i class="fas fa-info-circle"></i> পাস ব্যবহারের নিয়মাবলী
+        </h3>
+        <ol class="space-y-3 text-gray-800">
+          <li id="rule1" class="relative pl-10"><span class="absolute left-0 top-0 text-white bg-red-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">১</span> মোবাইল ফোনে আপনার পাসটি ডাউনলোড করুন।</li>
+          <li id="rule2" class="relative pl-10"><span class="absolute left-0 top-0 text-white bg-red-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">২</span> প্যান্ডেলের প্রবেশদ্বারে QR কোড স্ক্যান করুন।</li>
+          <li id="rule3" class="relative pl-10"><span class="absolute left-0 top-0 text-white bg-red-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">৩</span> একটি পাস শুধুমাত্র একবার ব্যবহার করা যাবে।</li>
+          <li id="rule4" class="relative pl-10"><span class="absolute left-0 top-0 text-white bg-red-600 w-8 h-8 rounded-full flex items-center justify-center font-bold">৪</span> প্রবেশের সময় আপনার আইডি কার্ড সঙ্গে রাখুন।</li>
+        </ol>
+      </div>
+    </div>
+  </main>
+
+  <footer id="footerText" class="bg-red-800 text-white text-center py-4 mt-10">
+    © 2025 PujaSathi | ❤ সহ কোলকাতায় ডিজাইন করা হয়েছে
+  </footer>
+
+  <script>
+    const translations = {
+      bn: {
+        backBtn: "ফিরে যান",
+        mainHeading: "পাস / বুকিং তথ্য",
+        mainPara: "প্যান্ডেল ভিজিট করার জন্য প্রয়োজনীয় তথ্য, পাস বা বুকিং ডিটেইলস এখানে পাবেন।",
+        card1Title: "সাধারণ প্রবেশ",
+        card1Text: "সকলের জন্য উন্মুক্ত। ভিড়ের সময় বিনামূল্যে প্রবেশ পাস সংগ্রহ করুন।",
+        card1Btn: "পাস সংগ্রহ করুন",
+        card2Title: "বিশেষ পাস",
+        card2Text: "কিছু নির্দিষ্ট প্যান্ডেলে VIP প্রবেশাধিকার বুক করুন।",
+        card2Btn: "বুকিং করুন",
+        card3Title: "বিশেষ চাহিদা সম্পন্ন",
+        card3Text: "সহজ প্রবেশের জন্য বিশেষ পাস সংগ্রহ করুন।",
+        card3Btn: "পাস সংগ্রহ করুন",
+        rulesHeading: "পাস ব্যবহারের নিয়মাবলী",
+        rule1: "মোবাইল ফোনে আপনার পাসটি ডাউনলোড করুন।",
+        rule2: "প্যান্ডেলের প্রবেশদ্বারে QR কোড স্ক্যান করুন।",
+        rule3: "একটি পাস শুধুমাত্র একবার ব্যবহার করা যাবে।",
+        rule4: "প্রবেশের সময় আপনার আইডি কার্ড সঙ্গে রাখুন।",
+        footerText: "© 2025 PujaSathi | ❤ সহ কোলকাতায় ডিজাইন করা হয়েছে"
+      },
+      hi: {
+        backBtn: "वापस जाएं",
+        mainHeading: "पास / बुकिंग जानकारी",
+        mainPara: "पंडाल दर्शन के लिए आवश्यक जानकारी, पास या बुकिंग विवरण यहां मिलेगा।",
+        card1Title: "साधारण प्रवेश",
+        card1Text: "सभी के लिए खुला। भीड़ के समय निःशुल्क प्रवेश पास प्राप्त करें।",
+        card1Btn: "पास प्राप्त करें",
+        card2Title: "विशेष पास",
+        card2Text: "कुछ विशेष पंडालों में VIP प्रवेश बुक करें।",
+        card2Btn: "बुकिंग करें",
+        card3Title: "विशेष आवश्यकता वाले",
+        card3Text: "आसान प्रवेश के लिए विशेष पास प्राप्त करें।",
+        card3Btn: "पास प्राप्त करें",
+        rulesHeading: "पास उपयोग नियम",
+        rule1: "अपने मोबाइल फोन पर पास डाउनलोड करें।",
+        rule2: "पंडाल प्रवेश द्वार पर QR कोड स्कैन करें।",
+        rule3: "एक पास केवल एक बार इस्तेमाल किया जा सकता है।",
+        rule4: "प्रवेश के समय अपना पहचान पत्र साथ रखें।",
+        footerText: "© 2025 PujaSathi | ❤ से कोलकाता में डिज़ाइन किया गया"
+      },
+      en: {
+        backBtn: "Go Back",
+        mainHeading: "Pass / Booking Information",
+        mainPara: "Find all necessary details about passes or bookings for pandal visits here.",
+        card1Title: "General Entry",
+        card1Text: "Open for everyone. Collect a free entry pass during rush hours.",
+        card1Btn: "Get Pass",
+        card2Title: "Special Pass",
+        card2Text: "Book VIP entry at certain pandals.",
+        card2Btn: "Book Now",
+        card3Title: "Special Needs",
+        card3Text: "Collect special passes for easy access.",
+        card3Btn: "Get Pass",
+        rulesHeading: "Pass Usage Rules",
+        rule1: "Download your pass on your mobile phone.",
+        rule2: "Scan the QR code at the pandal entrance.",
+        rule3: "One pass can only be used once.",
+        rule4: "Carry your ID card while entering.",
+        footerText: "© 2025 PujaSathi | ❤ Designed in Kolkata"
+      }
+    };
+
+    const buttons = document.querySelectorAll(".lang-btn");
+
+    function setLanguage(lang) {
+      const t = translations[lang];
+
+      document.querySelector('[data-key="backBtn"]').innerText = t.backBtn;
+      document.getElementById("mainHeading").innerText = t.mainHeading;
+      document.getElementById("mainPara").innerText = t.mainPara;
+      document.getElementById("card1Title").innerText = t.card1Title;
+      document.getElementById("card1Text").innerText = t.card1Text;
+      document.getElementById("card1Btn").innerText = t.card1Btn;
+      document.getElementById("card2Title").innerText = t.card2Title;
+      document.getElementById("card2Text").innerText = t.card2Text;
+      document.getElementById("card2Btn").innerText = t.card2Btn;
+      document.getElementById("card3Title").innerText = t.card3Title;
+      document.getElementById("card3Text").innerText = t.card3Text;
+      document.getElementById("card3Btn").innerText = t.card3Btn;
+      document.getElementById("rulesHeading").innerText = t.rulesHeading;
+      document.getElementById("rule1").childNodes[1].nodeValue = " " + t.rule1;
+      document.getElementById("rule2").childNodes[1].nodeValue = " " + t.rule2;
+      document.getElementById("rule3").childNodes[1].nodeValue = " " + t.rule3;
+      document.getElementById("rule4").childNodes[1].nodeValue = " " + t.rule4;
+      document.getElementById("footerText").innerText = t.footerText;
+
+      buttons.forEach(b => b.classList.remove("active"));
+      document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add("active");
+    }
+
+    // Default language: Bengali
+    setLanguage("bn");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        setLanguage(btn.dataset.lang);
+      });
+    });
+  </script>
+</body>
+</html>

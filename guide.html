@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পুজো ট্যুর গাইড</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* New CSS Variables for a vibrant, festival-themed color scheme */
+        :root {
+            --primary-color: #E67E22; /* Vibrant Orange */
+            --secondary-color: #F1C40F; /* Bright Gold */
+            --background-color: #f7f3f2; /* Light creamy background */
+            --card-background: #ffffff;
+            --text-color: #2c3e50; /* Dark blue-gray for readability */
+            --text-light: #7f8c8d;
+            --border-color: #ecf0f1;
+            --button-guide-color: #27ae60; /* A fresh green */
+            --button-car-color: #3498db; /* A bright blue */
+        }
+
+        /* General body and container styling with a subtle pattern */
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: var(--background-color);
+            background-image: linear-gradient(45deg, var(--background-color) 25%, transparent 25%, transparent 50%, var(--background-color) 50%, var(--background-color) 75%, transparent 75%, transparent);
+            background-size: 20px 20px;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .guide-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--border-color);
+        }
+
+        /* Header, Navigation and description */
+        .guide-header {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .guide-description {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* Navigation and Language Selector */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background-color: var(--text-light);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .language-select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #f0f4f5;
+            cursor: pointer;
+            font-family: 'Noto Sans Bengali', sans-serif, 'Inter', sans-serif;
+            color: var(--text-color);
+        }
+
+        /* Map section styling */
+        .map-section {
+            height: 400px;
+            background-color: #eee;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), 0 5px 20px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--border-color);
+        }
+        
+        .map-section iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Section headings */
+        .pandal-list-section h3, .itinerary-section h3, .booking-section h3 {
+            color: var(--text-color);
+            font-size: 2.2rem;
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Pandal card styling */
+        .pandal-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #fefefe 0%, #f9f9f9 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pandal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(241, 196, 15, 0.1);
+            transition: left 0.3s ease-in-out;
+            z-index: 0;
+        }
+
+        .pandal-card:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pandal-card:hover::before {
+            left: 0;
+        }
+
+        .pandal-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 25px;
+            border: 3px solid var(--secondary-color);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .pandal-info {
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pandal-info h4 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .pandal-info p {
+            margin: 5px 0 0;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        /* Itinerary planner styling */
+        .itinerary-section .itinerary-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .itinerary-section .itinerary-item {
+            background-color: #e8f4f8;
+            color: #34495e;
+            padding: 10px 18px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            border: 1px solid #d1e2e7;
+            transition: all 0.3s ease;
+        }
+
+        .itinerary-section .itinerary-item:hover {
+            background-color: #d1e2e7;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .itinerary-section .itinerary-item .remove-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-left: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .itinerary-section .itinerary-item .remove-btn:hover {
+            transform: scale(1.3);
+            color: #c0392b;
+        }
+
+        /* General Button Styling with animations */
+        .plan-btn, .booking-btn {
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+        }
+
+        .plan-btn:hover, .booking-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .plan-btn {
+            background: linear-gradient(135deg, var(--button-guide-color), #2ecc71);
+        }
+
+        .booking-btn {
+            background: linear-gradient(135deg, var(--button-car-color), #3f9ce3);
+        }
+
+        /* Booking Section Styling */
+        .booking-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .booking-section label {
+            font-weight: 700;
+            color: var(--text-color);
+        }
+        
+        .booking-section input, .booking-section select {
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .booking-section input:focus, .booking-section select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
+        }
+        
+        .car-seater-group {
+            display: none; /* Hide by default */
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .booking-section .price-display {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff9e6;
+            border-radius: 10px;
+            border: 1px dashed var(--secondary-color);
+        }
+
+        /* Modal and overlay styling for custom alerts */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .modal-box {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .modal-box h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .modal-box p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+
+        .modal-box .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .modal-box .close-btn:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        /* Pandal search bar styling */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+        }
+        
+        /* Footer Styling */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .footer-socials a {
+            color: var(--text-color);
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .guide-header {
+                font-size: 2.5rem;
+            }
+            .guide-container {
+                padding: 20px;
+            }
+            .pandal-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .pandal-image {
+                margin: 0 0 10px 0;
+            }
+            .itinerary-section h3, .booking-section h3, .pandal-list-section h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8) translateY(-50px); opacity: 0; }
+            50% { transform: scale(1.1) translateY(10px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="guide-container">
+        <div class="nav-bar">
+            <button class="back-btn" onclick="history.back()"><span data-key="back-btn-text">Back</span></button>
+            <select id="language-select" class="language-select">
+                <option value="bn">বাংলা</option>
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+            </select>
+        </div>
+
+        <h1 class="guide-header" data-key="header-title">পূজো ট্যুর গাইড</h1>
+        <p class="guide-description" data-key="header-description">সেরা পূজো মণ্ডপগুলি অন্বেষণ করুন এবং আপনার পূজো ভ্রমণের পরিকল্পনা করুন।</p>
+
+        <div class="map-section">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117762.30232231267!2d88.3582531582236!3d22.569947847055977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02778f5f6e5a6f%3A0x6a0f6a2a5f78c857!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1716301292070!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div class="itinerary-section">
+            <h3 data-key="itinerary-title">ভ্রমণের পরিকল্পনা</h3>
+            <p data-key="itinerary-description">আপনার পছন্দের প্যান্ডেলগুলি যোগ করুন এবং একটি রুট তৈরি করুন।</p>
+            <div class="itinerary-items" id="itineraryItems">
+                </div>
+            <button class="plan-btn" onclick="generateItinerary()" data-key="generate-route-btn">রুট তৈরি করুন</button>
+        </div>
+
+        <div class="booking-section">
+            <h3 data-key="booking-title">গাইড অথবা গাড়ি বুক করুন</h3>
+            <form id="bookingForm">
+                <label for="bookingName" data-key="form-name-label">নাম:</label>
+                <input type="text" id="bookingName" name="name" required>
+                
+                <label for="bookingPhone" data-key="form-phone-label">ফোন নম্বর:</label>
+                <input type="tel" id="bookingPhone" name="phone" required>
+                
+                <label for="bookingDate" data-key="form-date-label">তারিখ:</label>
+                <input type="date" id="bookingDate" name="date" required>
+                
+                <label for="bookingType" data-key="form-booking-type-label">বুকিংয়ের ধরন:</label>
+                <select id="bookingType" name="type">
+                    <option value="guide" data-key="option-guide">গাইড</option>
+                    <option value="car" data-key="option-car">গাড়ি</option>
+                </select>
+
+                <div id="carSeaterOptions" class="car-seater-group">
+                    <label for="carSeater" data-key="form-car-seater-label">গাড়ির আসন:</label>
+                    <select id="carSeater" name="carSeater">
+                        <option value="seater4" data-key="option-seater4">৪ সিটার</option>
+                        <option value="seater7" data-key="option-seater7">৭ সিটার</option>
+                        <option value="seater3" data-key="option-seater3">৩ সিটার</option>
+                    </select>
+                </div>
+                
+                <div class="price-display">
+                    <span data-key="price-text">আনুমানিক খরচ:</span> <span id="bookingPrice"></span> <span data-key="price-per-day">প্রতি দিন</span>
+                </div>
+                <button type="button" class="booking-btn" onclick="bookService()" data-key="book-btn">বুক করুন</button>
+            </form>
+        </div>
+
+        <div class="pandal-list-section">
+            <h3 data-key="pandal-list-title">সেরা প্যান্ডেল</h3>
+            <div class="search-container">
+                <input type="text" id="pandalSearch" placeholder="প্যান্ডেল বা এলাকা অনুসন্ধান করুন..." data-key="pandal-search-placeholder">
+            </div>
+            <div id="pandalListContainer">
+                </div>
+        </div>
+    </div>
+
+    <div id="alertModal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal()">✖</button>
+            <h4 id="modalTitle"></h4>
+            <p id="modalMessage"></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p data-key="footer-copyright">© 2024 পুজো ট্যুর গাইড। সর্বস্বত্ব সংরক্ষিত।</p>
+        <p data-key="footer-contact">যোগাযোগ: info@pujotour.com</p>
+    </footer>
+
+    <script>
+        const translations = {
+            'bn': {
+                'header-title': 'পূজো ট্যুর গাইড',
+                'header-description': 'সেরা পূজো মণ্ডপগুলি অন্বেষণ করুন এবং আপনার পূজো ভ্রমণের পরিকল্পনা করুন।',
+                'itinerary-title': 'ভ্রমণের পরিকল্পনা',
+                'itinerary-description': 'আপনার পছন্দের প্যান্ডেলগুলি যোগ করুন এবং একটি রুট তৈরি করুন।',
+                'generate-route-btn': 'রুট তৈরি করুন',
+                'booking-title': 'গাইড অথবা গাড়ি বুক করুন',
+                'form-name-label': 'নাম:',
+                'form-phone-label': 'ফোন নম্বর:',
+                'form-date-label': 'তারিখ:',
+                'form-booking-type-label': 'বুকিংয়ের ধরন:',
+                'option-guide': 'গাইড',
+                'option-car': 'গাড়ি',
+                'form-car-seater-label': 'গাড়ির আসন:',
+                'option-seater4': '৪ সিটার',
+                'option-seater7': '৭ সিটার',
+                'option-seater3': '৩ সিটার',
+                'price-text': 'আনুমানিক খরচ:',
+                'price-per-day': 'প্রতি দিন',
+                'book-btn': 'বুক করুন',
+                'pandal-list-title': 'সেরা প্যান্ডেল',
+                'pandal-search-placeholder': 'প্যান্ডেল বা এলাকা অনুসন্ধান করুন...',
+                'pandal-theme-info': 'থিম: বিস্তারিত উপলব্ধ নয়',
+                'back-btn-text': 'পেছনে যান',
+                'footer-copyright': '© 2024 পুজো ট্যুর গাইড। সর্বস্বত্ব সংরক্ষিত।',
+                'footer-contact': 'যোগাযোগ: info@pujotour.com',
+                'alert-title-select-pandal': 'প্যান্ডেল নির্বাচন করুন',
+                'alert-message-select-pandal': 'অনুগ্রহ করে ভ্রমণের জন্য প্যান্ডেল নির্বাচন করুন।',
+                'alert-title-itinerary-generated': 'পূজো রুট তৈরি হয়েছে',
+                'alert-message-itinerary-generated': 'আপনার পূজো ভ্রমণের রুট তৈরি করা হয়েছে:\n\n{route}\n\nএটি একটি পরিকল্পিত রুট। সেরা অভিজ্ঞতার জন্য, ট্র্যাফিকের অবস্থা বিবেচনা করে যাত্রা করুন।',
+                'alert-title-already-added': 'ইতিমধ্যেই যুক্ত হয়েছে',
+                'alert-message-already-added': '{pandalName} আপনার ভ্রমণ তালিকায় রয়েছে।',
+                'alert-title-booking-success': 'বুকিং সফল',
+                'alert-message-booking-success': '{name}, আপনার {type} বুকিং সফল হয়েছে। আনুমানিক খরচ ₹{price}। আমাদের প্রতিনিধি শীঘ্রই আপনার সাথে যোগাযোগ করবে।',
+                'alert-title-fill-form': 'ফর্ম পূরণ করুন',
+                'alert-message-fill-form': 'অনুগ্রহ করে সমস্ত প্রয়োজনীয় তথ্য পূরণ করুন।'
+            },
+            'en': {
+                'header-title': 'Puja Tour Guide',
+                'header-description': 'Explore the best Puja pandals and plan your Puja tour.',
+                'itinerary-title': 'Plan Your Tour',
+                'itinerary-description': 'Add your favorite pandals and create a route.',
+                'generate-route-btn': 'Generate Route',
+                'booking-title': 'Book a Guide or Car',
+                'form-name-label': 'Name:',
+                'form-phone-label': 'Phone Number:',
+                'form-date-label': 'Date:',
+                'form-booking-type-label': 'Booking Type:',
+                'option-guide': 'Guide',
+                'option-car': 'Car',
+                'form-car-seater-label': 'Car Seater:',
+                'option-seater4': '4 Seater',
+                'option-seater7': '7 Seater',
+                'option-seater3': '3 Seater',
+                'price-text': 'Approx. Cost:',
+                'price-per-day': 'per day',
+                'book-btn': 'Book Now',
+                'pandal-list-title': 'Best Pandals',
+                'pandal-search-placeholder': 'Search pandal or area...',
+                'pandal-theme-info': 'Theme: Details not available',
+                'back-btn-text': 'Back',
+                'footer-copyright': '© 2024 Puja Tour Guide. All rights reserved.',
+                'footer-contact': 'Contact: info@pujotour.com',
+                'alert-title-select-pandal': 'Select Pandals',
+                'alert-message-select-pandal': 'Please select pandals for your tour.',
+                'alert-title-itinerary-generated': 'Puja Route Generated',
+                'alert-message-itinerary-generated': 'Your Puja tour route has been generated:\n\n{route}\n\nThis is a suggested route. For the best experience, consider traffic conditions.',
+                'alert-title-already-added': 'Already Added',
+                'alert-message-already-added': '{pandalName} is already in your itinerary.',
+                'alert-title-booking-success': 'Booking Successful',
+                'alert-message-booking-success': '{name}, your {type} booking is successful. The approximate cost is ₹{price}. Our representative will contact you shortly.',
+                'alert-title-fill-form': 'Fill Form',
+                'alert-message-fill-form': 'Please fill in all the required information.'
+            },
+            'hi': {
+                'header-title': 'पूजा टूर गाइड',
+                'header-description': 'सबसे अच्छे पूजा पंडालों का अन्वेषण करें और अपने पूजा टूर की योजना बनाएं।',
+                'itinerary-title': 'यात्रा की योजना बनाएं',
+                'itinerary-description': 'अपने पसंदीदा पंडाल जोड़ें और एक मार्ग बनाएं।',
+                'generate-route-btn': 'मार्ग बनाएं',
+                'booking-title': 'गाइड या कार बुक करें',
+                'form-name-label': 'नाम:',
+                'form-phone-label': 'फोन नंबर:',
+                'form-date-label': 'तारीख:',
+                'form-booking-type-label': 'बुकिंग का प्रकार:',
+                'option-guide': 'गाइड',
+                'option-car': 'गाड़ी',
+                'form-car-seater-label': 'गाड़ी की सीट:',
+                'option-seater4': '4 सीटर',
+                'option-seater7': '7 सीटर',
+                'option-seater3': '3 सीटर',
+                'price-text': 'अनुमानित लागत:',
+                'price-per-day': 'प्रति दिन',
+                'book-btn': 'अभी बुक करें',
+                'pandal-list-title': 'सर्वश्रेष्ठ पंडाल',
+                'pandal-search-placeholder': 'पंडाल या क्षेत्र खोजें...',
+                'pandal-theme-info': 'थीम: विवरण उपलब्ध नहीं है',
+                'back-btn-text': 'पीछे जाएं',
+                'footer-copyright': '© 2024 पूजा टूर गाइड। सर्वाधिकार सुरक्षित।',
+                'footer-contact': 'संपर्क: info@pujotour.com',
+                'alert-title-select-pandal': 'पंडाल चुनें',
+                'alert-message-select-pandal': 'कृपया अपनी यात्रा के लिए पंडालों का चयन करें।',
+                'alert-title-itinerary-generated': 'पूजा मार्ग बनाया गया',
+                'alert-message-itinerary-generated': 'आपका पूजा टूर मार्ग बनाया गया है:\n\n{route}\n\nयह एक प्रस्तावित मार्ग है। सर्वोत्तम अनुभव के लिए, यातायात की स्थिति पर विचार करें।',
+                'alert-title-already-added': 'पहले से जोड़ा गया',
+                'alert-message-already-added': '{pandalName} पहले से ही आपकी यात्रा सूची में है।',
+                'alert-title-booking-success': 'बुकिंग सफल',
+                'alert-message-booking-success': '{name}, आपकी {type} बुकिंग सफल रही। अनुमानित लागत ₹{price} है। हमारा प्रतिनिधि जल्द ही आपसे संपर्क करेगा।',
+                'alert-title-fill-form': 'फॉर्म भरें',
+                'alert-message-fill-form': 'कृपया सभी आवश्यक जानकारी भरें।'
+            }
+        };
+
+        // Pandal data provided by the user
+        const pandalData = [
+            { place: "NOAPARA", pandal: "NUAPA-DA DADABHAI SANGHA" },
+            { place: "BELGACHIA", pandal: "TALA PARK PRATTAY" },
+            { place: "BELGACHIA", pandal: "TALA BAROWARI" },
+            { place: "BELGACHIA", pandal: "BELGACHIA SADHARAN DURGOSAB" },
+            { place: "BELGACHIA", pandal: "BELGACHIA CENTRAL SARBOJANIN" },
+            { place: "SHYAMBAZAR", pandal: "BAGBAZAR SARBOJONIN" },
+            { place: "SHYAMBAZAR", pandal: "SHYAMBAZAR FRIENDS UNION" },
+            { place: "SHYAMBAZAR", pandal: "SIKDAR BAGAN" },
+            { place: "SHYAMBAZAR", pandal: "NALIN SARKAR STREET" },
+            { place: "SHOBHABAJAR", pandal: "JAGAT MUKHERJEE PARK" },
+            { place: "SHOBHABAJAR", pandal: "SHOBHABAZAR RAJBARI" },
+            { place: "SHOBHABAJAR", pandal: "SANGHATIRTA" },
+            { place: "SHOBHABAJAR", pandal: "KUMARTULI PARK" },
+            { place: "GIRISH PARK", pandal: "JORASANKO SADHARAN DURGOTSAB" },
+            { place: "GIRISH PARK", pandal: "KASHI BOSE LANE" },
+            { place: "GIRISH PARK", pandal: "CHALTABAGN" },
+            { place: "MG ROAD", pandal: "CHOREBAGAN SARBOJONIN" },
+            { place: "MG ROAD", pandal: "MD ALI PARK" },
+            { place: "MG ROAD", pandal: "COLLEGE SQUARE" },
+            { place: "GREEN LINE METRO", pandal: "SEALDAH" },
+            { place: "SEALDAH", pandal: "SANTOSH MITRA SQUARE" },
+            { place: "SEALDAH", pandal: "SEALDAH RAILWAY ATHLETIC CLUB" },
+            { place: "PHOOLBAGAN", pandal: "BELIGHATA 33 PALLY" },
+            { place: "PHOOLBAGAN", pandal: "NABAMILAN DURGA PUJA" },
+            { place: "PHOOLBAGAN", pandal: "SANDHANI CLUB" },
+            { place: "KALIGHAT", pandal: "66 PALLY" },
+            { place: "KALIGHAT", pandal: "BADAMTALA ASHAR SANGHA" },
+            { place: "KALIGHAT", pandal: "NEPAL BHATTACHARYA STREET" },
+            { place: "KALIGHAT", pandal: "CHETLA AGRANI" },
+            { place: "KALIGHAT", pandal: "DESHOPRIYO PARK" },
+            { place: "KALIGHAT", pandal: "BALLYGUNGE CULTURAL" },
+            { place: "KALIGHAT", pandal: "SOMAJ SEBI" },
+            { place: "KALIGHAT", pandal: "HINDUSTAN PARK" },
+            { place: "KALIGHAT", pandal: "SINGHI PARK" },
+            { place: "KALIGHAT", pandal: "EKDALIA EVERGREEN" },
+            { place: "KALIGHAT", pandal: "21 PALLY" },
+            { place: "TALLYGUANGE", pandal: "HERIDEBPUR 41 PALLY" },
+            { place: "TALLYGUANGE", pandal: "AJAY SANGHATI" },
+            { place: "TALLYGUANGE", pandal: "VIVEKANANDA SPORTING CLUB" },
+            { place: "TALLYGUANGE", pandal: "VIVEKANANDA PARK ATHLETIC CLUB" },
+            { place: "TALLYGUANGE", pandal: "BARISH CLUB" },
+            { place: "TALLYGUANGE", pandal: "PALLY SHARADIYA" },
+            { place: "RABINDRA SAROBAR", pandal: "SURUCHI SANGHA" },
+            { place: "RABINDRA SAROBAR", pandal: "MUDIALI PARK" },
+            { place: "RABINDRA SAROBAR", pandal: "SHIB MANDIR" },
+            { place: "NETAJI BHAWAN", pandal: "22 PALLY" },
+            { place: "NETAJI BHAWAN", pandal: "76 PALLY" },
+            { place: "MADOX SQUARE", pandal: "MUKTADAL" },
+            { place: "KAVI NAZRUL", pandal: "NOBO DURGA" },
+            { place: "JATIN DAS PARK", pandal: "HAZRA PARK" },
+            { place: "GITANJALI", pandal: "NAKLATA UDAYAN SANGHA" }
+        ];
+
+        const itinerary = [];
+        const itineraryItemsContainer = document.getElementById('itineraryItems');
+        const bookingForm = document.getElementById('bookingForm');
+        const pandalListContainer = document.getElementById('pandalListContainer');
+        const pandalSearch = document.getElementById('pandalSearch');
+        const bookingTypeSelect = document.getElementById('bookingType');
+        const carSeaterOptions = document.getElementById('carSeaterOptions');
+        const carSeaterSelect = document.getElementById('carSeater');
+        const bookingPriceSpan = document.getElementById('bookingPrice');
+        const languageSelect = document.getElementById('language-select');
+
+        // Updated pricing structure
+        const prices = {
+            guide: {
+                tier1: 2000,
+                tier2: 3500,
+                tier3: 5500
+            },
+            car: {
+                seater3: 8000,
+                seater4: 10000,
+                seater7: 15000
+            }
+        };
+        
+        const pandalTiers = {
+            tier1: { count: 5, multiplier: 0.25 },
+            tier2: { count: 10, multiplier: 0.50 },
+            tier3: { count: Infinity, multiplier: 0.75 }
+        };
+        
+        function calculatePrice() {
+            const bookingType = bookingTypeSelect.value;
+            let finalPrice = 0;
+            const pandalCount = itinerary.length;
+
+            if (bookingType === 'guide') {
+                if (pandalCount <= 5) {
+                    finalPrice = prices.guide.tier1;
+                } else if (pandalCount <= 15) {
+                    finalPrice = prices.guide.tier2;
+                } else {
+                    finalPrice = prices.guide.tier3;
+                }
+            } else if (bookingType === 'car') {
+                const selectedSeater = carSeaterSelect.value;
+                let baseCarPrice = prices.car[selectedSeater];
+
+                if (pandalCount <= pandalTiers.tier1.count) {
+                    finalPrice = baseCarPrice * pandalTiers.tier1.multiplier;
+                } else if (pandalCount <= pandalTiers.tier2.count) {
+                    finalPrice = baseCarPrice * pandalTiers.tier2.multiplier;
+                } else {
+                    finalPrice = baseCarPrice * pandalTiers.tier3.multiplier;
+                }
+            }
+            return Math.round(finalPrice);
+        }
+
+        function generatePandalCards() {
+            pandalListContainer.innerHTML = '';
+            const currentLang = languageSelect.value;
+            pandalData.forEach(pandal => {
+                const card = document.createElement('div');
+                card.className = 'pandal-card';
+                card.dataset.pandal = pandal.pandal;
+                card.innerHTML = `
+                    <img src="https://via.placeholder.com/90/F1C40F/2C3E50?text=Pandal" alt="${pandal.pandal}" class="pandal-image">
+                    <div class="pandal-info">
+                        <h4>${pandal.pandal}</h4>
+                        <p>${pandal.place} | ${translations[currentLang]['pandal-theme-info']}</p>
+                    </div>
+                `;
+                pandalListContainer.appendChild(card);
+            });
+            document.querySelectorAll('.pandal-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const pandalName = card.querySelector('h4').textContent;
+                    if (!itinerary.includes(pandalName)) {
+                        itinerary.push(pandalName);
+                        renderItinerary();
+                    } else {
+                        showAlertModal(translations[languageSelect.value]['alert-title-already-added'], translations[languageSelect.value]['alert-message-already-added'].replace('{pandalName}', pandalName));
+                    }
+                    updatePrice();
+                });
+            });
+        }
+        
+        generatePandalCards();
+
+        pandalSearch.addEventListener('input', (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            const pandalCards = document.querySelectorAll('.pandal-card');
+            pandalCards.forEach(card => {
+                const pandalText = card.textContent.toLowerCase();
+                if (pandalText.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        function renderItinerary() {
+            itineraryItemsContainer.innerHTML = '';
+            itinerary.forEach(pandal => {
+                const item = document.createElement('div');
+                item.className = 'itinerary-item';
+                item.innerHTML = `${pandal} <button class="remove-btn" onclick="removeFromItinerary('${pandal}')">✖</button>`;
+                itineraryItemsContainer.appendChild(item);
+            });
+        }
+
+        function removeFromItinerary(pandalName) {
+            const index = itinerary.indexOf(pandalName);
+            if (index > -1) {
+                itinerary.splice(index, 1);
+            }
+            renderItinerary();
+            updatePrice();
+        }
+
+        function generateItinerary() {
+            if (itinerary.length === 0) {
+                showAlertModal(translations[languageSelect.value]['alert-title-select-pandal'], translations[languageSelect.value]['alert-message-select-pandal']);
+                return;
+            }
+            const pandalNames = itinerary.join(' → ');
+            const message = translations[languageSelect.value]['alert-message-itinerary-generated'].replace('{route}', pandalNames);
+            showAlertModal(translations[languageSelect.value]['alert-title-itinerary-generated'], message);
+        }
+        
+        function updatePrice() {
+            const finalPrice = calculatePrice();
+            bookingPriceSpan.textContent = `₹${finalPrice}`;
+        }
+        
+        function toggleCarSeaterOptions() {
+            if (bookingTypeSelect.value === 'car') {
+                carSeaterOptions.style.display = 'flex';
+            } else {
+                carSeaterOptions.style.display = 'none';
+            }
+            updatePrice();
+        }
+
+        bookingTypeSelect.addEventListener('change', toggleCarSeaterOptions);
+        carSeaterSelect.addEventListener('change', updatePrice);
+        
+        function bookService() {
+            if (bookingForm.checkValidity()) {
+                const name = document.getElementById('bookingName').value;
+                const type = bookingTypeSelect.value === 'guide' ? translations[languageSelect.value]['option-guide'] : translations[languageSelect.value]['option-car'];
+                const price = calculatePrice();
+                const message = translations[languageSelect.value]['alert-message-booking-success'].replace('{name}', name).replace('{type}', type).replace('{price}', price);
+                showAlertModal(translations[languageSelect.value]['alert-title-booking-success'], message);
+                bookingForm.reset();
+                itinerary.length = 0; // Clear itinerary after booking
+                renderItinerary();
+                updatePrice();
+            } else {
+                showAlertModal(translations[languageSelect.value]['alert-title-fill-form'], translations[languageSelect.value]['alert-message-fill-form']);
+            }
+        }
+
+        function showAlertModal(title, message) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('alertModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('alertModal').style.display = 'none';
+        }
+
+        function updateLanguage() {
+            const lang = languageSelect.value;
+            document.documentElement.lang = lang; // Set the page's language attribute
+
+            // Update all elements with a data-key attribute
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    if (el.tagName === 'INPUT' && el.type === 'text') {
+                        el.placeholder = translations[lang][key];
+                    } else if (el.tagName === 'OPTION') {
+                        el.textContent = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+            // Re-render pandal cards and itinerary to update language-dependent text
+            generatePandalCards();
+            renderItinerary();
+            updatePrice(); // Re-render the price text
+        }
+        
+        languageSelect.addEventListener('change', updateLanguage);
+        
+        // Initial setup
+        toggleCarSeaterOptions();
+        updateLanguage(); // Set initial language to Bengali as per the prompt
+    </script>
+
+</body>
+</html>
