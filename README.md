@@ -29,7 +29,7 @@ PujaSathi is built to enhance your Durga Puja experience by offering real-time u
 Explore the live version here:  
 [**PujaSathi live demo**](https://dugga-dugga.vercel.app/)
 
-![Index Page Screenshot](./assets/index-screenshot.png)
+![Index Page Screenshot](index-screenshot.png)
 ---
 
 ##  Built With
@@ -47,3 +47,4 @@ To run PujaSathi locally, follow these steps:
    ```bash
    git clone https://github.com/your-username/puja-sathi.git
    cd puja-sathi
+
